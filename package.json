@@ -1,0 +1,80 @@
+{
+  "name": "better-life",
+  "version": "0.1.0",
+  "description": "Better life App",
+  "homepage": "/",
+  "main": "src/index.tsx",
+  "license": "MIT",
+  "scripts": {
+    "start": "concurrently \"npm run server\" \"npm run start-dev\"",
+    "start-dev": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "coverage": "npm test -- --coverage",
+    "eject": "react-scripts eject",
+    "server": "ts-node -O \"{ \\\"module\\\": \\\"commonjs\\\" }\"  src/server/",
+    "qk": "concurrently \"npm run start-dev\""
+  },
+  "endpointRoot": {
+    "food": "/api/food/"
+  },
+  "devDependencies": {
+    "@babel/register": "^7.10.5",
+    "@material-ui/core": "^4.9.11",
+    "@material-ui/lab": "^4.0.0-alpha.52",
+    "@types/body-parser": "^1.19.0",
+    "@types/cors": "^2.8.6",
+    "@types/express-fileupload": "^1.1.3",
+    "@types/jest": "^25.2.1",
+    "@types/lodash": "^4.14.150",
+    "@types/mongodb": "^3.5.11",
+    "@types/mongoose": "^5.7.14",
+    "@types/node": "^14.0.13",
+    "@types/react": "^16.9.34",
+    "@types/react-dom": "^16.9.6",
+    "@types/react-redux": "^7.1.7",
+    "@types/react-router-dom": "^5.1.4",
+    "@types/uuid": "^7.0.2",
+    "body-parser": "^1.19.0",
+    "concurrently": "^5.2.0",
+    "cors": "^2.8.5",
+    "dayjs": "^1.8.26",
+    "express": "^4.17.1",
+    "history": "^4.10.1",
+    "kill-port": "^1.6.0",
+    "less": "^3.11.1",
+    "lodash": "^4.17.15",
+    "prettier": "2.0.5",
+    "react": "^16.13.1",
+    "react-dom": "^16.13.1",
+    "react-redux": "^7.2.0",
+    "react-router": "^5.1.2",
+    "react-router-dom": "^5.1.2",
+    "react-scripts": "^3.4.1",
+    "ts-node": "^8.9.1",
+    "tsconfig-paths": "^3.9.0",
+    "typescript": "^3.9.6"
+  },
+  "private": true,
+  "author": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/tamer1an/trading-ui.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tamer1an/trading-ui/issues"
+  },
+  "dependencies": {},
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}
