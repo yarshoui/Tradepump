@@ -64,7 +64,10 @@
   "bugs": {
     "url": "https://github.com/tamer1an/trading-ui/issues"
   },
-  "dependencies": {},
+  "dependencies": {
+    "mobx": "^5.15.6",
+    "mobx-react": "^6.3.0"
+  },
   "browserslist": {
     "production": [
       ">0.2%",
