@@ -1,17 +1,50 @@
-import * as React from 'react';
-import './../../src/css/index.css'
+import React from 'react';
+import { observer } from 'mobx-react';
+import { AppStore } from 'src/logic/appStore';
+import { TradingOption } from 'src/components/TradingOption';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
 
-export const OrderMonitorMenu = () => {
+// export const PAIRS = {
+//   'BTC/EUR': { // <--- value of selctor
+//     kraken: 'BTC/EUR', // <-- used in subscribe payload for conrete implementation
+//     pukaken: 'BTC/EUR-5',
+
+//   }
+// }
+
+// const getSubscribePayload = (inputPair: string) => {
+//   const payload = {
+//     event: 'subscribe',
+//     pair: [ PAIRS[inputPair].kraken, ],
+//     subscription: {
+//       depth: 1000,
+//       name: 'book',
+//     }
+//   };
+
+//   return JSON.stringify(payload);
+// };
+
+interface OrderMonitorMenuProps {
+  store: AppStore;
+}
+
+export const OrderMonitorMenu = observer(({ store }: OrderMonitorMenuProps) => {
   return (
     <div className="top-menu"> <span>Trading Pair</span>
-      <select name="pair" id='pairfilter'>
+      <select
+        name="pair"
+        id='pairfilter'
+        onChange={(event) => {
+          store.setCurrentKrakenPair(event.target.value);
+        }}
+      >
         <optgroup label="Bitcoin">
-          <option value="BTC/EUR">BTC/EUR</option>
-          <option value="BTC/USD">BTC/USD</option>
-          <option value="BTC/USDT">BTC/USDT</option>
+          <TradingOption value='BTC/EUR' selected={store.currentKrakenPair} />
+          <TradingOption value='BTC/USD' selected={store.currentKrakenPair} />
+          <TradingOption value='BTC/USDT' selected={store.currentKrakenPair} />
         </optgroup>
         <optgroup label="Ethereum">
           <option value="ETH/USD">ETH/USD</option>
@@ -69,9 +102,15 @@ export const OrderMonitorMenu = () => {
         </optgroup>
       </select>
       <span>Min Order Qty</span>
-      <input id='qtyfilter' value="1"></input>
+      <input
+        type="text"
+        id='qtyfilter'
+        // value={store.orderQuantity}
+        onChange={(event) => {
+          store.setOrderQuantity(event.target.value);
+        }}
+      />
 
     </div>
   );
-};
-
+});

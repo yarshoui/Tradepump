@@ -9,8 +9,6 @@
     "forceConsistentCasingInFileNames": true,
     "module": "esnext",
     "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
     "noEmit": true,
     "rootDir": "src",
     "jsx": "preserve",
@@ -20,7 +18,9 @@
       "es2015.promise",
       "dom"
     ],
-    "baseUrl": "."
+    "baseUrl": ".",
+    "resolveJsonModule": true,
+    "isolatedModules": true
   },
   "include": [
     "src"

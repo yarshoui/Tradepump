@@ -1,12 +1,35 @@
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
+import React from 'react';
+import ReactDOM from 'react-dom';
 
+import { ThemeProvider } from '@material-ui/core/styles';
+import CssBaseline from '@material-ui/core/CssBaseline';
+
+import { appStore } from './logic/appStore';
 import { Monitor } from './components/Monitor';
-ReactDOM.render(<Monitor />, document.querySelector('#root'));
+import red from '@material-ui/core/colors/red';
+// eslint-disable-next-line camelcase
+import { unstable_createMuiStrictModeTheme, createMuiTheme } from '@material-ui/core/styles';
 
+const getThemeConstructor = (): typeof createMuiTheme => {
+  if (process.env.NODE_ENV === 'development') {
+    // eslint-disable-next-line camelcase
+    return unstable_createMuiStrictModeTheme;
+  }
 
+  return createMuiTheme;
+};
 
-// import { TradeMonitor } from './components/TradeMonitor';
-// ReactDOM.render(<TradeMonitor />, document.querySelector('#root'));
+const themeConstructor = getThemeConstructor();
 
+// A custom theme for this app
+const theme = themeConstructor({
 
+  
+});
+
+ReactDOM.render((
+    <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <Monitor store={appStore} />
+    </ThemeProvider>
+), document.querySelector('#root'));

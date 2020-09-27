@@ -1,62 +1,64 @@
-export const subscribeToCurrencyPair = ()=>{
-  const payload = {
-    event: 'subscribe',
-    pair: ['XBT/USD'],
-    subscription: {
-      depth: 1000,
-      name: 'book',
-    }
-  };
-  return JSON.stringify(payload);
-}
+export const d = 1;
+// export const subscribeToCurrencyPair = ()=>{
+//   const payload = {
+//     event: 'subscribe',
+//     pair: ['XBT/USD'],
+//     subscription: {
+//       depth: 1000,
+//       name: 'book',
+//     }
+//   };
 
-export const subscribeToTradeTable = ()=>{
-  const payload = {
-    event: 'subscribe',
-    pair: [],
-    subscription: {
-      name: 'trade',
-    }
-  };
+//   return JSON.stringify(payload);
+// }
 
-  return JSON.stringify(payload);
-}
+// export const subscribeToTradeTable = ()=>{
+//   const payload = {
+//     event: 'subscribe',
+//     pair: [],
+//     subscription: {
+//       name: 'trade',
+//     }
+//   };
 
-export function sendSubscription(type='/trade') {
-  let subscription;
+//   return JSON.stringify(payload);
+// }
 
-  switch (type) {
-  case '/':
-  case '/pair':
-    subscription = subscribeToCurrencyPair;
-    break;
-  case '/trade':
-    subscription = subscribeToTradeTable;
-    break;
-  }
+// export function sendSubscription() {
+//   // let subscription;
 
-  const sub = subscription();
-  ws.send(sub);
-}
+//   // switch (type) {
+//   //   case '/':
+//   //   case '/pair':
+//   //     subscription = subscribeToCurrencyPair;
+//   //     break;
+//   //   case '/trade':
+//   //     subscription = subscribeToTradeTable;
+//   //     break;
+//   // }
 
-export function prepareSocket() {
-  ws = new WebSocket('wss://ws.kraken.com');
+//   const sub = subscribeToCurrencyPair();
+//   ws.send(sub);
+// }
 
-  ws.onclose = (data)=>{
-    prepareSocket();
-    console.log('WebSocket is closed now.', data);
-  }
+// export function prepareSocket() {
+//   ws = new WebSocket('wss://ws.kraken.com');
 
-  ws.onopen = ()=>{
-    console.log('[open] Connection established 1');
-    setInterval(sendSubscription, 30000);
+//   ws.onclose = (data)=>{
+//     prepareSocket();
+//     console.log('WebSocket is closed now.', data);
+//   }
 
-    sendSubscription('/trade');
-  }
+//   ws.onopen = ()=>{
+//     console.log('[open] Connection established 1');
+//     setInterval(sendSubscription, 30000);
 
-  ws.onerror = (error)=>{
-    console.log(`[error] ${error.message}`);
-  }
+//     sendSubscription('/trade');
+//   }
 
-  ws.onmessage = function(msg) {  }
-}
+//   ws.onerror = (error)=>{
+//     console.log(`[error] ${error.message}`);
+//   }
+
+//   ws.onmessage = function(msg) {  }
+// }
