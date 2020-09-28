@@ -20,7 +20,7 @@ export const Header = (props: any) => {
         <li><a className="menu-button" href="#">About Us</a></li>
         <li><a className="sign-in-button" href="#">Sign In</a></li>
         <li><a className="create-account-button" href="#">Create Account</a></li>
-  <li><p className="clock"> Date/Time: <span id="datetime"><Clock /></span> </p> </li>
+        <li><p className="clock"> Date/Time: <span id="datetime"><Clock /></span> </p> </li>
       </ul>
     </div>
   );

@@ -42,14 +42,6 @@ export class AppStore {
                 fireImmediately: true,
             }
         );
-
-        reaction(
-            () => this.orderQuantity,
-            (quantity) => {
-                console.log('quantity changed', quantity);
-                // filted our data on change
-            }
-        );
     }
 
     setOrderQuantity = debounce((input: string) => {

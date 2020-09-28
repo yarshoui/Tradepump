@@ -17,15 +17,7 @@ import { Header } from './Header';
 import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
-// import { Clock } from './logic/Clock';
-//import { startTime } from './logic/Clock';
-
-// type MonitorState = {
-//   monitor: any;
-//   data: any;
-//   currentMonitor: boolean;
-//   showAll: any[];
-// }
+import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
 interface MonitorProps {
   store: AppStore;
 }
@@ -66,9 +58,9 @@ export const Monitor = observer(({ store }: MonitorProps): JSX.Element => {
 
   // render will know everything!
 
-  console.log(store);
+ // console.log(store);
 
-  const { asks, bids } = store.askBidTable;
+ // const { asks, bids } = store.askBidTable;
 
   return (
   
@@ -76,58 +68,9 @@ export const Monitor = observer(({ store }: MonitorProps): JSX.Element => {
       <TopLogoPanel />
       <Header />
       <OrderMonitorMenu store={store} />
+      <KrakenOrdersTable store={store} />
 
-      <table>
-          <tbody>
-              <tr>
-                  <td align="center"></td>
-                  <td className="inline" style={{ border: 'black solid 1px;' }}>
-                    <TableContainer component={Paper}>
-                      <Table size="small" aria-label="a dense table">
-                        <TableHead>
-                          <TableRow>
-                            <TableCell>Ask Price</TableCell>
-                            <TableCell align="right">Volume (Qty)</TableCell>
-                          </TableRow>
-                        </TableHead>
-                        <TableBody>
-                          {asks.map((ask) => (
-                            <TableRow key={ask[0]}>
-                              <TableCell component="th" scope="row">
-                                {ask[0]}
-                              </TableCell>
-                              <TableCell align="right">{ask[1]}</TableCell>
-                            </TableRow>
-                          ))}
-                        </TableBody>
-                      </Table>
-                    </TableContainer>
-                  </td>
-                  <td className="inline" style={{ border: 'black solid 1px;' }}>
-                    <TableContainer component={Paper}>
-                        <Table size="small" aria-label="a dense table">
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Bid Price</TableCell>
-                              <TableCell align="right">Volume (Qty)</TableCell>
-                            </TableRow>
-                          </TableHead>
-                          <TableBody>
-                            {bids.map((bid) => (
-                              <TableRow key={bid[0]}>
-                                <TableCell component="th" scope="row">
-                                  {bid[0]}
-                                </TableCell>
-                                <TableCell align="right">{bid[1]}</TableCell>
-                              </TableRow>
-                            ))}
-                          </TableBody>
-                        </Table>
-                      </TableContainer>
-                  </td>
-              </tr>
-          </tbody>
-      </table>
+     
 
       {/* {this.state.currentMonitor ? <div> order monitor </div> : <div> trade monitor </div> }
 
