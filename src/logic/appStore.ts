@@ -61,7 +61,7 @@ export class AppStore {
         this.currentKrakenPair = input;
     }
 
-    setKrakeData = (msg: any) => {
+    setKrakenData = (msg: any) => {
         const newData = JSON.parse(msg.data);
 
         if (newData.channelID || newData.connectionID || !Array.isArray(newData) || newData.length < 2 || !newData[1]) {
@@ -108,13 +108,13 @@ decorate(
         krakenData: observable,
         orderQuantity: observable,
         resetData: action,
-        setKrakeData: action,
+        setKrakenData: action,
         askBidTable: computed,
     }
 )
 
 const appStore = new AppStore();
-setKrakenDataHandler(appStore.setKrakeData);
+setKrakenDataHandler(appStore.setKrakenData);
 getKrakenSocket();
 
 export { appStore };

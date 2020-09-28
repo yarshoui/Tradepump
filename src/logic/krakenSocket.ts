@@ -1,12 +1,12 @@
 interface KrakenData {
   socket: WebSocket | undefined;
-  activePeyload: string | undefined;
+  activePayload: string | undefined;
   dataHandler?: (msg: any) => void;
 }
 
 const krakenData: KrakenData = {
   socket: undefined,
-  activePeyload: undefined,
+  activePayload: undefined,
 };
 
 let intervalId: NodeJS.Timeout;
@@ -15,26 +15,26 @@ const sendData = () => {
   console.log('sendData');
   intervalId = setInterval(() => {
     console.log('sendData setInterval', krakenData);
-    if (!krakenData.activePeyload) {
+    if (!krakenData.activePayload) {
       return;
     }
 
     const socketPromise = getKrakenSocket();
     socketPromise.then((socket) => {
-      if (!krakenData.activePeyload) {
+      if (!krakenData.activePayload) {
         return;
       }
 
       console.log('here', krakenData);
-      socket.send(krakenData.activePeyload);
+      socket.send(krakenData.activePayload);
     });
   }, 3000);
 
-  if (!krakenData.activePeyload) {
+  if (!krakenData.activePayload) {
     return;
   }
 
-  krakenData.socket?.send(krakenData.activePeyload);
+  krakenData.socket?.send(krakenData.activePayload);
 }
 
 export function restoreSocket() {
@@ -92,13 +92,13 @@ export const setKrakenDataHandler = (dataHandler: (msg: any) => void) => {
 
 // export const setPayloadForKrakenCurrencyPair = (inputPair: string) => {
 //   const payload = getSubscribePayload(inputPair);
-//   krakenData.activePeyload = payload;
+//   krakenData.activePayload = payload;
 // };
 
 export const subscribeToKrakenCurrencyPair = (inputPair: string) => {
   const socketPromise = getKrakenSocket();
   const payload = getSubscribePayload(inputPair);
-  krakenData.activePeyload = payload;
+  krakenData.activePayload = payload;
   socketPromise.then((socket) => {
     socket.send(payload);
   });

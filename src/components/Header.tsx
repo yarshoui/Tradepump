@@ -12,10 +12,10 @@ export const Header = (props: any) => {
   return (
     <div>
       <ul className="nav">
+        <li><a className="menu-button" href="./index.html">Orders Monitor</a></li>
         <li><a className="menu-button" href="#">Market Monitor</a></li>
-        <li><a className="menu-button" href="./index.html">Constructor</a></li>
-        <li><a className="menu-button" href="#">Statistics</a></li>
         <li><a className="menu-button" href="./tradehistory.html">Trade History</a></li>
+        <li><a className="menu-button" href="#">Market Statistics</a></li>
         <li><a className="menu-button" href="#">Info</a></li>
         <li><a className="menu-button" href="#">About Us</a></li>
         <li><a className="sign-in-button" href="#">Sign In</a></li>

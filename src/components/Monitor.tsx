@@ -17,6 +17,7 @@ import { Header } from './Header';
 import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
+import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
 import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
 interface MonitorProps {
   store: AppStore;

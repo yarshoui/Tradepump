@@ -9,7 +9,7 @@ import { TradingOption } from 'src/components/TradingOption';
 // export const PAIRS = {
 //   'BTC/EUR': { // <--- value of selctor
 //     kraken: 'BTC/EUR', // <-- used in subscribe payload for conrete implementation
-//     pukaken: 'BTC/EUR-5',
+//     bitfinex: 'tBTCEUR',
 
 //   }
 // }
