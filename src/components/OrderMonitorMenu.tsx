@@ -6,13 +6,16 @@ import { TradingOption } from 'src/components/TradingOption';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
 
-// export const PAIRS = {
-//   'BTC/EUR': { // <--- value of selctor
-//     kraken: 'BTC/EUR', // <-- used in subscribe payload for conrete implementation
-//     bitfinex: 'tBTCEUR',
-
-//   }
-// }
+ export const PAIRS:any = {
+   'BTC/EUR': { 
+     kraken: 'BTC/EUR', 
+     bitfinex: 'tBTCEUR',
+   },
+   'BTC/USD':{
+     kraken: 'BTC/USD',
+     bitfinex: 'tBTCUSD',
+   }
+ }
 
 // const getSubscribePayload = (inputPair: string) => {
 //   const payload = {

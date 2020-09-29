@@ -1,3 +1,5 @@
+import { PAIRS } from './../components/OrderMonitorMenu';
+
 interface KrakenData {
   socket: WebSocket | undefined;
   activePayload: string | undefined;
@@ -76,7 +78,8 @@ export const getKrakenSocket = (): Promise<WebSocket> => {
 const getSubscribePayload = (inputPair: string) => {
   const payload = {
     event: 'subscribe',
-    pair: [ inputPair, ],
+    pair: [ PAIRS [ inputPair ].kraken, ],
+//    pair: [ inputPair, ],
     subscription: {
       depth: 1000,
       name: 'book',

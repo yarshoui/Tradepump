@@ -1,3 +1,5 @@
+import { PAIRS } from './../components/OrderMonitorMenu';
+
 interface BitfinexData {
   socket: WebSocket | undefined;
   activePayload: string | undefined;
@@ -76,7 +78,7 @@ export const getBitfinexSocket = (): Promise<WebSocket> => {
 const getSubscribeBitfinexPayload = (inputPair: string) => {
   const payload = {
     event: 'subscribe',
-    symbol: [ 'tBTCUSD' ], // [ inputPair ]
+    symbol: [ PAIRS [ inputPair ].bitfinex ], // [ inputPair ]
     channel: 'book',
     precision: 'P4',
   };
