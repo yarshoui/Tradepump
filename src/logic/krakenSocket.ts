@@ -28,7 +28,11 @@ const sendData = () => {
       }
 
       console.log('here', krakenData);
-      socket.send(krakenData.activePayload);
+      try {
+        socket.send(krakenData.activePayload);
+      } catch (error) {
+        console.error('Kraken socket error :' + error);
+      }
     });
   }, 3000);
 

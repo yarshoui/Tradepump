@@ -1,4 +1,4 @@
-import { PAIRS } from './../components/OrderMonitorMenu';
+import { PAIRS } from '../components/OrderMonitorMenu';
 
 interface BitfinexData {
   socket: WebSocket | undefined;
@@ -14,9 +14,9 @@ const bitfinexData: BitfinexData = {
 let intervalId: NodeJS.Timeout;
 
 const sendData = () => {
-  console.log('sendBitfinexData');
+  console.log('sendBinanceData');
   intervalId = setInterval(() => {
-    console.log('sendBitfinexData setInterval', bitfinexData);
+    console.log('sendBinanceData setInterval', bitfinexData);
     if (!bitfinexData.activePayload) {
       return;
     }
@@ -28,7 +28,12 @@ const sendData = () => {
       }
 
       console.log('here', bitfinexData);
-      socket.send(bitfinexData.activePayload);
+
+      try {
+        socket.send(bitfinexData.activePayload);
+      } catch (error) {
+        console.error('Bitfinex socket error :' + error);
+      }
     });
   }, 3000);
 
@@ -41,15 +46,15 @@ const sendData = () => {
 
 export function restoreBitfinexSocket() {
   return new Promise<WebSocket>((resolve) => {
-    bitfinexData.socket = new WebSocket('wss://api-pub.bitfinex.com/ws/2');
+    bitfinexData.socket = new WebSocket('wss://dex.binance.org/api/ws');
 
-    bitfinexData.socket.onclose = ()=>{
+    bitfinexData.socket.onclose = () => {
       restoreBitfinexSocket();
       console.log('WebSocket is closed now.');
     }
 
     bitfinexData.socket.onopen = () => {
-      console.log('[open] Connection established to Bitfinex 1');
+      console.log('[open] Connection established to Binance');
       intervalId && clearInterval(intervalId);
       sendData();
       resolve(bitfinexData.socket);
@@ -59,7 +64,7 @@ export function restoreBitfinexSocket() {
       console.log(`[error] ${error.message}`);
     }
 
-    bitfinexData.socket.onmessage = function(msg) {
+    bitfinexData.socket.onmessage = function (msg) {
       bitfinexData.dataHandler && bitfinexData.dataHandler(msg);
     }
   });
@@ -76,15 +81,35 @@ export const getBitfinexSocket = (): Promise<WebSocket> => {
 }
 
 const getSubscribeBitfinexPayload = (inputPair: string) => {
+
+
   const payload = {
-    event: 'subscribe',
-    symbol: [ PAIRS [ inputPair ].bitfinex ], // [ inputPair ]
-    channel: 'book',
-    precision: 'P4',
+  method: "subscribe",
+  topic: "marketDepth1000",
+  symbols: ["btcusdt"], //[PAIRS[inputPair].bitfinex], // [ inputPair ]
   };
 
   return JSON.stringify(payload);
 };
+
+// async function api(url: string): Promise<string> {
+//   const response = await fetch(url, {
+//     mode: 'no-cors',
+// });
+//   if (!response.ok) {
+//     return 'Failed to fetch';
+//   }
+//   console.log('Bitfinex: '+ response.json());
+//   return response.json();
+// }
+
+/*{
+  event: 'subscribe',
+  channel: 'book',
+  symbol: 'tBTCUSD', //[PAIRS[inputPair].bitfinex], // [ inputPair ]
+  len: '100'
+};*/
+
 
 export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
   bitfinexData.dataHandler = dataHandler;
@@ -101,5 +126,5 @@ export const subscribeToBitfinexCurrencyPair = (inputPair: string) => {
   bitfinexData.activePayload = payload;
   socketPromise.then((socket) => {
     socket.send(payload);
-  });
+   });
 };

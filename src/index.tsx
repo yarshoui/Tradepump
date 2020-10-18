@@ -5,6 +5,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { appStore } from './logic/appStore';
+import { appStoreBitfinex } from './logic/appStoreBitfinex';
 import { Monitor } from './components/Monitor';
 import red from '@material-ui/core/colors/red';
 // eslint-disable-next-line camelcase
@@ -30,6 +31,6 @@ const theme = themeConstructor({
 ReactDOM.render((
     <ThemeProvider theme={theme}>
         <CssBaseline />
-        <Monitor store={appStore} />
+        <Monitor store={appStore} storeBitfinex={appStoreBitfinex}/>
     </ThemeProvider>
 ), document.querySelector('#root'));

@@ -19,13 +19,16 @@ import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
 import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
-import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexSocket';
+import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
 import { PAIRS } from './../components/OrderMonitorMenu';
+import { BitfinexOrdersTable } from './BitfinexOrdersTable';
 interface MonitorProps {
   store: AppStore;
+  storeBitfinex: AppStoreBitfinex;
+
 }
 
-export const Monitor = observer(({ store }: MonitorProps): JSX.Element => {
+export const Monitor = observer(({ store, storeBitfinex }: MonitorProps): JSX.Element => {
 
  // subscribeToBitfinexCurrencyPair();
 
@@ -73,8 +76,10 @@ export const Monitor = observer(({ store }: MonitorProps): JSX.Element => {
     <div>
       <TopLogoPanel />
       <Header />
-      <OrderMonitorMenu store={store} />
-      <KrakenOrdersTable store={store} />
+      <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} />
+      {/*<KrakenOrdersTable store={store} />*/}
+      <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
+      
 
       
 

@@ -2,6 +2,7 @@ import React from 'react';
 import { observer } from 'mobx-react';
 import { AppStore } from 'src/logic/appStore';
 import { TradingOption } from 'src/components/TradingOption';
+import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
@@ -9,11 +10,11 @@ import { TradingOption } from 'src/components/TradingOption';
  export const PAIRS:any = {
    'BTC/EUR': { 
      kraken: 'BTC/EUR', 
-     bitfinex: 'tBTCEUR',
+     bitfinex: 'tBTCEUR'
    },
    'BTC/USD':{
      kraken: 'BTC/USD',
-     bitfinex: 'tBTCUSD',
+     bitfinex: 'tBTCUSD'
    }
  }
 
@@ -31,23 +32,24 @@ import { TradingOption } from 'src/components/TradingOption';
 // };
 
 interface OrderMonitorMenuProps {
-  store: AppStore;
+  storeKraken: AppStore;
+  storeBitfinex: AppStoreBitfinex;
 }
 
-export const OrderMonitorMenu = observer(({ store }: OrderMonitorMenuProps) => {
+export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: storeB }: OrderMonitorMenuProps) => {
   return (
     <div className="top-menu"> <span>Trading Pair</span>
       <select
         name="pair"
         id='pairfilter'
         onChange={(event) => {
-          store.setCurrentKrakenPair(event.target.value);
+          storeK.setCurrentKrakenPair(event.target.value);
         }}
       >
         <optgroup label="Bitcoin">
-          <TradingOption value='BTC/EUR' selected={store.currentKrakenPair} />
-          <TradingOption value='BTC/USD' selected={store.currentKrakenPair} />
-          <TradingOption value='BTC/USDT' selected={store.currentKrakenPair} />
+          <TradingOption value='BTC/EUR' selected={storeK.currentKrakenPair} />
+          <TradingOption value='BTC/USD' selected={storeK.currentKrakenPair} />
+          <TradingOption value='BTC/USDT' selected={storeK.currentKrakenPair} />
         </optgroup>
         <optgroup label="Ethereum">
           <option value="ETH/USD">ETH/USD</option>
@@ -110,7 +112,7 @@ export const OrderMonitorMenu = observer(({ store }: OrderMonitorMenuProps) => {
         id='qtyfilter'
         // value={store.orderQuantity}
         onChange={(event) => {
-          store.setOrderQuantity(event.target.value);
+          storeK.setOrderQuantity(event.target.value);
         }}
       />
 

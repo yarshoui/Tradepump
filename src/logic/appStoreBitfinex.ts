@@ -1,10 +1,12 @@
+
  import { debounce } from 'lodash';
  import { action, computed, decorate, observable, reaction } from 'mobx';
- import { subscribeToBitfinexCurrencyPair, setBitfinexDataHandler, getBitfinexSocket } from 'src/logic/bitfinexSocket';
+ import { subscribeToBitfinexCurrencyPair, setBitfinexDataHandler, /*getBitfinexSocket*/ } from 'src/logic/bitfinexRest';
+ import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
 
  interface BitfinexData {
-     as: any[];
-     bs: any[];
+     asks: any[];
+     bids: any[];
  };
 
  export class AppStoreBitfinex {
@@ -12,24 +14,24 @@
      orderQuantity: number = 1;
 
      bitfinexData: BitfinexData = {
-         as: [],
-         bs: [],
+         asks: [],
+         bids: [],
      };
 
-//     get askBidTable() {
-//         const asks = this.krakenData.as.filter(v => {
-//             return parseFloat(v[1]) >= this.orderQuantity;
-//         }).slice(0, 30);
+    get askBidTable() {
+        const asks = this.bitfinexData.asks.filter(v => {
+            return parseFloat(v[1]) >= this.orderQuantity;
+        }).slice(0, 30);
 
-//         const bids = this.krakenData.bs.filter(v => {
-//             return parseFloat(v[1]) >= this.orderQuantity;
-//         }).slice(0, 30);
+        const bids = this.bitfinexData.bids.filter(v => {
+            return parseFloat(v[1]) >= this.orderQuantity;
+        }).slice(0, 30);
 
-//         return {
-//             asks,
-//             bids,
-//         };
-//     }
+        return {
+            asks,
+            bids,
+        };
+    }
 
      constructor() {
          reaction(
@@ -92,13 +94,13 @@
         console.count('onmessage');
         console.log(newData[1]);
         // update initial ask/bid array(1000 elements)
-        this.bitfinexData.as = newData[1].as;
-        this.bitfinexData.bs = newData[1].bs;
+        this.bitfinexData.asks = newData[1].asks;
+        this.bitfinexData.bids = newData[1].bids;
     };
 
     resetData = () => {
-        this.bitfinexData.as = [];
-        this.bitfinexData.bs = [];
+        this.bitfinexData.asks = [];
+        this.bitfinexData.bids = [];
     };
 }
 
@@ -114,7 +116,12 @@
  )
 
  const appStoreBitfinex = new AppStoreBitfinex();
+
  setBitfinexDataHandler(appStoreBitfinex.setBitfinexData);
- getBitfinexSocket();
+ //getBitfinexSocket();
+ 
+ let someData = getBitfinexOrdersData();
+
+ console.log('Some data: ', someData);
 
  export { appStoreBitfinex };
