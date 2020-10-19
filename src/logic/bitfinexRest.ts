@@ -102,7 +102,7 @@ const getSubscribeBitfinexPayload = (inputPair: string) => {
 
 export const getBitfinexOrdersData = ()=>{
 
-  const url = 'https://api.bitfinex.com/v1/book/btcusd?limit_bids=10&limit_asks=10';//'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+  const url = 'https://api.bitfinex.com/v1/book/btcusd?limit_bids=10&limit_asks=10';//Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
   const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
   let bitfinexOrdersData;
