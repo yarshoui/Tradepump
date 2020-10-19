@@ -22,7 +22,7 @@ const { asks, bids } = storeBitfinex.askBidTable; // make storeBitfinex.askBidTa
 console.log('@@@', storeBitfinex.askBidTable);
 
   return (
-    <table>
+    <table style={{display : 'inline-block'}}>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
                 <th>Bitfinex</th>

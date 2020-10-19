@@ -78,6 +78,7 @@ export const Monitor = observer(({ store, storeBitfinex }: MonitorProps): JSX.El
       <Header />
       <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} />
       {/*<KrakenOrdersTable store={store} />*/}
+      <KrakenOrdersTable store={store} />
       <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
       
 

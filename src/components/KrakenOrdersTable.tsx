@@ -20,7 +20,7 @@ const { asks, bids } = store.askBidTable;
 
 
   return (
-    <table>
+    <table style={{display : 'inline-block'}}>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
                 <th>Kraken</th>
