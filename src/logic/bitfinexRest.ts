@@ -99,13 +99,13 @@ const getSubscribeBitfinexPayload = (inputPair: string) => {
 };
 
 
+export let bitfinexOrdersDataArr:any;
 
 export const getBitfinexOrdersData = ()=>{
 
   const url = 'https://api.bitfinex.com/v1/book/btcusd?limit_bids=10&limit_asks=10';//Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
   const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
-  let bitfinexOrdersData;
   let pollingInterval;
 
   async function loadJson(url:RequestInfo) { 
@@ -116,9 +116,8 @@ export const getBitfinexOrdersData = ()=>{
 
   function doRequest() {
     loadJson(url).then(data => {
-      bitfinexOrdersData = data;    
-      console.log('bitfinexOrdersData', bitfinexOrdersData); 
-      
+      bitfinexOrdersDataArr = data;  
+      console.log('bitfinexOrdersData', bitfinexOrdersData); //export bitfinexOrdersData to make it available in appStoreBitfinex    
     });  
   }
 
@@ -127,7 +126,7 @@ export const getBitfinexOrdersData = ()=>{
     
   }
   startPolling();
-  
+ 
 }
 
 window.onload = () => {
@@ -165,3 +164,5 @@ export const subscribeToBitfinexCurrencyPair = (inputPair: string) => {
     socket.send(payload);
    });*/
 };
+
+// export {bitfinexOrdersData};

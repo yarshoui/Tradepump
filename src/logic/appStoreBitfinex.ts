@@ -2,9 +2,11 @@
  import { debounce } from 'lodash';
  import { action, computed, decorate, observable, reaction } from 'mobx';
  import { subscribeToBitfinexCurrencyPair, setBitfinexDataHandler, /*getBitfinexSocket*/ } from 'src/logic/bitfinexRest';
- import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
+import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
+ import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest'; // mozna uzat
 
- interface BitfinexData {
+
+ interface bitfinexOrdersDataArr {
      asks: any[];
      bids: any[];
  };
@@ -13,7 +15,7 @@
      currentBitfinexPair: string = 'tBTCUSD';
      orderQuantity: number = 1;
 
-     bitfinexData: BitfinexData = {
+     bitfinexData: bitfinexOrdersDataArr = {//BitfinexData
          asks: [],
          bids: [],
      };
