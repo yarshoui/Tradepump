@@ -8,7 +8,7 @@ interface BitfinexOrdersData {
   bids: string | undefined
   // socket: WebSocket | undefined;
   // activePayload: string | undefined;
-  Response: any | undefined;
+  Response?: any | undefined;
   dataHandler?: (msg: any) => void;
 }
 
@@ -90,13 +90,13 @@ let intervalId: NodeJS.Timeout;
 }*/
 
 
-const getSubscribeBitfinexPayload = (inputPair: string) => {
+/*const getSubscribeBitfinexPayload = (inputPair: string) => {
 
 
   const payload = { method: "subscribe", topic: "allMiniTickers", symbols: [""] };//$all
 
   return JSON.stringify(payload);
-};
+};*/
 
 
 export let bitfinexOrdersDataArr:any;
@@ -116,28 +116,30 @@ export const getBitfinexOrdersData = ()=>{
 
   function doRequest() {
     loadJson(url).then(data => {
-      bitfinexOrdersDataArr = data;  
-      console.log('bitfinexOrdersData', bitfinexOrdersData); //export bitfinexOrdersData to make it available in appStoreBitfinex    
+      bitfinexOrdersDataArr = data;
+      
+      if(bitfinexOrdersData.dataHandler)
+      {
+        bitfinexOrdersData.dataHandler(data);
+      }
+      console.log('bitfinexOrdersData', bitfinexOrdersDataArr); 
     });  
   }
-
   function startPolling() {
-    pollingInterval = setInterval(doRequest, 10000);
-    
+    pollingInterval = setInterval(doRequest, 10000);    
   }
-  startPolling();
- 
+  startPolling(); 
 }
 
-window.onload = () => {
- 
+window.onload = () => { 
   getBitfinexOrdersData();
-
 }
 
+export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
+  bitfinexOrdersData.dataHandler = dataHandler;
+};
 
-
-
+// co tam? мне так и не удалось заставить массив обновиться 
 
 /*{
   event: 'subscribe',
@@ -147,9 +149,7 @@ window.onload = () => {
 };*/
 
 
-export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
-  bitfinexOrdersData.dataHandler = dataHandler;
-};
+
 
 // export const setPayloadForKrakenCurrencyPair = (inputPair: string) => {
 //   const payload = getSubscribePayload(inputPair);
@@ -158,7 +158,7 @@ export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
 
 export const subscribeToBitfinexCurrencyPair = (inputPair: string) => {
  // const socketPromise = getBitfinexSocket();
-  const payload = getSubscribeBitfinexPayload(inputPair);
+ // const payload = getSubscribeBitfinexPayload(inputPair);
 //  bitfinexOrdersData.activePayload = payload;
 /*  socketPromise.then((socket) => {
     socket.send(payload);

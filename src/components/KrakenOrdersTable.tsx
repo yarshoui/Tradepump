@@ -14,7 +14,7 @@ interface MonitorProps {
 }
 export const KrakenOrdersTable = observer(({ store }: MonitorProps): JSX.Element => {
 
-console.log(store);
+{/*console.log(store);*/}
 
 const { asks, bids } = store.askBidTable;
 

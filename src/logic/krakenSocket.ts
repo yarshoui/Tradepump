@@ -27,7 +27,7 @@ const sendData = () => {
         return;
       }
 
-      console.log('here', krakenData);
+      //console.log('here', krakenData);
       try {
         socket.send(krakenData.activePayload);
       } catch (error) {

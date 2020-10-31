@@ -15,11 +15,8 @@ interface MonitorProps {
   storeBitfinex: AppStoreBitfinex;
 }
 export const BitfinexOrdersTable = observer(({ storeBitfinex }: MonitorProps): JSX.Element => {
-
 console.log('@@@', storeBitfinex);
-
-const { asks, bids } = storeBitfinex.askBidTable; // make storeBitfinex.askBidTable to get data
-console.log('@@@', storeBitfinex.askBidTable);
+const { asks, bids } = storeBitfinex.askBidTable; 
 
   return (
     <table style={{display : 'inline-block'}}>

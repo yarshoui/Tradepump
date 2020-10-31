@@ -54,7 +54,7 @@ export class AppStore {
         }
 
         this.orderQuantity = quantity;
-        console.log('here', this.orderQuantity)
+       // console.log('here', this.orderQuantity)
     }, 1000)
 
     setCurrentKrakenPair = (input: string) => {

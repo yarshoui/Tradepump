@@ -30,46 +30,6 @@ interface MonitorProps {
 
 export const Monitor = observer(({ store, storeBitfinex }: MonitorProps): JSX.Element => {
 
- // subscribeToBitfinexCurrencyPair();
-
-
-  // constructor() {
-  //   this.change = this.change.bind(this);
-  // }
-   
-  // The tick function sets the current state. TypeScript will let us know
-  // which ones we are allowed to set.
-  // change = () => {
-  //   this.setState({
-  //     currentMonitor: !this.state.currentMonitor,
-  //     monitor: <div> my monitor </div>,
-  //     showAll: [ ]
-  //   });
-  // }
-
-  // Before the component mounts, we initialise our state
-  // componentWillMount() {
-  //   // subscribe socket
-  //   // KrakenPrepareSocket();
-
-  //   this.setState({
-  //     currentMonitor: true,
-  //     monitor: <div> some monitor </div>,
-  //     // showAll: () => [ <OrderMonitorMenu />, <OrderMonitorMenu />, <OrderMonitorMenu /> ]
-  //     showAll: [ <OrderMonitorMenu />, <OrderMonitorMenu />, <OrderMonitorMenu /> ]
-  //   });
-  // }
-
-  // After the component did mount, we set the state each second.
-  // componentDidMount() {
-    
-  // }
-
-  // render will know everything!
-
- // console.log(store);
-
- // const { asks, bids } = store.askBidTable;
 
   return (
   
@@ -78,19 +38,10 @@ export const Monitor = observer(({ store, storeBitfinex }: MonitorProps): JSX.El
       <Header />
       <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} />
       {/*<KrakenOrdersTable store={store} />*/}
+      <div style={{display: 'flex;'}}>
       <KrakenOrdersTable store={store} />
       <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
-      
-
-      
-
-     
-
-      {/* {this.state.currentMonitor ? <div> order monitor </div> : <div> trade monitor </div> }
-
-      {this.state.monitor}
-
-      {this.state.showAll} */}
+      </div>
 
     </div>
   );

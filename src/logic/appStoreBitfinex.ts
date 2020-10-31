@@ -2,17 +2,16 @@
  import { debounce } from 'lodash';
  import { action, computed, decorate, observable, reaction } from 'mobx';
  import { subscribeToBitfinexCurrencyPair, setBitfinexDataHandler, /*getBitfinexSocket*/ } from 'src/logic/bitfinexRest';
-import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
- import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest'; // mozna uzat
-
-
+//import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
+ import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest'; //эррэй мы 
+//console.log ('bit1', bitfinexOrdersDataArr);
  interface bitfinexOrdersDataArr {
      asks: any[];
      bids: any[];
  };
 
  export class AppStoreBitfinex {
-     currentBitfinexPair: string = 'tBTCUSD';
+     currentBitfinexPair: string = 'btcusd';
      orderQuantity: number = 1;
 
      bitfinexData: bitfinexOrdersDataArr = {//BitfinexData
@@ -21,7 +20,10 @@ import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
      };
 
     get askBidTable() {
+        // console.table('@@@ get', this.bitfinexData.asks);
+
         const asks = this.bitfinexData.asks.filter(v => {
+            console.log('@@@ get ask', v, parseFloat(v[1]));
             return parseFloat(v[1]) >= this.orderQuantity;
         }).slice(0, 30);
 
@@ -66,38 +68,25 @@ import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
      }
 
      setBitfinexData = (msg: any) => {
-         const newData = JSON.parse(msg.data);
+         const newData = msg;//JSON.parse(msg.data);
+         console.log('msg',msg); //тут newData пустой
+         console.log('msg2',newData);
+         console.log('@@@ app store',newData);
 
-         if (newData.channelID || newData.connectionID || !Array.isArray(newData) || newData.length < 2 || !newData[1]) {
-             return;
-         }
+        //  if (newData.channelID || newData.connectionID || !Array.isArray(newData) || newData.length < 2 || !newData[1]) {
+             
+        //      return;
+        //  }
 
-        // bid update
-        if (newData[1].b) {
-            // if bid is 0 - find and remove from initial data
-            // this.krakenData.bs = [ ...this.krakenData.bs, ...newData[1].b ];
-            return;
-        }
-
-        // ask update
-        if (newData[1].a) {
-            // if ask is 0 - find and remove from initial data
-            // this.krakenData.as = [ ...this.krakenData.as, ...newData[1].a ];
-            return;
-        }
-
-        // something which is not valid for us
-        if (!newData[1].as || !newData[1].bs) {
-            return;
-        }
+       
 
         this.resetData();
 
         console.count('onmessage');
         console.log(newData[1]);
         // update initial ask/bid array(1000 elements)
-        this.bitfinexData.asks = newData[1].asks;
-        this.bitfinexData.bids = newData[1].bids;
+        this.bitfinexData.asks = newData.asks;
+        this.bitfinexData.bids = newData.bids;
     };
 
     resetData = () => {
@@ -111,9 +100,9 @@ import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
          currentBitfinexPair: observable,
          bitfinexData: observable,
          orderQuantity: observable,
-          resetData: action,
-          setBitfinexData: action,
-        //  askBidTable: computed,
+         resetData: action,
+         setBitfinexData: action,
+         askBidTable: computed,
      }
  )
 
@@ -122,7 +111,7 @@ import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
  setBitfinexDataHandler(appStoreBitfinex.setBitfinexData);
  //getBitfinexSocket();
  
- let someData = getBitfinexOrdersData();
+ let someData = bitfinexOrdersDataArr;
 
  console.log('Some data: ', someData);
 
