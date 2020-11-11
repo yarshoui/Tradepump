@@ -3,7 +3,7 @@
  import { action, computed, decorate, observable, reaction } from 'mobx';
  import { subscribeToBitfinexCurrencyPair, setBitfinexDataHandler, /*getBitfinexSocket*/ } from 'src/logic/bitfinexRest';
 //import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
- import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest'; //эррэй мы 
+ import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest';
 //console.log ('bit1', bitfinexOrdersDataArr);
  interface bitfinexOrdersDataArr {
      asks: any[];
@@ -14,7 +14,7 @@
      currentBitfinexPair: string = 'btcusd';
      orderQuantity: number = 1;
 
-     bitfinexData: bitfinexOrdersDataArr = {//BitfinexData
+     bitfinexData: bitfinexOrdersDataArr = {
          asks: [],
          bids: [],
      };
@@ -23,14 +23,13 @@
         // console.table('@@@ get', this.bitfinexData.asks);
 
         const asks = this.bitfinexData.asks.filter(v => {
-            console.log('@@@ get ask', v, parseFloat(v[1]));
-            return parseFloat(v[1]) >= this.orderQuantity;
+           // console.log('@@@ get ask', parseFloat(v.amount));
+            return parseFloat(v.amount) >= this.orderQuantity;
         }).slice(0, 30);
-
+        // console.log('@@@ asks', asks);
         const bids = this.bitfinexData.bids.filter(v => {
-            return parseFloat(v[1]) >= this.orderQuantity;
+            return parseFloat(v.amount) >= this.orderQuantity;
         }).slice(0, 30);
-
         return {
             asks,
             bids,
@@ -50,9 +49,9 @@
          );
      }
 
-    setOrderQuantity = debounce((input: string) => {
+    setOrderQuantity = debounce((input: string) => {//Need to rename setOrderQuantity for Bitfinex
         const quantity = parseFloat(input);
-        console.log('setOrderQuantity', quantity);
+        console.log('setOrderQuantity Bitfinex', quantity);
         if (isNaN(quantity)) {
             console.warn('Wrong number', input);
             this.orderQuantity = 1;
@@ -68,11 +67,8 @@
      }
 
      setBitfinexData = (msg: any) => {
-         const newData = msg;//JSON.parse(msg.data);
-         console.log('msg',msg); //тут newData пустой
-         console.log('msg2',newData);
-         console.log('@@@ app store',newData);
-
+         const newData = msg;
+        
         //  if (newData.channelID || newData.connectionID || !Array.isArray(newData) || newData.length < 2 || !newData[1]) {
              
         //      return;
@@ -84,7 +80,6 @@
 
         console.count('onmessage');
         console.log(newData[1]);
-        // update initial ask/bid array(1000 elements)
         this.bitfinexData.asks = newData.asks;
         this.bitfinexData.bids = newData.bids;
     };
@@ -109,10 +104,5 @@
  const appStoreBitfinex = new AppStoreBitfinex();
 
  setBitfinexDataHandler(appStoreBitfinex.setBitfinexData);
- //getBitfinexSocket();
- 
- let someData = bitfinexOrdersDataArr;
-
- console.log('Some data: ', someData);
 
  export { appStoreBitfinex };

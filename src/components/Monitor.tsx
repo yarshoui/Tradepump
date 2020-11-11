@@ -18,17 +18,28 @@ import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
-import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
+import { AppStoreBinance } from 'src/logic/appStoreBinance';
+import { AppStoreBitstamp } from 'src/logic/appStoreBitstamp';
+import { AppStoreBittrex } from 'src/logic/appStoreBittrex';
+
 import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
 import { PAIRS } from './../components/OrderMonitorMenu';
 import { BitfinexOrdersTable } from './BitfinexOrdersTable';
+import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
+import { BinanceOrdersTable } from 'src/components/BinanceOrdersTable';
+import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
+import { BittrexOrdersTable } from './BittrexOrdersTable';
+import Grid from '@material-ui/core/Grid';
+
 interface MonitorProps {
   store: AppStore;
   storeBitfinex: AppStoreBitfinex;
-
+  storeBinance: AppStoreBinance;
+  storeBittrex: AppStoreBittrex;
+  storeBitstamp: AppStoreBitstamp;
 }
 
-export const Monitor = observer(({ store, storeBitfinex }: MonitorProps): JSX.Element => {
+export const Monitor = observer(({ store, storeBitfinex, storeBinance, storeBittrex, storeBitstamp }: MonitorProps): JSX.Element => {
 
 
   return (
@@ -36,11 +47,16 @@ export const Monitor = observer(({ store, storeBitfinex }: MonitorProps): JSX.El
     <div>
       <TopLogoPanel />
       <Header />
-      <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} />
+      <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} storeBinance={storeBinance} storeBittrex={storeBittrex} storeBitstamp={storeBitstamp} />
       {/*<KrakenOrdersTable store={store} />*/}
-      <div style={{display: 'flex;'}}>
+      <div>
+      <Grid container direction="row">
       <KrakenOrdersTable store={store} />
       <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
+      <BinanceOrdersTable storeBinance={storeBinance} />
+      {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
+      <BitstampOrdersTable storeBitstamp={storeBitstamp} />
+      </Grid>
       </div>
 
     </div>

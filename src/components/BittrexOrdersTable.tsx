@@ -8,60 +8,37 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { AppStore } from 'src/logic/appStore';
-import { makeStyles } from '@material-ui/core/styles';
-
-const useStyles = makeStyles({
-  table: {
-    minWidth: 650,
-    fontSize: 14,
-  },
-  head: {
-    fontSize: 10,
-  },
-});
-
-
+import { AppStoreBittrex } from 'src/logic/appStoreBittrex';
 interface MonitorProps {
-  store: AppStore;
+  storeBittrex: AppStoreBittrex;
 }
-export const KrakenOrdersTable = observer(({ store }: MonitorProps): JSX.Element => {
+export const BittrexOrdersTable = observer(({ storeBittrex }: MonitorProps): JSX.Element => {
 
+{/*console.log(store);*/}
 
-const { asks/*: notFormattedAsks*/, bids/*: notFormattedBids*/ } = store.askBidTable;
-const classes = useStyles();
-
-// const  [ base, float ] = ${inputNumber}.split(',');
-
-// const cutNumberString = [ base, float.substr(0, 2) ].join(',');
-
-// const resultNumber = parseFloat(cutNumberString)
-
-//const asks = notFormattedAsks.map(ask => [ask[0].slice(0, (ask[0].indexOf('.')) + 0), ask[1].slice(0, (ask[1].indexOf('.')) + 3)]);
-//const bids = notFormattedBids.map(bid => [bid[0].slice(0, (bid[0].indexOf('.')) + 0), bid[1].slice(0, (bid[1].indexOf('.')) + 3)]);
+const { asks, bids } = storeBittrex.askBidTable;
 
 
   return (
-    
     <table style={{display : 'inline-block'}}>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
-                <th >Kraken</th>
+                <th>Bittrex</th>
             </tr>
           </thead>
-          <tbody >
-              <tr >
+          <tbody>
+              <tr>
                   <td align="center"></td>
                   <td className="inline" style={{ border: 'black solid 1px;' }}>
                       <TableContainer component={Paper}>
                       <Table size="small" aria-label="a dense table">
                         <TableHead>
-                          <TableRow className={classes.head}>
+                          <TableRow>
                             <TableCell>Ask Price</TableCell>
                             <TableCell align="right">Volume (Qty)</TableCell>
                           </TableRow>
                         </TableHead>
-                        <TableBody className={classes.table}>
+                        <TableBody>
                           {asks.map((ask) => (
                             <TableRow key={ask[0]}>
                               <TableCell component="th" scope="row">
@@ -99,6 +76,6 @@ const classes = useStyles();
               </tr>
           </tbody>
       </table>
-      
+
   );
 });

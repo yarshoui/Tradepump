@@ -3,6 +3,9 @@ import { observer } from 'mobx-react';
 import { AppStore } from 'src/logic/appStore';
 import { TradingOption } from 'src/components/TradingOption';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
+import { AppStoreBinance } from 'src/logic/appStoreBinance';
+import { AppStoreBittrex } from 'src/logic/appStoreBittrex';
+import { AppStoreBitstamp } from 'src/logic/appStoreBitstamp';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
@@ -10,11 +13,17 @@ import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
  export const PAIRS:any = {
    'BTC/EUR': { 
      kraken: 'BTC/EUR', 
-     bitfinex: 'tBTCEUR'
+     bitfinex: 'tBTCEUR',
+     binance: 'btceur',
+     bittrex: 'BTC-EUR',
+     bitstamp: 'btceur'
    },
    'BTC/USD':{
      kraken: 'BTC/USD',
-     bitfinex: 'tBTCUSD'
+     bitfinex: 'tBTCUSD',
+     binance: 'btcusdt',
+     bittrex: 'BTC-USD',
+     bitstamp: 'btcusd'
    }
  }
 
@@ -34,9 +43,12 @@ import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
 interface OrderMonitorMenuProps {
   storeKraken: AppStore;
   storeBitfinex: AppStoreBitfinex;
+  storeBinance: AppStoreBinance;
+  storeBitstamp: AppStoreBitstamp;
+  storeBittrex: AppStoreBittrex;
 }
 
-export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: storeB }: OrderMonitorMenuProps) => {
+export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: storeB, storeBinance: storeBin, storeBittrex: storeBitt, storeBitstamp: storeBitst }: OrderMonitorMenuProps) => {
   return (
     <div className="top-menu"> <span>Trading Pair</span>
       <select
@@ -44,6 +56,10 @@ export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: 
         id='pairfilter'
         onChange={(event) => {
           storeK.setCurrentKrakenPair(event.target.value);
+          storeB.setCurrentBitfinexPair(event.target.value);
+          storeBin.setCurrentBinancePair(event.target.value);
+          storeBitst.setCurrentBitstampPair(event.target.value);
+          
         }}
       >
         <optgroup label="Bitcoin">
@@ -113,6 +129,12 @@ export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: 
         // value={store.orderQuantity}
         onChange={(event) => {
           storeK.setOrderQuantity(event.target.value);
+          storeB.setOrderQuantity(event.target.value);
+          storeBin.setOrderQuantity(event.target.value);
+          storeBitt.setOrderQuantity(event.target.value);
+          storeBitst.setOrderQuantity(event.target.value);
+
+
         }}
       />
 

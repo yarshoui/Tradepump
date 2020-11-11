@@ -1,44 +1,42 @@
 import { debounce } from 'lodash';
 import { action, computed, decorate, observable, reaction } from 'mobx';
-import { subscribeToKrakenCurrencyPair, setKrakenDataHandler, getKrakenSocket } from 'src/logic/krakenSocket';
+import { subscribeToBittrexCurrencyPair, setBittrexDataHandler, getBittrexSocket } from 'src/logic/bittrexSocket';
 
-interface KrakenData {
+interface BittrexData {
     as: any[];
     bs: any[];
 };
 
-export class AppStore {
-    currentKrakenPair: string = 'BTC/USD';
+export class AppStoreBittrex {
+    currentBittrexPair: string = 'BTC/USD';
     orderQuantity: number = 1;
 
-    krakenData: KrakenData = {
+    bittrexData: BittrexData = {
         as: [],
         bs: [],
     };
 
     get askBidTable() {
-        const asks = this.krakenData.as.filter(v => {
+        const asks = this.bittrexData.as.filter(v => {
             return parseFloat(v[1]) >= this.orderQuantity;
         }).slice(0, 30);
 
-        const bids = this.krakenData.bs.filter(v => {
+        const bids = this.bittrexData.bs.filter(v => {
             return parseFloat(v[1]) >= this.orderQuantity;
         }).slice(0, 30);
-        console.log('asks', asks);
+
         return {
             asks,
-            bids,            
-        };    
-
+            bids,
+        };
     }
-       
 
     constructor() {
         reaction(
-            () => this.currentKrakenPair,
+            () => this.currentBittrexPair,
             (pair) => {
                 console.log('pairChanged', pair);
-                subscribeToKrakenCurrencyPair(pair);
+                subscribeToBittrexCurrencyPair(pair);
             },
             {
                 fireImmediately: true,
@@ -59,11 +57,11 @@ export class AppStore {
        // console.log('here', this.orderQuantity)
     }, 1000)
 
-    setCurrentKrakenPair = (input: string) => {
-        this.currentKrakenPair = input;
+    setCurrentBittrexPair = (input: string) => {
+        this.currentBittrexPair = input;
     }
 
-    setKrakenData = (msg: any) => {
+    setBittrexData = (msg: any) => {
         const newData = JSON.parse(msg.data);
 
         if (newData.channelID || newData.connectionID || !Array.isArray(newData) || newData.length < 2 || !newData[1]) {
@@ -73,14 +71,14 @@ export class AppStore {
         // bid update
         if (newData[1].b) {
             // if bid is 0 - find and remove from initial data
-            // this.krakenData.bs = [ ...this.krakenData.bs, ...newData[1].b ];
+            // this.bittrexData.bs = [ ...this.bittrexData.bs, ...newData[1].b ];
             return;
         }
 
         // ask update
         if (newData[1].a) {
             // if ask is 0 - find and remove from initial data
-            // this.krakenData.as = [ ...this.krakenData.as, ...newData[1].a ];
+            // this.bittrexData.as = [ ...this.bittrexData.as, ...newData[1].a ];
             return;
         }
 
@@ -94,29 +92,29 @@ export class AppStore {
         console.count('onmessage');
         console.log(newData[1]);
         // update initial ask/bid array(1000 elements)
-        this.krakenData.as = newData[1].as;
-        this.krakenData.bs = newData[1].bs;
+        this.bittrexData.as = newData[1].as;
+        this.bittrexData.bs = newData[1].bs;
     };
 
     resetData = () => {
-        this.krakenData.as = [];
-        this.krakenData.bs = [];
+        this.bittrexData.as = [];
+        this.bittrexData.bs = [];
     };
 }
 
 decorate(
-    AppStore, {
-        currentKrakenPair: observable,
-        krakenData: observable,
+    AppStoreBittrex, {
+        currentBittrexPair: observable,
+        bittrexData: observable,
         orderQuantity: observable,
         resetData: action,
-        setKrakenData: action,
+        setBittrexData: action,
         askBidTable: computed,
     }
 )
 
-const appStore = new AppStore();
-setKrakenDataHandler(appStore.setKrakenData);
-getKrakenSocket();
+const appStoreBittrex = new AppStoreBittrex();
+setBittrexDataHandler(appStoreBittrex.setBittrexData);
+getBittrexSocket();
 
-export { appStore };
+export { appStoreBittrex };

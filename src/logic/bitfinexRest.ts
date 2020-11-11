@@ -5,7 +5,7 @@ import { PAIRS } from '../components/OrderMonitorMenu';
 
 interface BitfinexOrdersData {
   asks: string | undefined;
-  bids: string | undefined
+  bids: string | undefined;
   // socket: WebSocket | undefined;
   // activePayload: string | undefined;
   Response?: any | undefined;
@@ -103,19 +103,20 @@ export let bitfinexOrdersDataArr:any;
 
 export const getBitfinexOrdersData = ()=>{
 
-  const url = 'https://api.bitfinex.com/v1/book/btcusd?limit_bids=10&limit_asks=10';//Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+  const urlBitfinex = 'https://api.bitfinex.com/v1/book/btcusd?limit_bids=2000&limit_asks=2000';//Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
   const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
-  let pollingInterval;
+  let pollingIntervalBitfinex;
 
-  async function loadJson(url:RequestInfo) { 
-    let response = await fetch(proxy + url); 
-    let bitData = await response.json();
+  async function loadJson(urlBitfinex:RequestInfo) { 
+    let responseBitfinex = await fetch(proxy + urlBitfinex); 
+    let bitData = await responseBitfinex.json();
+    console.log('bitData', bitData);
     return bitData;
   }
 
-  function doRequest() {
-    loadJson(url).then(data => {
+  function doRequestBitfinex() {
+    loadJson(urlBitfinex).then(data => {
       bitfinexOrdersDataArr = data;
       
       if(bitfinexOrdersData.dataHandler)
@@ -125,21 +126,21 @@ export const getBitfinexOrdersData = ()=>{
       console.log('bitfinexOrdersData', bitfinexOrdersDataArr); 
     });  
   }
-  function startPolling() {
-    pollingInterval = setInterval(doRequest, 10000);    
+  function startPollingBitfinex() {
+    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);    
   }
-  startPolling(); 
+  startPollingBitfinex(); 
 }
 
-window.onload = () => { 
+
   getBitfinexOrdersData();
-}
+  console.log('Binfinex onLoad works');
+
 
 export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
   bitfinexOrdersData.dataHandler = dataHandler;
 };
 
-// co tam? мне так и не удалось заставить массив обновиться 
 
 /*{
   event: 'subscribe',

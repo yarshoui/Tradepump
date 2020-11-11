@@ -15,7 +15,7 @@ interface MonitorProps {
   storeBitfinex: AppStoreBitfinex;
 }
 export const BitfinexOrdersTable = observer(({ storeBitfinex }: MonitorProps): JSX.Element => {
-console.log('@@@', storeBitfinex);
+// //console.log('@@@', storeBitfinex);
 const { asks, bids } = storeBitfinex.askBidTable; 
 
   return (
@@ -38,12 +38,12 @@ const { asks, bids } = storeBitfinex.askBidTable;
                           </TableRow>
                         </TableHead>
                         <TableBody>
-                          {asks.map((ask, index) => (
-                            <TableRow key={ask['amount'] + index}>
+                          {asks.map((ask) => (
+                            <TableRow key={ask['price']}>
                               <TableCell component="th" scope="row">
-                                {`${ask['amount']} ${ask['price']}`}
+                                {ask['price']}
                               </TableCell>
-                              <TableCell align="right">{ask['timestamp']}</TableCell>
+                              <TableCell align="right">{ask['amount']}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -60,12 +60,12 @@ const { asks, bids } = storeBitfinex.askBidTable;
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            {bids.map((bid, index) => (
-                              <TableRow key={bid['amount'] + index}>
+                            {bids.map((bid) => (
+                              <TableRow key={bid['price']}>
                                 <TableCell component="th" scope="row">
-                                  {`${bid['amount']} ${bid['price']}`}
+                                  {bid['price']}
                                 </TableCell>
-                                <TableCell align="right">{bid['timestamp']}</TableCell>
+                                <TableCell align="right">{bid['amount']}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
