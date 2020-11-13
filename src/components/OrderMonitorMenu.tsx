@@ -1,5 +1,6 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { decorate, observable } from 'mobx';
 import { AppStore } from 'src/logic/appStore';
 import { TradingOption } from 'src/components/TradingOption';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
@@ -133,8 +134,6 @@ export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: 
           storeBin.setOrderQuantity(event.target.value);
           storeBitt.setOrderQuantity(event.target.value);
           storeBitst.setOrderQuantity(event.target.value);
-
-
         }}
       />
 

@@ -20,7 +20,25 @@ const useStyles = makeStyles({
     fontSize: 10,
   },
 });
-
+//To be updated accordingly
+const ccyPriceToPrecise:any = {
+  'BTC/USD': 0,
+  'BTC/USDT': 0,
+  'BTC/EUR': 0,
+  'ETH/USD': 2,
+  'ETH/EUR': 2,
+  'XRP/USD': 5,
+  'XRP/EUR': 5,
+}
+const ccyQtyToPrecise:any = {
+  'BTC/USD': 2,
+  'BTC/USDT': 2,
+  'BTC/EUR': 2,
+  'ETH/USD': 2,
+  'ETH/EUR': 2,
+  'XRP/USD': 5,
+  'XRP/EUR': 5,
+}
 
 interface MonitorProps {
   store: AppStore;
@@ -28,26 +46,28 @@ interface MonitorProps {
 export const KrakenOrdersTable = observer(({ store }: MonitorProps): JSX.Element => {
 
 
-const { asks/*: notFormattedAsks*/, bids/*: notFormattedBids*/ } = store.askBidTable;
+const { asks, bids } = store.askBidTable;
+const currentCcyPair = store.currentKrakenPair;
 const classes = useStyles();
 
-// const  [ base, float ] = ${inputNumber}.split(',');
+const formatPrice = (prc:any) => {
+  return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+}
 
-// const cutNumberString = [ base, float.substr(0, 2) ].join(',');
+const formatQty = (qty:any) => {
+ return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+}
 
-// const resultNumber = parseFloat(cutNumberString)
-
-//const asks = notFormattedAsks.map(ask => [ask[0].slice(0, (ask[0].indexOf('.')) + 0), ask[1].slice(0, (ask[1].indexOf('.')) + 3)]);
-//const bids = notFormattedBids.map(bid => [bid[0].slice(0, (bid[0].indexOf('.')) + 0), bid[1].slice(0, (bid[1].indexOf('.')) + 3)]);
-
+//console.table(asks);
 
   return (
     
     <table style={{display : 'inline-block'}}>
+      <caption>Kraken</caption>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
-                <th >Kraken</th>
-            </tr>
+  { /* <th>Kraken</th>  */  }        
+              </tr>
           </thead>
           <tbody >
               <tr >
@@ -65,9 +85,9 @@ const classes = useStyles();
                           {asks.map((ask) => (
                             <TableRow key={ask[0]}>
                               <TableCell component="th" scope="row">
-                                {ask[0]}
+                                {formatPrice(ask[0])}
                               </TableCell>
-                              <TableCell align="right">{ask[1]}</TableCell>
+                              <TableCell align="right">{formatQty(ask[1])}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -87,9 +107,9 @@ const classes = useStyles();
                             {bids.map((bid) => (
                               <TableRow key={bid[0]}>
                                 <TableCell component="th" scope="row">
-                                  {bid[0]}
+                                  {formatPrice(bid[0])}
                                 </TableCell>
-                                <TableCell align="right">{bid[1]}</TableCell>
+                                <TableCell align="right">{formatQty(bid[1])}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>

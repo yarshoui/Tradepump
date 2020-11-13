@@ -9,7 +9,7 @@ import TableCell from '@material-ui/core/TableCell';
 import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
-import Paper from '@material-ui/core/Paper';
+
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
@@ -30,6 +30,19 @@ import { BinanceOrdersTable } from 'src/components/BinanceOrdersTable';
 import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
 import { BittrexOrdersTable } from './BittrexOrdersTable';
 import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
+import Paper from '@material-ui/core/Paper';
+
+const useStyles = makeStyles((theme) => ({
+  root: {
+    flexGrow: 1,
+  },
+  paper: {
+    padding: theme.spacing(2),
+    textAlign: 'center',
+    color: theme.palette.text.secondary,
+  },
+}));
 
 interface MonitorProps {
   store: AppStore;
@@ -40,22 +53,30 @@ interface MonitorProps {
 }
 
 export const Monitor = observer(({ store, storeBitfinex, storeBinance, storeBittrex, storeBitstamp }: MonitorProps): JSX.Element => {
-
+  const classes = useStyles();
 
   return (
   
-    <div>
+    <div className={classes.root}>
       <TopLogoPanel />
       <Header />
       <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} storeBinance={storeBinance} storeBittrex={storeBittrex} storeBitstamp={storeBitstamp} />
       {/*<KrakenOrdersTable store={store} />*/}
       <div>
-      <Grid container direction="row">
+      <Grid container justify="flex-start" spacing={1}>
+      <Grid item xs={3}>
       <KrakenOrdersTable store={store} />
+      </Grid>
+      <Grid item xs={3}>
       <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
+      </Grid>
+      <Grid item xs={3}>
       <BinanceOrdersTable storeBinance={storeBinance} />
+      </Grid>
       {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
+      <Grid item xs={3}>
       <BitstampOrdersTable storeBitstamp={storeBitstamp} />
+      </Grid>
       </Grid>
       </div>
 

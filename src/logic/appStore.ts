@@ -24,14 +24,13 @@ export class AppStore {
         const bids = this.krakenData.bs.filter(v => {
             return parseFloat(v[1]) >= this.orderQuantity;
         }).slice(0, 30);
-        console.log('asks', asks);
+        //console.log('asks', asks);
         return {
             asks,
-            bids,            
+            bids,
         };    
 
     }
-       
 
     constructor() {
         reaction(

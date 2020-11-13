@@ -9,6 +9,25 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { AppStoreBinance } from 'src/logic/appStoreBinance';
+
+const ccyPriceToPrecise:any = {
+  'btcusd': 0,
+  'BTC/USDT': 0,
+  'BTC/EUR': 0,
+  'ETH/USD': 2,
+  'ETH/EUR': 2,
+  'XRP/USD': 5,
+  'XRP/EUR': 5,
+}
+const ccyQtyToPrecise:any = {
+  'btcusd': 2,
+  'BTC/USDT': 2,
+  'BTC/EUR': 2,
+  'ETH/USD': 2,
+  'ETH/EUR': 2,
+  'XRP/USD': 5,
+  'XRP/EUR': 5,
+}
 interface MonitorProps {
   storeBinance: AppStoreBinance;
 }
@@ -17,13 +36,23 @@ export const BinanceOrdersTable = observer(({ storeBinance }: MonitorProps): JSX
 {/*console.log(store);*/}
 
 const { asks, bids } = storeBinance.askBidTable;
+const currentCcyPair = storeBinance.currentBinancePair;
+
+const formatPrice = (prc:any) => {
+  return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+}
+
+const formatQty = (qty:any) => {
+ return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+}
 
 
   return (
     <table style={{display : 'inline-block'}}>
+      <caption>Binance</caption>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
-                <th>Binance</th>
+                {/*<th>Binance</th>*/}
             </tr>
           </thead>
           <tbody>
@@ -42,9 +71,9 @@ const { asks, bids } = storeBinance.askBidTable;
                           {asks.map((ask) => (
                             <TableRow key={ask[0]}>
                               <TableCell component="th" scope="row">
-                                {ask[0]}
+                                {formatPrice(ask[0])}
                               </TableCell>
-                              <TableCell align="right">{ask[1]}</TableCell>
+                              <TableCell align="right">{formatQty(ask[1])}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -64,9 +93,9 @@ const { asks, bids } = storeBinance.askBidTable;
                             {bids.map((bid) => (
                               <TableRow key={bid[0]}>
                                 <TableCell component="th" scope="row">
-                                  {bid[0]}
+                                  {formatPrice(bid[0])}
                                 </TableCell>
-                                <TableCell align="right">{bid[1]}</TableCell>
+                                <TableCell align="right">{formatQty(bid[1])}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>

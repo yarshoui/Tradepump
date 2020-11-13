@@ -127,7 +127,7 @@ export const getBitfinexOrdersData = ()=>{
     });  
   }
   function startPollingBitfinex() {
-    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);    
+    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 60000);    
   }
   startPollingBitfinex(); 
 }

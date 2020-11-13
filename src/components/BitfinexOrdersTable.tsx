@@ -10,19 +10,48 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { AppStore } from 'src/logic/appStore';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
-import {mockData} from './logic/mockdata';
+
+
+const ccyPriceToPrecise:any = {
+  'btcusd': 7,
+  'BTC/USDT': 5,
+  'BTC/EUR': 5,
+  'ETH/USD': 2,
+  'ETH/EUR': 2,
+  'XRP/USD': 5,
+  'XRP/EUR': 5,
+}
+const ccyQtyToPrecise:any = {
+  'btcusd': 3,
+  'BTC/USDT': 2,
+  'BTC/EUR': 2,
+  'ETH/USD': 2,
+  'ETH/EUR': 2,
+  'XRP/USD': 5,
+  'XRP/EUR': 5,
+}
 interface MonitorProps {
   storeBitfinex: AppStoreBitfinex;
 }
 export const BitfinexOrdersTable = observer(({ storeBitfinex }: MonitorProps): JSX.Element => {
 // //console.log('@@@', storeBitfinex);
 const { asks, bids } = storeBitfinex.askBidTable; 
+const currentCcyPair = storeBitfinex.currentBitfinexPair;
+
+const formatPrice = (prc:any) => {
+  return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+}
+
+const formatQty = (qty:any) => {
+ return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+}
 
   return (
     <table style={{display : 'inline-block'}}>
+      <caption>Bitfinex</caption>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
-                <th>Bitfinex</th>
+                {/*<th>Bitfinex</th>*/}
             </tr>
           </thead>
           <tbody>
@@ -41,9 +70,9 @@ const { asks, bids } = storeBitfinex.askBidTable;
                           {asks.map((ask) => (
                             <TableRow key={ask['price']}>
                               <TableCell component="th" scope="row">
-                                {ask['price']}
+                                {formatPrice(ask['price'])}
                               </TableCell>
-                              <TableCell align="right">{ask['amount']}</TableCell>
+                              <TableCell align="right">{formatQty(ask['amount'])}</TableCell>
                             </TableRow>
                           ))}
                         </TableBody>
@@ -63,9 +92,9 @@ const { asks, bids } = storeBitfinex.askBidTable;
                             {bids.map((bid) => (
                               <TableRow key={bid['price']}>
                                 <TableCell component="th" scope="row">
-                                  {bid['price']}
+                                  {formatPrice(bid['price'])}
                                 </TableCell>
-                                <TableCell align="right">{bid['amount']}</TableCell>
+                                <TableCell align="right">{formatQty(bid['amount'])}</TableCell>
                               </TableRow>
                             ))}
                           </TableBody>
