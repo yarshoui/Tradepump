@@ -7,14 +7,14 @@ interface BitstampOrdersData {
   asks: string | undefined;
   bids: string | undefined;
   
-  // activePayload: string | undefined;
+   activePayload: string | undefined;
   Response?: any | undefined;
   dataHandler?: (msg: any) => void;
 }
 
 const bitstampOrdersData: BitstampOrdersData = {
 
-  // activePayload: undefined,
+   activePayload: undefined,
   asks: undefined,
   bids: undefined,
   Response: undefined,
@@ -102,12 +102,13 @@ let intervalId: NodeJS.Timeout;
 
 export let bitstampOrdersDataArr:any;
 
+
 export const getBitstampOrdersData = (inputPair:string)=>{
 
-  //const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/btcusd/'; //PAIRS [ inputPair ].bitstamp
+  //const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/btcusd/'; 
 
   const pair = PAIRS [ inputPair ].bitstamp;
-  const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/'+pair+'/'; // 'btcusd' should be taken from [PAIRS[inputPair].Bitstamp]]
+  const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/'+pair+'/'; 
   urlBitstamp.toString();
   //const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
@@ -136,8 +137,15 @@ export const getBitstampOrdersData = (inputPair:string)=>{
   startPolling(); 
 }
 
+const getSubscribePayload = (inputPair: string) => {
+  const payload = {    
+    pair: [ PAIRS [ inputPair ].bitstamp, ],    
+  };
 
-  getBitstampOrdersData();
+  return JSON.stringify(payload);
+};
+
+  getBitstampOrdersData(pair);
   console.log('Bitstamp onLoad works');
 
 
@@ -146,25 +154,16 @@ export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
 };
 
 
-/*{
-  event: 'subscribe',
-  channel: 'book',
-  symbol: 'tBTCUSD', //[PAIRS[inputPair].bitstamp], // [ inputPair ]
-  len: '100'
-};*/
 
-
-
-
-// export const setPayloadForKrakenCurrencyPair = (inputPair: string) => {
-//   const payload = getSubscribePayload(inputPair);
-//   krakenData.activePayload = payload;
-// };
+//  export const setPayloadForBitstampCurrencyPair = (inputPair: string) => {
+//    const payload = getSubscribePayload(inputPair);
+//    bitstampData.activePayload = payload;
+//  };
 
 export const subscribeToBitstampCurrencyPair = (inputPair: string) => {
  // const socketPromise = getBitstampSocket();
- // const payload = getSubscribeBitstampPayload(inputPair);
-//  bitstampOrdersData.activePayload = payload;
+  const payload = getSubscribePayload(inputPair);
+  bitstampOrdersData.activePayload = payload;
 /*  socketPromise.then((socket) => {
     socket.send(payload);
    });*/
