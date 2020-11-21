@@ -97,7 +97,7 @@ const formatQty = (qty:any) => {
                           </TableRow>
                         </TableHead>
                         <TableBody className={classes.table}>
-                          {asks.map((ask) => (
+                          {asks.length && asks.map((ask) => (
                             <TableRow key={ask[0]} >
                               <TableCell component="th" scope="row" >
                                 {formatPrice(ask[0])}
@@ -105,6 +105,14 @@ const formatQty = (qty:any) => {
                               <TableCell align="right">{formatQty(ask[1])}</TableCell>
                             </TableRow>
                           ))}
+                          { !asks.length && (
+                            <TableRow key={'no-data'} >
+                              <TableCell component="th" scope="row" >
+                                'no data'
+                              </TableCell>
+
+                            </TableRow>
+                          )}
                         </TableBody>
                       </Table>
                     </TableContainer>
@@ -119,7 +127,7 @@ const formatQty = (qty:any) => {
                             </TableRow>
                           </TableHead>
                           <TableBody>
-                            {bids.map((bid) => (
+                            {bids.length && bids.map((bid) => (
                               <TableRow key={bid[0]}>
                                 <TableCell component="th" scope="row">
                                   {formatPrice(bid[0])}
@@ -127,6 +135,14 @@ const formatQty = (qty:any) => {
                                 <TableCell align="right">{formatQty(bid[1])}</TableCell>
                               </TableRow>
                             ))}
+                            { !bids.length && (
+                            <TableRow key={'no-data'} >
+                              <TableCell component="th" scope="row" >
+                                'no data'
+                              </TableCell>
+
+                            </TableRow>
+                          )}
                           </TableBody>
                         </Table>
                       </TableContainer>

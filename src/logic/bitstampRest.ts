@@ -7,14 +7,14 @@ interface BitstampOrdersData {
   asks: string | undefined;
   bids: string | undefined;
   
-   activePayload: string | undefined;
+  activePayload: string | undefined;
   Response?: any | undefined;
   dataHandler?: (msg: any) => void;
 }
 
 const bitstampOrdersData: BitstampOrdersData = {
 
-   activePayload: undefined,
+  activePayload: undefined,
   asks: undefined,
   bids: undefined,
   Response: undefined,
@@ -22,6 +22,7 @@ const bitstampOrdersData: BitstampOrdersData = {
 };
 
 let intervalId: NodeJS.Timeout;
+
 
 /*const sendData = () => {
   console.log('sendBitstampData');
@@ -99,7 +100,7 @@ let intervalId: NodeJS.Timeout;
   return JSON.stringify(payload);
 };*/
 
-
+let pair='';
 export let bitstampOrdersDataArr:any;
 
 
@@ -107,11 +108,9 @@ export const getBitstampOrdersData = (inputPair:string)=>{
 
   //const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/btcusd/'; 
 
-  const pair = PAIRS [ inputPair ].bitstamp;
+  pair = PAIRS [ inputPair ].bitstamp;
   const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/'+pair+'/'; 
-  urlBitstamp.toString();
-  //const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
-
+  
   let pollingInterval;
 
   async function loadJson(urlbitstamp:RequestInfo) { 
