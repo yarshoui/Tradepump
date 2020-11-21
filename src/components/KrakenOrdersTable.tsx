@@ -15,10 +15,19 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
     fontSize: 14,
+    fontWeight: "bold",
+    
+    
   },
   head: {
-    fontSize: 10,
+    fontSize: 14,
+    fontWeight: "bold",
   },
+  caption: {
+    fontSize: 14,
+    fontWeight: "bold",
+    margin: "2px",
+  }
 });
 //To be updated accordingly
 const ccyPriceToPrecise:any = {
@@ -51,11 +60,17 @@ const currentCcyPair = store.currentKrakenPair;
 const classes = useStyles();
 
 const formatPrice = (prc:any) => {
-  return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+  if (prc.indexOf('.') > -1) {
+    return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+  }
+  return prc;
 }
 
 const formatQty = (qty:any) => {
- return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+  if (qty.indexOf('.') > -1){
+    return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+  }
+  return qty;
 }
 
 //console.table(asks);
@@ -63,7 +78,7 @@ const formatQty = (qty:any) => {
   return (
     
     <table style={{display : 'inline-block'}}>
-      <caption>Kraken</caption>
+      <caption className={classes.caption}>Kraken</caption>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
   { /* <th>Kraken</th>  */  }        
@@ -72,19 +87,19 @@ const formatQty = (qty:any) => {
           <tbody >
               <tr >
                   <td align="center"></td>
-                  <td className="inline" style={{ border: 'black solid 1px;' }}>
+                  <td className="inline" >
                       <TableContainer component={Paper}>
-                      <Table size="small" aria-label="a dense table">
-                        <TableHead>
-                          <TableRow className={classes.head}>
-                            <TableCell>Ask Price</TableCell>
+                      <Table size="small">
+                        <TableHead >
+                          <TableRow >
+                            <TableCell >Ask Price</TableCell>
                             <TableCell align="right">Volume (Qty)</TableCell>
                           </TableRow>
                         </TableHead>
                         <TableBody className={classes.table}>
                           {asks.map((ask) => (
-                            <TableRow key={ask[0]}>
-                              <TableCell component="th" scope="row">
+                            <TableRow key={ask[0]} >
+                              <TableCell component="th" scope="row" >
                                 {formatPrice(ask[0])}
                               </TableCell>
                               <TableCell align="right">{formatQty(ask[1])}</TableCell>
@@ -94,13 +109,13 @@ const formatQty = (qty:any) => {
                       </Table>
                     </TableContainer>
                   </td>
-                  <td className="inline" style={{ border: 'black solid 1px;' }}>
+                  <td className="inline">
                     <TableContainer component={Paper}>
-                        <Table size="small" aria-label="a dense table">
-                          <TableHead>
-                            <TableRow>
-                              <TableCell>Bid Price</TableCell>
-                              <TableCell align="right">Volume (Qty)</TableCell>
+                        <Table size="small">
+                          <TableHead >
+                            <TableRow >
+                              <TableCell >Bid Price</TableCell>
+                              <TableCell align="right" >Volume (Qty)</TableCell>
                             </TableRow>
                           </TableHead>
                           <TableBody>

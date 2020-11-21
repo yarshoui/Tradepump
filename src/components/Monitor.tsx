@@ -32,6 +32,9 @@ import { BittrexOrdersTable } from './BittrexOrdersTable';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import { Footer } from './Footer';
+import { RightAd } from './RightAd';
+import { TopAd } from './TopAd';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -59,26 +62,34 @@ export const Monitor = observer(({ store, storeBitfinex, storeBinance, storeBitt
   
     <div className={classes.root}>
       <TopLogoPanel />
+      <TopAd />
       <Header />
       <OrderMonitorMenu storeKraken={store} storeBitfinex={storeBitfinex} storeBinance={storeBinance} storeBittrex={storeBittrex} storeBitstamp={storeBitstamp} />
       {/*<KrakenOrdersTable store={store} />*/}
       <div>
-      <Grid container justify="flex-start" spacing={1}>
-      <Grid item xs={3}>
-      <KrakenOrdersTable store={store} />
-      </Grid>
-      <Grid item xs={3}>
-      <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
-      </Grid>
-      <Grid item xs={3}>
-      <BinanceOrdersTable storeBinance={storeBinance} />
-      </Grid>
-      {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
-      <Grid item xs={3}>
-      <BitstampOrdersTable storeBitstamp={storeBitstamp} />
-      </Grid>
-      </Grid>
+        <span>
+          <Grid container justify="flex-start" spacing={1}>
+          <Grid item xs={3}>
+          <KrakenOrdersTable store={store} />
+          </Grid>
+          <Grid item xs={3}>
+          <BitfinexOrdersTable storeBitfinex={storeBitfinex} />
+          </Grid>
+          <Grid item xs={3}>
+          <BinanceOrdersTable storeBinance={storeBinance} />
+          </Grid>
+          {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
+          <Grid item xs={3}>
+          <BitstampOrdersTable storeBitstamp={storeBitstamp} />
+          </Grid>
+          </Grid>
+        </span>
+
+        <RightAd />
+
+      
       </div>
+      <Footer />
 
     </div>
   );

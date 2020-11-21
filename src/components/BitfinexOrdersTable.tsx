@@ -22,7 +22,7 @@ const ccyPriceToPrecise:any = {
   'XRP/EUR': 5,
 }
 const ccyQtyToPrecise:any = {
-  'btcusd': 3,
+  'btcusd': 2,
   'BTC/USDT': 2,
   'BTC/EUR': 2,
   'ETH/USD': 2,
@@ -39,11 +39,17 @@ const { asks, bids } = storeBitfinex.askBidTable;
 const currentCcyPair = storeBitfinex.currentBitfinexPair;
 
 const formatPrice = (prc:any) => {
-  return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+  if (prc.indexOf('.') > -1) {
+    return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+  }
+  return prc;
 }
 
 const formatQty = (qty:any) => {
- return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+  if (qty.indexOf('.') > -1 ){    
+    return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);    
+  }
+  return qty;  
 }
 
   return (

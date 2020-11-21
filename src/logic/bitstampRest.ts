@@ -102,9 +102,13 @@ let intervalId: NodeJS.Timeout;
 
 export let bitstampOrdersDataArr:any;
 
-export const getBitstampOrdersData = ()=>{
+export const getBitstampOrdersData = (inputPair:string)=>{
 
-  const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/btcusd/';// 'btcusd' should be taken from [PAIRS[inputPair].Bitstamp]]
+  //const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/btcusd/'; //PAIRS [ inputPair ].bitstamp
+
+  const pair = PAIRS [ inputPair ].bitstamp;
+  const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/'+pair+'/'; // 'btcusd' should be taken from [PAIRS[inputPair].Bitstamp]]
+  urlBitstamp.toString();
   //const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
   let pollingInterval;

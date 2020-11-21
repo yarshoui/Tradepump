@@ -9,6 +9,26 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { AppStoreBinance } from 'src/logic/appStoreBinance';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  table: {
+    minWidth: 650,
+    fontSize: 14,
+    fontWeight: "bold",
+    
+    
+  },
+  head: {
+    fontSize: 14,
+    fontWeight: "bold",
+  },
+  caption: {
+    fontSize: 14,
+    fontWeight: "bold",
+    margin: "2px",
+  }
+});
 
 const ccyPriceToPrecise:any = {
   'btcusd': 0,
@@ -37,19 +57,26 @@ export const BinanceOrdersTable = observer(({ storeBinance }: MonitorProps): JSX
 
 const { asks, bids } = storeBinance.askBidTable;
 const currentCcyPair = storeBinance.currentBinancePair;
+const classes = useStyles();
 
 const formatPrice = (prc:any) => {
-  return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+  if (prc.indexOf('.') > -1) {
+    return prc.slice(0, prc.indexOf('.') + ccyPriceToPrecise[currentCcyPair] || 5);
+  }
+  return prc;
 }
 
 const formatQty = (qty:any) => {
- return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+  if (qty.indexOf('.') > -1){
+    return qty.slice(0, qty.indexOf('.') + ccyQtyToPrecise[currentCcyPair] || 5);
+  }
+  return qty;
 }
 
 
   return (
     <table style={{display : 'inline-block'}}>
-      <caption>Binance</caption>
+      <caption className={classes.caption}>Binance</caption>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
                 {/*<th>Binance</th>*/}

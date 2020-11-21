@@ -6,11 +6,11 @@ import { themeStyles } from '../style/postcss';
 import { BorderColor } from '@material-ui/icons';
 
 
-export const TopLogoPanel = () => {
+export const RightAd = () => {
   return (
-    <div style={{display : 'inline-block'}}>
-      <div className="top"><a className="logo" href="http://tradepump.com">TradePump.com</a></div>
-      
+    <div style={{ visibility: "visible", display : 'inline-block' }}>
+      <p>Please disable your ad-blocker! (adv 160*600 align bottom)</p>
+      <p>You may not like this ad, but it supports the developer and keeps this site free.</p>
     </div>
   );
 };
