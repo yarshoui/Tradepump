@@ -98,17 +98,19 @@ let intervalId: NodeJS.Timeout;
   return JSON.stringify(payload);
 };*/
 
+let currencyPair = 'btcusd';
 
 export let bitfinexOrdersDataArr:any;
 
-export const getBitfinexOrdersData = ()=>{
+export const getBitfinexOrdersData = ()=> {
 
-  const urlBitfinex = 'https://api.bitfinex.com/v1/book/btcusd?limit_bids=2000&limit_asks=2000';//Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
-  const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
+  console.log('###', currencyPair, );
 
   let pollingIntervalBitfinex;
 
-  async function loadJson(urlBitfinex:RequestInfo) { 
+  async function loadJson(urlBitfinex:RequestInfo) {
+    const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
+    console.log('###', currencyPair, urlBitfinex);
     let responseBitfinex = await fetch(proxy + urlBitfinex); 
     let bitData = await responseBitfinex.json();
     console.log('bitData', bitData);
@@ -116,6 +118,7 @@ export const getBitfinexOrdersData = ()=>{
   }
 
   function doRequestBitfinex() {
+    const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`;//Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
     loadJson(urlBitfinex).then(data => {
       bitfinexOrdersDataArr = data;
       
@@ -126,9 +129,11 @@ export const getBitfinexOrdersData = ()=>{
       console.log('bitfinexOrdersData', bitfinexOrdersDataArr); 
     });  
   }
+
   function startPollingBitfinex() {
-    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 60000);    
+    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);    
   }
+
   startPollingBitfinex(); 
 }
 
@@ -141,23 +146,12 @@ export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
   bitfinexOrdersData.dataHandler = dataHandler;
 };
 
-
-/*{
-  event: 'subscribe',
-  channel: 'book',
-  symbol: 'tBTCUSD', //[PAIRS[inputPair].bitfinex], // [ inputPair ]
-  len: '100'
-};*/
-
-
-
-
 // export const setPayloadForKrakenCurrencyPair = (inputPair: string) => {
 //   const payload = getSubscribePayload(inputPair);
 //   krakenData.activePayload = payload;
 // };
-
 export const subscribeToBitfinexCurrencyPair = (inputPair: string) => {
+  currencyPair = PAIRS[inputPair].bitfinex;
  // const socketPromise = getBitfinexSocket();
  // const payload = getSubscribeBitfinexPayload(inputPair);
 //  bitfinexOrdersData.activePayload = payload;

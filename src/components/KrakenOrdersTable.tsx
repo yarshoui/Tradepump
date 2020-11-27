@@ -15,7 +15,7 @@ const useStyles = makeStyles({
   table: {
     minWidth: 650,
     fontSize: 14,
-    fontWeight: "bold",
+    
     
     
   },
@@ -108,7 +108,7 @@ const formatQty = (qty:any) => {
                           { !asks.length && (
                             <TableRow key={'no-data'} >
                               <TableCell component="th" scope="row" >
-                                'no data'
+                                No orders
                               </TableCell>
 
                             </TableRow>
@@ -138,7 +138,7 @@ const formatQty = (qty:any) => {
                             { !bids.length && (
                             <TableRow key={'no-data'} >
                               <TableCell component="th" scope="row" >
-                                'no data'
+                                No orders
                               </TableCell>
 
                             </TableRow>

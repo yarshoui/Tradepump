@@ -100,26 +100,22 @@ let intervalId: NodeJS.Timeout;
   return JSON.stringify(payload);
 };*/
 
-let pair='';
+let currencyPair = 'btcusd';
 export let bitstampOrdersDataArr:any;
 
 
-export const getBitstampOrdersData = (inputPair:string)=>{
+export const getBitstampOrdersData = ()=>{
 
-  //const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/btcusd/'; 
-
-  pair = PAIRS [ inputPair ].bitstamp;
-  const urlBitstamp = 'https://www.bitstamp.net/api/v2/order_book/'+pair+'/'; 
-  
   let pollingInterval;
 
-  async function loadJson(urlbitstamp:RequestInfo) { 
+  async function loadJson(urlBitstamp:RequestInfo) { 
     let responseBitstamp = await fetch(urlBitstamp); 
     let bitstampData = await responseBitstamp.json();
     return bitstampData;
   }
 
   function doRequest() {
+    const urlBitstamp = `https://www.bitstamp.net/api/v2/order_book/${currencyPair}/`;
     loadJson(urlBitstamp).then(data => {
       bitstampOrdersDataArr = data;
       
@@ -136,15 +132,15 @@ export const getBitstampOrdersData = (inputPair:string)=>{
   startPolling(); 
 }
 
-const getSubscribePayload = (inputPair: string) => {
-  const payload = {    
-    pair: [ PAIRS [ inputPair ].bitstamp, ],    
-  };
+// const getSubscribePayload = (inputPair: string) => {
+//   const payload = {    
+//     pair: [ PAIRS [ inputPair ].bitstamp, ],    
+//   };
 
-  return JSON.stringify(payload);
-};
+//   return JSON.stringify(payload);
+// };
 
-  getBitstampOrdersData(pair);
+  getBitstampOrdersData();
   console.log('Bitstamp onLoad works');
 
 
@@ -160,9 +156,10 @@ export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
 //  };
 
 export const subscribeToBitstampCurrencyPair = (inputPair: string) => {
+  currencyPair = PAIRS[inputPair].bitstamp;
  // const socketPromise = getBitstampSocket();
-  const payload = getSubscribePayload(inputPair);
-  bitstampOrdersData.activePayload = payload;
+ // const payload = getSubscribePayload(inputPair);
+ // bitstampOrdersData.activePayload = payload;
 /*  socketPromise.then((socket) => {
     socket.send(payload);
    });*/

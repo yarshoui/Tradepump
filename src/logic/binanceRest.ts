@@ -99,13 +99,13 @@ let intervalId: NodeJS.Timeout;
 
   return JSON.stringify(payload);
 };*/
-
+let currencyPair = 'BTCUSDT';
 
 export let binanceOrdersDataArr:any;
 
 export const getBinanceOrdersData = ()=>{
 
-  const urlBinance = 'https://www.binance.com/api/v3/depth?symbol=BTCUSDT&limit=1000';//Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].binance]]
+  
   //const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
   let pollingInterval;
@@ -117,6 +117,7 @@ export const getBinanceOrdersData = ()=>{
   }
 
   function doRequest() {
+    const urlBinance = `https://www.binance.com/api/v3/depth?symbol=${currencyPair}&limit=1000`;//Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].binance]]
     loadJson(urlBinance).then(data => {
       binanceOrdersDataArr = data;
       
@@ -159,6 +160,7 @@ export const setBinanceDataHandler = (dataHandler: (msg: any) => void) => {
 // };
 
 export const subscribeToBinanceCurrencyPair = (inputPair: string) => {
+  currencyPair = PAIRS[inputPair].binance;
  // const socketPromise = getBinanceSocket();
  // const payload = getSubscribeBinancePayload(inputPair);
 //  binanceOrdersData.activePayload = payload;

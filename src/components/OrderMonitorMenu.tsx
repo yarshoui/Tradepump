@@ -14,15 +14,15 @@ import { AppStoreBitstamp } from 'src/logic/appStoreBitstamp';
  export const PAIRS:any = {
    'BTC/EUR': { 
      kraken: 'BTC/EUR', 
-     bitfinex: 'tBTCEUR',
-     binance: 'btceur',
+     bitfinex: 'btceur',
+     binance: 'BTCEUR',
      bittrex: 'BTC-EUR',
      bitstamp: 'btceur'
    },
    'BTC/USD':{
      kraken: 'BTC/USD',
-     bitfinex: 'tBTCUSD',
-     binance: 'btcusdt',
+     bitfinex: 'btcusd',
+     binance: 'BTCUSDT',
      bittrex: 'BTC-USD',
      bitstamp: 'btcusd'
    }
@@ -51,7 +51,7 @@ interface OrderMonitorMenuProps {
 
 export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: storeB, storeBinance: storeBin, storeBittrex: storeBitt, storeBitstamp: storeBitst }: OrderMonitorMenuProps) => {
   return (
-    <div className="top-menu"> <span>Trading Pair</span>
+    <div className="top-menu"> <span> Trading Pair </span>
       <select
         name="pair"
         id='pairfilter'
@@ -64,7 +64,7 @@ export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: 
         }}
       >
         <optgroup label="Bitcoin">
-          <TradingOption value='BTC/EUR' selected={storeK.currentKrakenPair} />
+          <TradingOption value='BTC/EUR' selected={storeK.currentKrakenPair}  />
           <TradingOption value='BTC/USD' selected={storeK.currentKrakenPair} />
           <TradingOption value='BTC/USDT' selected={storeK.currentKrakenPair} />
         </optgroup>
@@ -123,10 +123,12 @@ export const OrderMonitorMenu = observer(({ storeKraken: storeK, storeBitfinex: 
           <option value="LINK/USD">LINK/USD</option>
         </optgroup>
       </select>
-      <span>Min Order Qty</span>
+      <span> Min Order Qty </span>
       <input
         type="text"
         id='qtyfilter'
+        placeholder="1"
+        
         // value={store.orderQuantity}
         onChange={(event) => {
           storeK.setOrderQuantity(event.target.value);
