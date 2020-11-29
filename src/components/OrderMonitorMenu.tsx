@@ -1,32 +1,12 @@
 import React from 'react';
 import { observer } from 'mobx-react';
 // import { decorate, observable } from 'mobx';
-import { AppStore } from 'src/logic/appStore';
 import { TradingOption } from 'src/components/TradingOption';
-import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
-import { AppStoreBinance } from 'src/logic/appStoreBinance';
-import { AppStoreBittrex } from 'src/logic/appStoreBittrex';
-import { AppStoreBitstamp } from 'src/logic/appStoreBitstamp';
+import { SelectorOptions } from 'src/logic/pairsConfig';
+import { AppStore } from 'src/logic/appStore';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
-
-export const PAIRS: any = {
-  'BTC/EUR': {
-    kraken: 'BTC/EUR',
-    bitfinex: 'btceur',
-    binance: 'BTCEUR',
-    bittrex: 'BTC-EUR',
-    bitstamp: 'btceur',
-  },
-  'BTC/USD': {
-    kraken: 'BTC/USD',
-    bitfinex: 'btcusd',
-    binance: 'BTCUSDT',
-    bittrex: 'BTC-USD',
-    bitstamp: 'btcusd',
-  },
-};
 
 // const getSubscribePayload = (inputPair: string) => {
 //   const payload = {
@@ -42,20 +22,12 @@ export const PAIRS: any = {
 // };
 
 interface OrderMonitorMenuProps {
-  storeKraken: AppStore;
-  storeBitfinex: AppStoreBitfinex;
-  storeBinance: AppStoreBinance;
-  storeBitstamp: AppStoreBitstamp;
-  storeBittrex: AppStoreBittrex;
+  store: AppStore;
 }
 
 export const OrderMonitorMenu = observer(
   ({
-    storeKraken: storeK,
-    storeBitfinex: storeB,
-    storeBinance: storeBin,
-    storeBittrex: storeBitt,
-    storeBitstamp: storeBitst,
+    store,
   }: OrderMonitorMenuProps) => {
     return (
       <div className="top-menu">
@@ -65,16 +37,14 @@ export const OrderMonitorMenu = observer(
           name="pair"
           id="pairfilter"
           onChange={(event) => {
-            storeK.setCurrentKrakenPair(event.target.value);
-            storeB.setCurrentBitfinexPair(event.target.value);
-            storeBin.setCurrentBinancePair(event.target.value);
-            storeBitst.setCurrentBitstampPair(event.target.value);
+            const value = event.target.value as SelectorOptions;
+            store.setCurrencyPair(value);
           }}
         >
           <optgroup label="Bitcoin">
-            <TradingOption value="BTC/EUR" selected={storeK.currentKrakenPair} />
-            <TradingOption value="BTC/USD" selected={storeK.currentKrakenPair} />
-            <TradingOption value="BTC/USDT" selected={storeK.currentKrakenPair} />
+            <TradingOption value="BTC/EUR" selected={store.currencyPair} />
+            <TradingOption value="BTC/USD" selected={store.currencyPair} />
+            <TradingOption value="BTC/USDT" selected={store.currencyPair} />
           </optgroup>
           <optgroup label="Ethereum">
             <option value="ETH/USD">ETH/USD</option>
@@ -138,11 +108,7 @@ export const OrderMonitorMenu = observer(
           placeholder="1"
           // value={store.orderQuantity}
           onChange={(event) => {
-            storeK.setOrderQuantity(event.target.value);
-            storeB.setOrderQuantity(event.target.value);
-            storeBin.setOrderQuantity(event.target.value);
-            storeBitt.setOrderQuantity(event.target.value);
-            storeBitst.setOrderQuantity(event.target.value);
+            store.setOrderQuantity(event.target.value);
           }}
         />
       </div>

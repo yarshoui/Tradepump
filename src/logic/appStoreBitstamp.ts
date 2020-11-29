@@ -5,8 +5,8 @@ import {
   setBitstampDataHandler,
   // getBitstampSocket,
 } from 'src/logic/bitstampRest';
-//import { getBitstampOrdersData } from 'src/logic/bitstampRest';
 import { bitstampOrdersDataArr } from 'src/logic/bitstampRest';
+import { DEFAULT_PAIR, SelectorOptions } from './pairsConfig';
 //console.log ('bit1', bitstampOrdersDataArr);
 interface bitstampOrdersDataArr {
   // lastUpdateId: any;
@@ -15,7 +15,7 @@ interface bitstampOrdersDataArr {
 }
 
 export class AppStoreBitstamp {
-  currentBitstampPair: string = 'btcusd';
+  currentBitstampPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
 
   bitstampData: bitstampOrdersDataArr = {
@@ -47,7 +47,7 @@ export class AppStoreBitstamp {
   constructor() {
     reaction(
       () => this.currentBitstampPair,
-      (pair) => {
+      (pair: SelectorOptions) => {
         console.log('pairChanged', pair);
         subscribeToBitstampCurrencyPair(pair);
       },
@@ -71,7 +71,7 @@ export class AppStoreBitstamp {
     console.log('here', this.orderQuantity);
   }, 1000);
 
-  setCurrentBitstampPair = (input: string) => {
+  setCurrentBitstampPair = (input: SelectorOptions) => {
     this.currentBitstampPair = input;
   };
 

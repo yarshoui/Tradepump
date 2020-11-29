@@ -1,4 +1,4 @@
-import { PAIRS } from './../components/OrderMonitorMenu';
+import { PAIRS, SelectorOptions } from 'src/logic/pairsConfig';
 
 interface KrakenData {
   socket: WebSocket | undefined;
@@ -79,7 +79,7 @@ export const getKrakenSocket = (): Promise<WebSocket> => {
   });
 };
 
-const getSubscribePayload = (inputPair: string) => {
+const getSubscribePayload = (inputPair: SelectorOptions) => {
   const payload = {
     event: 'subscribe',
     pair: [PAIRS[inputPair].kraken],
@@ -102,7 +102,7 @@ export const setKrakenDataHandler = (dataHandler: (msg: any) => void) => {
 //   krakenData.activePayload = payload;
 // };
 
-export const subscribeToKrakenCurrencyPair = (inputPair: string) => {
+export const subscribeToKrakenCurrencyPair = (inputPair: SelectorOptions) => {
   const socketPromise = getKrakenSocket();
   const payload = getSubscribePayload(inputPair);
   krakenData.activePayload = payload;

@@ -1,5 +1,5 @@
 // import { json } from 'body-parser';
-import { PAIRS } from '../components/OrderMonitorMenu';
+import { PAIRS, SelectorOptions } from 'src/logic/pairsConfig';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
 
@@ -130,11 +130,13 @@ export const getBinanceOrdersData = () => {
 
     pollingInterval = setInterval(doRequest, 3000);
   }
+
+  doRequest();
   startPolling();
 };
 
-getBinanceOrdersData();
-console.log('Binance onLoad works');
+// getBinanceOrdersData();
+// console.log('Binance onLoad works');
 
 export const setBinanceDataHandler = (dataHandler: (msg: any) => void) => {
   binanceOrdersData.dataHandler = dataHandler;
@@ -152,8 +154,9 @@ export const setBinanceDataHandler = (dataHandler: (msg: any) => void) => {
 //   krakenData.activePayload = payload;
 // };
 
-export const subscribeToBinanceCurrencyPair = (inputPair: string) => {
+export const subscribeToBinanceCurrencyPair = (inputPair: SelectorOptions) => {
   currencyPair = PAIRS[inputPair].binance;
+  getBinanceOrdersData();
   // const socketPromise = getBinanceSocket();
   // const payload = getSubscribeBinancePayload(inputPair);
   //  binanceOrdersData.activePayload = payload;

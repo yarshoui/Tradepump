@@ -5,6 +5,7 @@ import {
   setBinanceDataHandler,
   // getBinanceSocket,
 } from 'src/logic/binanceRest';
+import { DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
 //import { getBinanceOrdersData } from 'src/logic/binanceRest';
 import { binanceOrdersDataArr } from 'src/logic/binanceRest';
 //console.log ('bit1', binanceOrdersDataArr);
@@ -15,7 +16,7 @@ interface binanceOrdersDataArr {
 }
 
 export class AppStoreBinance {
-  currentBinancePair: string = 'btcusd';
+  currentBinancePair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
 
   binanceData: binanceOrdersDataArr = {
@@ -47,7 +48,7 @@ export class AppStoreBinance {
   constructor() {
     reaction(
       () => this.currentBinancePair,
-      (pair) => {
+      (pair: SelectorOptions) => {
         console.log('pairChanged', pair);
         subscribeToBinanceCurrencyPair(pair);
       },
@@ -71,7 +72,7 @@ export class AppStoreBinance {
     console.log('here', this.orderQuantity);
   }, 1000);
 
-  setCurrentBinancePair = (input: string) => {
+  setCurrentBinancePair = (input: SelectorOptions) => {
     this.currentBinancePair = input;
   };
 

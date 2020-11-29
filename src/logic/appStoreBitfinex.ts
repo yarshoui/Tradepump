@@ -5,7 +5,7 @@ import {
   setBitfinexDataHandler,
   // getBitfinexSocket,
 } from 'src/logic/bitfinexRest';
-//import { getBitfinexOrdersData } from 'src/logic/bitfinexRest';
+import { DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
 import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest';
 //console.log ('bit1', bitfinexOrdersDataArr);
 interface bitfinexOrdersDataArr {
@@ -14,7 +14,7 @@ interface bitfinexOrdersDataArr {
 }
 
 export class AppStoreBitfinex {
-  currentBitfinexPair: string = 'btcusd';
+  currentBitfinexPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
 
   bitfinexData: bitfinexOrdersDataArr = {
@@ -46,7 +46,7 @@ export class AppStoreBitfinex {
   constructor() {
     reaction(
       () => this.currentBitfinexPair,
-      (pair) => {
+      (pair: SelectorOptions) => {
         console.log('pairChanged', pair);
         subscribeToBitfinexCurrencyPair(pair);
       },
@@ -54,6 +54,8 @@ export class AppStoreBitfinex {
         fireImmediately: true,
       },
     );
+
+    // getBitfinexOrdersData();
   }
 
   setOrderQuantity = debounce((input: string) => {
@@ -70,7 +72,7 @@ export class AppStoreBitfinex {
     console.log('here', this.orderQuantity);
   }, 1000);
 
-  setCurrentBitfinexPair = (input: string) => {
+  setCurrentBitfinexPair = (input: SelectorOptions) => {
     this.currentBitfinexPair = input;
   };
 

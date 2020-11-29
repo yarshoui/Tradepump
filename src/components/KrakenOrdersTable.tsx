@@ -8,7 +8,7 @@ import TableContainer from '@material-ui/core/TableContainer';
 import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
-import { AppStore } from 'src/logic/appStore';
+import { AppStoreKraken } from 'src/logic/appStoreKraken';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
@@ -47,7 +47,7 @@ const ccyQtyToPrecise: any = {
 };
 
 interface MonitorProps {
-  store: AppStore;
+  store: AppStoreKraken;
 }
 export const KrakenOrdersTable = observer(
   ({ store }: MonitorProps): JSX.Element => {

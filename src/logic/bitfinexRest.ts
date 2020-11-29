@@ -1,5 +1,5 @@
 // import { json } from 'body-parser';
-import { PAIRS } from '../components/OrderMonitorMenu';
+import { PAIRS, DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
 
@@ -20,85 +20,7 @@ const bitfinexOrdersData: BitfinexOrdersData = {
   Response: undefined,
 };
 
-// let intervalId: NodeJS.Timeout;
-
-/*const sendData = () => {
-  console.log('sendBitfinexData');
-  intervalId = setInterval(() => {
-    console.log('sendBitfinexData setInterval', bitfinexData);
-    if (!bitfinexData.activePayload) {
-      return;
-    }
-
-    const socketPromise = getBitfinexSocket();
-    socketPromise.then((socket) => {
-      if (!bitfinexData.activePayload) {
-        return;
-      }
-
-      console.log('here', bitfinexData);
-
-      try {
-        socket.send(bitfinexData.activePayload);
-      } catch (error) {
-        console.error('Bitfinex socket error :' + error);
-      }
-    });
-  }, 3000);
-
-  if (!bitfinexData.activePayload) {
-    return;
-  }
-
-  bitfinexData.socket?.send(bitfinexData.activePayload);
-}*/
-
-/*export function restoreBitfinexSocket() {
-  return new Promise<WebSocket>((resolve) => {
-    bitfinexData.socket = new WebSocket('wss://dex.binance.org/api/ws');
-
-    bitfinexData.socket.onclose = () => {
-      restoreBitfinexSocket();
-      console.log('WebSocket is closed now.');
-    }
-
-    bitfinexData.socket.onopen = () => {
-      console.log('[open] Connection established to Bitfinex 1');
-      intervalId && clearInterval(intervalId);
-      sendData();
-      resolve(bitfinexData.socket);
-    }
-
-    bitfinexData.socket.onerror = (error: any) => {
-      console.log(`[error] ${error.message}`);
-    }
-
-    bitfinexData.socket.onmessage = function (msg) {
-      bitfinexData.dataHandler && bitfinexData.dataHandler(msg);
-    }
-  });
-}*/
-
-/*export const getBitfinexSocket = (): Promise<WebSocket> => {
-  if (!bitfinexData.socket) {
-    return restoreBitfinexSocket();
-  }
-
-  return new Promise(resolve => {
-    resolve(bitfinexData.socket);
-  });
-}*/
-
-/*const getSubscribeBitfinexPayload = (inputPair: string) => {
-
-
-  const payload = { method: "subscribe", topic: "allMiniTickers", symbols: [""] };//$all
-
-  return JSON.stringify(payload);
-};*/
-
-let currencyPair = 'btcusd';
-
+let currencyPair = PAIRS[DEFAULT_PAIR].bitfinex;
 export let bitfinexOrdersDataArr: any;
 let pollingIntervalBitfinex: NodeJS.Timeout;
 
@@ -106,16 +28,24 @@ export const getBitfinexOrdersData = () => {
   console.log('###', currencyPair);
 
   async function loadJson(urlBitfinex: RequestInfo) {
-    const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
+    // const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
     console.log('###', currencyPair, urlBitfinex);
-    let responseBitfinex = await fetch(proxy + urlBitfinex);
+    let responseBitfinex = await fetch(urlBitfinex, {
+      // mode: 'no-cors',
+      // referrerPolicy: 'no-referrer',
+      // credentials: 'omit',
+    });
     let bitData = await responseBitfinex.json();
     console.log('bitData', bitData);
     return bitData;
   }
 
   function doRequestBitfinex() {
-    const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+    // IMPORTANT: use node server on prod
+    // for local development we will use proxy,
+    // check setupProxy.js for details
+    // const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+    const urlBitfinex = `/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
     loadJson(urlBitfinex).then((data) => {
       bitfinexOrdersDataArr = data;
 
@@ -134,11 +64,9 @@ export const getBitfinexOrdersData = () => {
     pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);
   }
 
+  doRequestBitfinex();
   startPollingBitfinex();
 };
-
-getBitfinexOrdersData();
-console.log('Binfinex onLoad works');
 
 export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
   bitfinexOrdersData.dataHandler = dataHandler;
@@ -148,8 +76,10 @@ export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
 //   const payload = getSubscribePayload(inputPair);
 //   krakenData.activePayload = payload;
 // };
-export const subscribeToBitfinexCurrencyPair = (inputPair: string) => {
+export const subscribeToBitfinexCurrencyPair = (inputPair: SelectorOptions) => {
+  console.log(inputPair);
   currencyPair = PAIRS[inputPair].bitfinex;
+  getBitfinexOrdersData();
   // const socketPromise = getBitfinexSocket();
   // const payload = getSubscribeBitfinexPayload(inputPair);
   //  bitfinexOrdersData.activePayload = payload;

@@ -46,27 +46,29 @@ const sendData = () => {
 
 export function restoreBittrexSocket() {
   return new Promise<WebSocket>((resolve) => {
-    bittrexData.socket = new WebSocket('wss://socket-v3.bittrex.com/signalr');
+    resolve();
+    return;
+    // bittrexData.socket = new WebSocket('wss://socket-v3.bittrex.com/signalr');
 
-    bittrexData.socket.onclose = () => {
-      restoreBittrexSocket();
-      console.log('WebSocket is closed now.');
-    };
+    // bittrexData.socket.onclose = () => {
+    //   restoreBittrexSocket();
+    //   console.log('WebSocket is closed now.');
+    // };
 
-    bittrexData.socket.onopen = () => {
-      console.log('[open] Connection established to Bittrex');
-      intervalId && clearInterval(intervalId);
-      sendData();
-      resolve(bittrexData.socket);
-    };
+    // bittrexData.socket.onopen = () => {
+    //   console.log('[open] Connection established to Bittrex');
+    //   intervalId && clearInterval(intervalId);
+    //   sendData();
+    //   resolve(bittrexData.socket);
+    // };
 
-    bittrexData.socket.onerror = (error: any) => {
-      console.log(`[error] ${error.message}`);
-    };
+    // bittrexData.socket.onerror = (error: any) => {
+    //   console.log(`[error] ${error.message}`);
+    // };
 
-    bittrexData.socket.onmessage = function (msg) {
-      bittrexData.dataHandler && bittrexData.dataHandler(msg);
-    };
+    // bittrexData.socket.onmessage = function (msg) {
+    //   bittrexData.dataHandler && bittrexData.dataHandler(msg);
+    // };
   });
 }
 
@@ -99,6 +101,7 @@ export const setBittrexDataHandler = (dataHandler: (msg: any) => void) => {
 // };
 
 export const subscribeToBittrexCurrencyPair = (inputPair: string) => {
+  return;
   const socketPromise = getBittrexSocket();
   const payload = getSubscribeBittrexPayload(inputPair);
   bittrexData.activePayload = payload;

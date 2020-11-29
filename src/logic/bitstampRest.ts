@@ -1,5 +1,5 @@
 // import { json } from 'body-parser';
-import { PAIRS } from '../components/OrderMonitorMenu';
+import { PAIRS, SelectorOptions } from 'src/logic/pairsConfig';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
 
@@ -128,6 +128,7 @@ export const getBitstampOrdersData = () => {
     pollingInterval = setInterval(doRequest, 3000);
   }
 
+  doRequest();
   startPolling();
 };
 
@@ -139,8 +140,8 @@ export const getBitstampOrdersData = () => {
 //   return JSON.stringify(payload);
 // };
 
-getBitstampOrdersData();
-console.log('Bitstamp onLoad works');
+// getBitstampOrdersData();
+// console.log('Bitstamp onLoad works');
 
 export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
   bitstampOrdersData.dataHandler = dataHandler;
@@ -151,8 +152,9 @@ export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
 //    bitstampData.activePayload = payload;
 //  };
 
-export const subscribeToBitstampCurrencyPair = (inputPair: string) => {
+export const subscribeToBitstampCurrencyPair = (inputPair: SelectorOptions) => {
   currencyPair = PAIRS[inputPair].bitstamp;
+  getBitstampOrdersData();
   // const socketPromise = getBitstampSocket();
   // const payload = getSubscribePayload(inputPair);
   // bitstampOrdersData.activePayload = payload;

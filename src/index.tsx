@@ -5,14 +5,13 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
 import { appStore } from './logic/appStore';
-import { appStoreBitfinex } from './logic/appStoreBitfinex';
+
 import { Monitor } from './components/Monitor';
 // import red from '@material-ui/core/colors/red';
 // eslint-disable-next-line camelcase
 import { unstable_createMuiStrictModeTheme, createMuiTheme } from '@material-ui/core/styles';
-import { appStoreBinance } from './logic/appStoreBinance';
-import { appStoreBitstamp } from './logic/appStoreBitstamp';
-import { appStoreBittrex } from './logic/appStoreBittrex';
+
+// import { appStoreBittrex } from './logic/appStoreBittrex';
 
 const getThemeConstructor = (): typeof createMuiTheme => {
   if (process.env.NODE_ENV === 'development') {
@@ -31,13 +30,7 @@ const theme = themeConstructor({});
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Monitor
-      store={appStore}
-      storeBitfinex={appStoreBitfinex}
-      storeBinance={appStoreBinance}
-      storeBittrex={appStoreBittrex}
-      storeBitstamp={appStoreBitstamp}
-    />
+    <Monitor store={appStore} />
   </ThemeProvider>,
   document.querySelector('#root'),
 );
