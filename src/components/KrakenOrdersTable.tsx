@@ -74,11 +74,11 @@ const formatQty = (qty:any) => {
 }
 
 //console.table(asks);
-
+let lastprc='Last Price';
   return (
     
     <table style={{display : 'inline-block'}}>
-      <caption className={classes.caption}>Kraken</caption>
+      <caption className={classes.caption}>Kraken ({lastprc})</caption>
           <thead>
              <tr style={{ border: 'black solid 2px;' }}> 
   { /* <th>Kraken</th>  */  }        
