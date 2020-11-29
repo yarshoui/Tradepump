@@ -1,4 +1,4 @@
-import { json } from 'body-parser';
+// import { json } from 'body-parser';
 import { PAIRS } from '../components/OrderMonitorMenu';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
@@ -6,7 +6,7 @@ import { PAIRS } from '../components/OrderMonitorMenu';
 interface BinanceOrdersData {
   asks: string | undefined;
   bids: string | undefined;
-  //lastUpdateId: number | undefined; 
+  //lastUpdateId: number | undefined;
   // socket: WebSocket | undefined;
   // activePayload: string | undefined;
   Response?: any | undefined;
@@ -22,7 +22,7 @@ const binanceOrdersData: BinanceOrdersData = {
   //lastUpdateId: undefined,
 };
 
-let intervalId: NodeJS.Timeout;
+// let intervalId: NodeJS.Timeout;
 
 /*const sendData = () => {
   console.log('sendBinanceData');
@@ -91,7 +91,6 @@ let intervalId: NodeJS.Timeout;
   });
 }*/
 
-
 /*const getSubscribeBinancePayload = (inputPair: string) => {
 
 
@@ -101,48 +100,45 @@ let intervalId: NodeJS.Timeout;
 };*/
 let currencyPair = 'BTCUSDT';
 
-export let binanceOrdersDataArr:any;
+export let binanceOrdersDataArr: any;
+let pollingInterval: NodeJS.Timeout;
 
-export const getBinanceOrdersData = ()=>{
-
-  
+export const getBinanceOrdersData = () => {
   //const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
 
-  let pollingInterval;
-
-  async function loadJson(urlBinance:RequestInfo) { 
-    let responseBinance = await fetch(urlBinance); 
+  async function loadJson(urlBinance: RequestInfo) {
+    let responseBinance = await fetch(urlBinance);
     let binData = await responseBinance.json();
     return binData;
   }
 
   function doRequest() {
-    const urlBinance = `https://www.binance.com/api/v3/depth?symbol=${currencyPair}&limit=1000`;//Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].binance]]
-    loadJson(urlBinance).then(data => {
+    const urlBinance = `https://www.binance.com/api/v3/depth?symbol=${currencyPair}&limit=1000`; //Should be limit_bids=1000&limit_asks=1000, 'btcusd' should be taken from [PAIRS[inputPair].binance]]
+    loadJson(urlBinance).then((data) => {
       binanceOrdersDataArr = data;
-      
-      if(binanceOrdersData.dataHandler)
-      {
+
+      if (binanceOrdersData.dataHandler) {
         binanceOrdersData.dataHandler(data);
       }
-      console.log('binanceOrdersData', binanceOrdersDataArr); 
-    });  
+      console.log('binanceOrdersData', binanceOrdersDataArr);
+    });
   }
   function startPolling() {
-    pollingInterval = setInterval(doRequest, 3000);    
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+    }
+
+    pollingInterval = setInterval(doRequest, 3000);
   }
-  startPolling(); 
-}
+  startPolling();
+};
 
-
-  getBinanceOrdersData();
-  console.log('Binance onLoad works');
-
+getBinanceOrdersData();
+console.log('Binance onLoad works');
 
 export const setBinanceDataHandler = (dataHandler: (msg: any) => void) => {
   binanceOrdersData.dataHandler = dataHandler;
 };
-
 
 /*{
   event: 'subscribe',
@@ -151,9 +147,6 @@ export const setBinanceDataHandler = (dataHandler: (msg: any) => void) => {
   len: '100'
 };*/
 
-
-
-
 // export const setPayloadForKrakenCurrencyPair = (inputPair: string) => {
 //   const payload = getSubscribePayload(inputPair);
 //   krakenData.activePayload = payload;
@@ -161,12 +154,12 @@ export const setBinanceDataHandler = (dataHandler: (msg: any) => void) => {
 
 export const subscribeToBinanceCurrencyPair = (inputPair: string) => {
   currencyPair = PAIRS[inputPair].binance;
- // const socketPromise = getBinanceSocket();
- // const payload = getSubscribeBinancePayload(inputPair);
-//  binanceOrdersData.activePayload = payload;
-/*  socketPromise.then((socket) => {
-    socket.send(payload);
-   });*/
+  // const socketPromise = getBinanceSocket();
+  // const payload = getSubscribeBinancePayload(inputPair);
+  //  binanceOrdersData.activePayload = payload;
+  /*  socketPromise.then((socket) => {
+      socket.send(payload);
+     });*/
 };
 
 // export {binanceOrdersData};

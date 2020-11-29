@@ -1,4 +1,4 @@
-import { PAIRS } from '../components/OrderMonitorMenu';
+// import { PAIRS } from '../components/OrderMonitorMenu';
 
 interface BittrexData {
   socket: WebSocket | undefined;
@@ -42,7 +42,7 @@ const sendData = () => {
   }
 
   bittrexData.socket?.send(bittrexData.activePayload);
-}
+};
 
 export function restoreBittrexSocket() {
   return new Promise<WebSocket>((resolve) => {
@@ -51,22 +51,22 @@ export function restoreBittrexSocket() {
     bittrexData.socket.onclose = () => {
       restoreBittrexSocket();
       console.log('WebSocket is closed now.');
-    }
+    };
 
     bittrexData.socket.onopen = () => {
       console.log('[open] Connection established to Bittrex');
       intervalId && clearInterval(intervalId);
       sendData();
       resolve(bittrexData.socket);
-    }
+    };
 
     bittrexData.socket.onerror = (error: any) => {
       console.log(`[error] ${error.message}`);
-    }
+    };
 
     bittrexData.socket.onmessage = function (msg) {
       bittrexData.dataHandler && bittrexData.dataHandler(msg);
-    }
+    };
   });
 }
 
@@ -75,22 +75,19 @@ export const getBittrexSocket = (): Promise<WebSocket> => {
     return restoreBittrexSocket();
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(bittrexData.socket);
   });
-}
+};
 
 const getSubscribeBittrexPayload = (inputPair: string) => {
-
-
   const payload = {
-    "M":"Subscribe",
-    "A":[["orderbook_BTC-USD_500"]] //[PAIRS[inputPair].bittrex], // [ inputPair ]
+    M: 'Subscribe',
+    A: [['orderbook_BTC-USD_500']], //[PAIRS[inputPair].bittrex], // [ inputPair ]
   };
 
   return JSON.stringify(payload);
 };
-
 
 export const setBittrexDataHandler = (dataHandler: (msg: any) => void) => {
   bittrexData.dataHandler = dataHandler;
@@ -107,5 +104,5 @@ export const subscribeToBittrexCurrencyPair = (inputPair: string) => {
   bittrexData.activePayload = payload;
   socketPromise.then((socket) => {
     socket.send(payload);
-   });
+  });
 };

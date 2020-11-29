@@ -1,4 +1,4 @@
-import { json } from 'body-parser';
+// import { json } from 'body-parser';
 import { PAIRS } from '../components/OrderMonitorMenu';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
@@ -20,7 +20,7 @@ const bitfinexOrdersData: BitfinexOrdersData = {
   Response: undefined,
 };
 
-let intervalId: NodeJS.Timeout;
+// let intervalId: NodeJS.Timeout;
 
 /*const sendData = () => {
   console.log('sendBitfinexData');
@@ -89,7 +89,6 @@ let intervalId: NodeJS.Timeout;
   });
 }*/
 
-
 /*const getSubscribeBitfinexPayload = (inputPair: string) => {
 
 
@@ -100,47 +99,46 @@ let intervalId: NodeJS.Timeout;
 
 let currencyPair = 'btcusd';
 
-export let bitfinexOrdersDataArr:any;
+export let bitfinexOrdersDataArr: any;
+let pollingIntervalBitfinex: NodeJS.Timeout;
 
-export const getBitfinexOrdersData = ()=> {
+export const getBitfinexOrdersData = () => {
+  console.log('###', currencyPair);
 
-  console.log('###', currencyPair, );
-
-  let pollingIntervalBitfinex;
-
-  async function loadJson(urlBitfinex:RequestInfo) {
+  async function loadJson(urlBitfinex: RequestInfo) {
     const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
     console.log('###', currencyPair, urlBitfinex);
-    let responseBitfinex = await fetch(proxy + urlBitfinex); 
+    let responseBitfinex = await fetch(proxy + urlBitfinex);
     let bitData = await responseBitfinex.json();
     console.log('bitData', bitData);
     return bitData;
   }
 
   function doRequestBitfinex() {
-    const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`;//Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
-    loadJson(urlBitfinex).then(data => {
+    const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+    loadJson(urlBitfinex).then((data) => {
       bitfinexOrdersDataArr = data;
-      
-      if(bitfinexOrdersData.dataHandler)
-      {
+
+      if (bitfinexOrdersData.dataHandler) {
         bitfinexOrdersData.dataHandler(data);
       }
-      console.log('bitfinexOrdersData', bitfinexOrdersDataArr); 
-    });  
+      console.log('bitfinexOrdersData', bitfinexOrdersDataArr);
+    });
   }
 
   function startPollingBitfinex() {
-    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);    
+    if (pollingIntervalBitfinex) {
+      clearInterval(pollingIntervalBitfinex);
+    }
+
+    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);
   }
 
-  startPollingBitfinex(); 
-}
+  startPollingBitfinex();
+};
 
-
-  getBitfinexOrdersData();
-  console.log('Binfinex onLoad works');
-
+getBitfinexOrdersData();
+console.log('Binfinex onLoad works');
 
 export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
   bitfinexOrdersData.dataHandler = dataHandler;
@@ -152,12 +150,12 @@ export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
 // };
 export const subscribeToBitfinexCurrencyPair = (inputPair: string) => {
   currencyPair = PAIRS[inputPair].bitfinex;
- // const socketPromise = getBitfinexSocket();
- // const payload = getSubscribeBitfinexPayload(inputPair);
-//  bitfinexOrdersData.activePayload = payload;
-/*  socketPromise.then((socket) => {
-    socket.send(payload);
-   });*/
+  // const socketPromise = getBitfinexSocket();
+  // const payload = getSubscribeBitfinexPayload(inputPair);
+  //  bitfinexOrdersData.activePayload = payload;
+  /*  socketPromise.then((socket) => {
+      socket.send(payload);
+     });*/
 };
 
 // export {bitfinexOrdersData};

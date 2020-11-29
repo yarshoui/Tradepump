@@ -8,7 +8,8 @@ interface TradingOption {
 
 export const TradingOption = ({ value, selected, text }: TradingOption) => {
   return (
-    <option value={value} selected={value === selected}>{text || value}</option>
+    <option value={value} selected={value === selected}>
+      {text || value}
+    </option>
   );
 };
-

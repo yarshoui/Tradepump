@@ -1,4 +1,4 @@
-import { json } from 'body-parser';
+// import { json } from 'body-parser';
 import { PAIRS } from '../components/OrderMonitorMenu';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
@@ -6,23 +6,20 @@ import { PAIRS } from '../components/OrderMonitorMenu';
 interface BitstampOrdersData {
   asks: string | undefined;
   bids: string | undefined;
-  
+
   activePayload: string | undefined;
   Response?: any | undefined;
   dataHandler?: (msg: any) => void;
 }
 
 const bitstampOrdersData: BitstampOrdersData = {
-
   activePayload: undefined,
   asks: undefined,
   bids: undefined,
   Response: undefined,
-
 };
 
-let intervalId: NodeJS.Timeout;
-
+// let intervalId: NodeJS.Timeout;
 
 /*const sendData = () => {
   console.log('sendBitstampData');
@@ -91,7 +88,6 @@ let intervalId: NodeJS.Timeout;
   });
 }*/
 
-
 /*const getSubscribeBitstampPayload = (inputPair: string) => {
 
 
@@ -101,54 +97,54 @@ let intervalId: NodeJS.Timeout;
 };*/
 
 let currencyPair = 'btcusd';
-export let bitstampOrdersDataArr:any;
+export let bitstampOrdersDataArr: any;
+let pollingInterval: NodeJS.Timeout;
 
+export const getBitstampOrdersData = () => {
 
-export const getBitstampOrdersData = ()=>{
-
-  let pollingInterval;
-
-  async function loadJson(urlBitstamp:RequestInfo) { 
-    let responseBitstamp = await fetch(urlBitstamp); 
+  async function loadJson(urlBitstamp: RequestInfo) {
+    let responseBitstamp = await fetch(urlBitstamp);
     let bitstampData = await responseBitstamp.json();
     return bitstampData;
   }
 
   function doRequest() {
     const urlBitstamp = `https://www.bitstamp.net/api/v2/order_book/${currencyPair}/`;
-    loadJson(urlBitstamp).then(data => {
+    loadJson(urlBitstamp).then((data) => {
       bitstampOrdersDataArr = data;
-      
-      if(bitstampOrdersData.dataHandler)
-      {
+
+      if (bitstampOrdersData.dataHandler) {
         bitstampOrdersData.dataHandler(data);
       }
-      console.log('bitstampOrdersData', bitstampOrdersDataArr); 
-    });  
+      console.log('bitstampOrdersData', bitstampOrdersDataArr);
+    });
   }
+
   function startPolling() {
-    pollingInterval = setInterval(doRequest, 3000);    
+    if (pollingInterval) {
+      clearInterval(pollingInterval);
+    }
+
+    pollingInterval = setInterval(doRequest, 3000);
   }
-  startPolling(); 
-}
+
+  startPolling();
+};
 
 // const getSubscribePayload = (inputPair: string) => {
-//   const payload = {    
-//     pair: [ PAIRS [ inputPair ].bitstamp, ],    
+//   const payload = {
+//     pair: [ PAIRS [ inputPair ].bitstamp, ],
 //   };
 
 //   return JSON.stringify(payload);
 // };
 
-  getBitstampOrdersData();
-  console.log('Bitstamp onLoad works');
-
+getBitstampOrdersData();
+console.log('Bitstamp onLoad works');
 
 export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
   bitstampOrdersData.dataHandler = dataHandler;
 };
-
-
 
 //  export const setPayloadForBitstampCurrencyPair = (inputPair: string) => {
 //    const payload = getSubscribePayload(inputPair);
@@ -157,12 +153,12 @@ export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
 
 export const subscribeToBitstampCurrencyPair = (inputPair: string) => {
   currencyPair = PAIRS[inputPair].bitstamp;
- // const socketPromise = getBitstampSocket();
- // const payload = getSubscribePayload(inputPair);
- // bitstampOrdersData.activePayload = payload;
-/*  socketPromise.then((socket) => {
-    socket.send(payload);
-   });*/
+  // const socketPromise = getBitstampSocket();
+  // const payload = getSubscribePayload(inputPair);
+  // bitstampOrdersData.activePayload = payload;
+  /*  socketPromise.then((socket) => {
+      socket.send(payload);
+     });*/
 };
 
 // export {bitstampOrdersData};

@@ -41,31 +41,31 @@ const sendData = () => {
   }
 
   krakenData.socket?.send(krakenData.activePayload);
-}
+};
 
 export function restoreSocket() {
   return new Promise<WebSocket>((resolve) => {
     krakenData.socket = new WebSocket('wss://ws.kraken.com');
 
-    krakenData.socket.onclose = ()=>{
+    krakenData.socket.onclose = () => {
       restoreSocket();
       console.log('WebSocket is closed now.');
-    }
+    };
 
     krakenData.socket.onopen = () => {
       console.log('[open] Connection established 1');
       intervalId && clearInterval(intervalId);
       sendData();
       resolve(krakenData.socket);
-    }
+    };
 
     krakenData.socket.onerror = (error: any) => {
       console.log(`[error] ${error.message}`);
-    }
+    };
 
-    krakenData.socket.onmessage = function(msg) {
+    krakenData.socket.onmessage = function (msg) {
       krakenData.dataHandler && krakenData.dataHandler(msg);
-    }
+    };
   });
 }
 
@@ -74,20 +74,20 @@ export const getKrakenSocket = (): Promise<WebSocket> => {
     return restoreSocket();
   }
 
-  return new Promise(resolve => {
+  return new Promise((resolve) => {
     resolve(krakenData.socket);
   });
-}
+};
 
 const getSubscribePayload = (inputPair: string) => {
   const payload = {
     event: 'subscribe',
-    pair: [ PAIRS [ inputPair ].kraken, ],
-//    pair: [ inputPair, ],
+    pair: [PAIRS[inputPair].kraken],
+    // pair: [ inputPair, ],
     subscription: {
       depth: 1000,
       name: 'book',
-    }
+    },
   };
 
   return JSON.stringify(payload);
