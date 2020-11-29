@@ -7,7 +7,7 @@ import './../../src/css/index.css';
 
 export const TopAd = () => {
   return (
-    <div style={{ display: 'inline-block' }}>
+    <div>
       <div className="topadv">
         <p>Please disable your ad-blocker (adv 728*90 align=right)</p>
         <p>You may not like this ad, but it supports the developer and keeps this site free.</p>

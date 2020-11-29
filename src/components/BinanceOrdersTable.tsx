@@ -29,7 +29,7 @@ const useStyles = makeStyles({
 });
 
 const ccyPriceToPrecise: any = {
-  btcusd: 0,
+  'BTC/USD': 0,
   'BTC/USDT': 0,
   'BTC/EUR': 0,
   'ETH/USD': 2,
@@ -38,7 +38,7 @@ const ccyPriceToPrecise: any = {
   'XRP/EUR': 5,
 };
 const ccyQtyToPrecise: any = {
-  btcusd: 2,
+  'BTC/USD': 2,
   'BTC/USDT': 2,
   'BTC/EUR': 2,
   'ETH/USD': 2,

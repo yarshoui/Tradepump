@@ -35,11 +35,39 @@ import { TopAd } from './TopAd';
 const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
+    position: 'relative',
+    minWidth: '1600px',
+    overflowX: 'auto',
   },
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
     color: theme.palette.text.secondary,
+  },
+  contentHolder: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+  },
+  tableHolder: {
+    flexGrow: 1,
+  },
+  asideHolder: {
+    width: '180px',
+    paddingLeft: '20px',
+  },
+  topHolder: {
+    display: 'flex',
+    flexDirection: 'row',
+    flexWrap: 'nowrap',
+  },
+  logoHolder: {
+    flexGrow: 1,
+    display: 'flex',
+    alignItems: 'center',
+  },
+  asideTopHolder: {
+    paddingLeft: '20px',
   },
 }));
 
@@ -55,13 +83,19 @@ export const Monitor = observer(
 
     return (
       <div className={classes.root}>
-        <TopLogoPanel />
-        <TopAd />
+        <div className={classes.topHolder}>
+          <div className={classes.logoHolder}>
+            <TopLogoPanel />
+          </div>
+          <div className={classes.asideTopHolder}>
+            <TopAd />
+          </div>
+        </div>
         <Header />
         <OrderMonitorMenu store={store} />
         {/*<KrakenOrdersTable store={store} />*/}
-        <div>
-          <span>
+        <div className={classes.contentHolder}>
+          <div className={classes.tableHolder}>
             <Grid container justify="flex-start" spacing={1}>
               <Grid item xs={3}>
                 <KrakenOrdersTable store={store.tables.kraken} />
@@ -77,9 +111,11 @@ export const Monitor = observer(
                 <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} />
               </Grid>
             </Grid>
-          </span>
+          </div>
 
-          <RightAd />
+          <div className={classes.asideHolder}>
+            <RightAd />
+          </div>
         </div>
         <Footer />
       </div>

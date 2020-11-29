@@ -12,53 +12,52 @@ export const Header = (props: any) => {
     <div>
       <ul className="nav">
         <li>
-          <a className="menu-button" href="./index.html">
+          <a className="active" href="./index.html">
             Orders Monitor
           </a>
         </li>
         <li>
-          <a className="menu-button" href="#dumpLink">
+          <a className="disabled" href="#dumpLink">
             Market Monitor
           </a>
         </li>
         <li>
-          <a className="menu-button" href="./tradehistory.html">
+          <a className="disabled" href="./tradehistory.html">
             Trade History
           </a>
         </li>
         <li>
-          <a className="menu-button" href="#dumpLink">
+          <a className="disabled" href="#dumpLink">
             Market Statistics
           </a>
         </li>
         <li>
-          <a className="menu-button" href="#dumpLink">
+          <a className="disabled" href="#dumpLink">
             Info
           </a>
         </li>
         <li>
-          <a className="menu-button" href="#dumpLink">
+          <a className="disabled" href="#dumpLink">
             About Us
           </a>
         </li>
         <li>
-          <a className="sign-in-button" href="#dumpLink">
+          <a className="disabled" href="#dumpLink">
             Sign In
           </a>
         </li>
         <li>
-          <a className="create-account-button" href="#dumpLink">
+          <a className="disabled" href="#dumpLink">
             Create Account
           </a>
         </li>
         <li>
-          <p className="clock">
-            {' '}
+          <span className="clock">
             Date/Time:{' '}
             <span id="datetime">
               <Clock />
-            </span>{' '}
-          </p>{' '}
+            </span>
+          </span>
         </li>
       </ul>
     </div>

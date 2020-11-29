@@ -37,6 +37,6 @@ export class Clock extends React.Component<{}, ClockState> {
 
   // render will know everything!
   render() {
-    return <p> {this.state.time.toLocaleTimeString()}</p>;
+    return this.state.time.toLocaleTimeString();
   }
 }

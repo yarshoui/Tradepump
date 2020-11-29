@@ -12,7 +12,7 @@ import Paper from '@material-ui/core/Paper';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
 
 const ccyPriceToPrecise: any = {
-  btcusd: 7,
+  'BTC/USD': 7,
   'BTC/USDT': 5,
   'BTC/EUR': 5,
   'ETH/USD': 2,
@@ -21,7 +21,7 @@ const ccyPriceToPrecise: any = {
   'XRP/EUR': 5,
 };
 const ccyQtyToPrecise: any = {
-  btcusd: 2,
+  'BTC/USD': 2,
   'BTC/USDT': 2,
   'BTC/EUR': 2,
   'ETH/USD': 2,

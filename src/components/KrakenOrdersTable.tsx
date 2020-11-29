@@ -70,10 +70,9 @@ export const KrakenOrdersTable = observer(
     };
 
     //console.table(asks);
-    let lastprc = 'Last Price';
     return (
       <table style={{ display: 'inline-block' }}>
-        <caption className={classes.caption}>Kraken ({lastprc})</caption>
+        <caption className={classes.caption}>Kraken ({store.captionText})</caption>
         <thead>
           <tr style={{ border: 'black solid 2px;' }}>{/* <th>Kraken</th>  */}</tr>
         </thead>
@@ -90,7 +89,7 @@ export const KrakenOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody className={classes.table}>
-                    {asks.length &&
+                    {asks.length ? (
                       asks.map((ask) => (
                         <TableRow key={ask[0]}>
                           <TableCell component="th" scope="row">
@@ -98,10 +97,11 @@ export const KrakenOrdersTable = observer(
                           </TableCell>
                           <TableCell align="right">{formatQty(ask[1])}</TableCell>
                         </TableRow>
-                      ))}
+                      ))
+                    ) : ''}
                     {!asks.length && (
                       <TableRow key={'no-data'}>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders
                         </TableCell>
                       </TableRow>
@@ -120,7 +120,7 @@ export const KrakenOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bids.length &&
+                    {bids.length ? (
                       bids.map((bid) => (
                         <TableRow key={bid[0]}>
                           <TableCell component="th" scope="row">
@@ -128,10 +128,11 @@ export const KrakenOrdersTable = observer(
                           </TableCell>
                           <TableCell align="right">{formatQty(bid[1])}</TableCell>
                         </TableRow>
-                      ))}
+                      ))
+                    ) : ''}
                     {!bids.length && (
                       <TableRow key={'no-data'}>
-                        <TableCell component="th" scope="row">
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders
                         </TableCell>
                       </TableRow>

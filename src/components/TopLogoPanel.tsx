@@ -7,7 +7,7 @@ import './../../src/css/index.css';
 
 export const TopLogoPanel = () => {
   return (
-    <div style={{ display: 'inline-block' }}>
+    <div>
       <div className="top">
         <a className="logo" href="http://tradepump.com">
           TradePump.com

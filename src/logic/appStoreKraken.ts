@@ -16,6 +16,8 @@ export class AppStoreKraken {
   currentKrakenPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
 
+  captionText = 'Last Price';
+
   krakenData: KrakenData = {
     as: [],
     bs: [],
@@ -51,6 +53,10 @@ export class AppStoreKraken {
         fireImmediately: true,
       },
     );
+
+    // setTimeout(() => {
+    //   this.captionText = 'La-la-la-la';
+    // }, 4000);
   }
 
   setOrderQuantity = debounce((input: string) => {
@@ -119,6 +125,7 @@ export class AppStoreKraken {
 
 decorate(AppStoreKraken, {
   currentKrakenPair: observable,
+  captionText: observable,
   krakenData: observable,
   orderQuantity: observable,
   resetData: action,
