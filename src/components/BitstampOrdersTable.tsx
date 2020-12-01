@@ -9,6 +9,23 @@ import TableHead from '@material-ui/core/TableHead';
 import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 import { AppStoreBitstamp } from 'src/logic/appStoreBitstamp';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  table: {
+    
+    fontSize: 14,
+  },
+  head: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  caption: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    margin: '2px',
+  },
+});
 
 const ccyPriceToPrecise: any = {
   'BTC/USD': 0,
@@ -34,7 +51,7 @@ interface MonitorProps {
 export const BitstampOrdersTable = observer(
   ({ storeBitstamp }: MonitorProps): JSX.Element => {
     const { asks, bids } = storeBitstamp.askBidTable;
-
+    const classes = useStyles();
     const currentCcyPair = storeBitstamp.currentBitstampPair;
 
     const formatPrice = (prc: any) => {
@@ -53,7 +70,7 @@ export const BitstampOrdersTable = observer(
 
     return (
       <table style={{ display: 'inline-block' }}>
-        <caption>Bitstamp</caption>
+        <caption className={classes.caption}>Bitstamp</caption>
         <thead>
           <tr style={{ border: 'black solid 2px;' }}>{/*} <th>Bitstamp</th>*/}</tr>
         </thead>
@@ -70,14 +87,23 @@ export const BitstampOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {asks.map((ask) => (
-                      <TableRow key={ask[0]}>
-                        <TableCell component="th" scope="row">
-                          {formatPrice(ask[0])}
+                  {asks.length ? (
+                      asks.map((ask) => (
+                        <TableRow key={ask[0]}>
+                          <TableCell component="th" scope="row">
+                            {formatPrice(ask[0])}
+                          </TableCell>
+                          <TableCell align="right">{formatQty(ask[1])}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : ''}
+                    {!asks.length && (
+                      <TableRow key={'no-data'}>
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
+                          No orders
                         </TableCell>
-                        <TableCell align="right">{formatQty(ask[1])}</TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -92,14 +118,23 @@ export const BitstampOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bids.map((bid) => (
-                      <TableRow key={bid[0]}>
-                        <TableCell component="th" scope="row">
-                          {formatPrice(bid[0])}
+                  {bids.length ? (
+                      bids.map((bid) => (
+                        <TableRow key={bid[0]}>
+                          <TableCell component="th" scope="row">
+                            {formatPrice(bid[0])}
+                          </TableCell>
+                          <TableCell align="right">{formatQty(bid[1])}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : ''}
+                    {!bids.length && (
+                      <TableRow key={'no-data'}>
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
+                          No orders
                         </TableCell>
-                        <TableCell align="right">{formatQty(bid[1])}</TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

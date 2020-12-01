@@ -10,6 +10,23 @@ import TableRow from '@material-ui/core/TableRow';
 import Paper from '@material-ui/core/Paper';
 // import { AppStore } from 'src/logic/appStore';
 import { AppStoreBitfinex } from 'src/logic/appStoreBitfinex';
+import { makeStyles } from '@material-ui/core/styles';
+
+const useStyles = makeStyles({
+  table: {
+    
+    fontSize: 14,
+  },
+  head: {
+    fontSize: 14,
+    fontWeight: 'bold',
+  },
+  caption: {
+    fontSize: 14,
+    fontWeight: 'bold',
+    margin: '2px',
+  },
+});
 
 const ccyPriceToPrecise: any = {
   'BTC/USD': 7,
@@ -37,6 +54,7 @@ export const BitfinexOrdersTable = observer(
     // //console.log('@@@', storeBitfinex);
     const { asks, bids } = storeBitfinex.askBidTable;
     const currentCcyPair = storeBitfinex.currentBitfinexPair;
+    const classes = useStyles();
 
     const formatPrice = (prc: any) => {
       if (prc.indexOf('.') > -1) {
@@ -54,7 +72,7 @@ export const BitfinexOrdersTable = observer(
 
     return (
       <table style={{ display: 'inline-block' }}>
-        <caption>Bitfinex</caption>
+        <caption className={classes.caption}>Bitfinex</caption>
         <thead>
           <tr style={{ border: 'black solid 2px;' }}>{/*<th>Bitfinex</th>*/}</tr>
         </thead>
@@ -71,15 +89,24 @@ export const BitfinexOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {asks.map((ask) => (
-                      <TableRow key={ask['price']}>
-                        <TableCell component="th" scope="row">
-                          {formatPrice(ask['price'])}
+                  {asks.length ? (
+                      asks.map((ask) => (
+                        <TableRow key={ask['price']}>
+                          <TableCell component="th" scope="row">
+                            {formatPrice(ask['price'])}
+                          </TableCell>
+                          <TableCell align="right">{formatQty(ask['amount'])}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : ''}
+                    {!asks.length && (
+                      <TableRow key={'no-data'}>
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
+                          No orders
                         </TableCell>
-                        <TableCell align="right">{formatQty(ask['amount'])}</TableCell>
                       </TableRow>
-                    ))}
-                  </TableBody>
+                    )}
+                    </TableBody>
                 </Table>
               </TableContainer>
             </td>
@@ -93,14 +120,23 @@ export const BitfinexOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bids.map((bid) => (
-                      <TableRow key={bid['price']}>
-                        <TableCell component="th" scope="row">
-                          {formatPrice(bid['price'])}
+                  {bids.length ? (
+                      bids.map((bid) => (
+                        <TableRow key={bid['price']}>
+                          <TableCell component="th" scope="row">
+                            {formatPrice(bid['price'])}
+                          </TableCell>
+                          <TableCell align="right">{formatQty(bid['amount'])}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : ''}
+                    {!bids.length && (
+                      <TableRow key={'no-data'}>
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
+                          No orders
                         </TableCell>
-                        <TableCell align="right">{formatQty(bid['amount'])}</TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

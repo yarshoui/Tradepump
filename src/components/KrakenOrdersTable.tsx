@@ -13,7 +13,7 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    
     fontSize: 14,
   },
   head: {
@@ -74,7 +74,7 @@ export const KrakenOrdersTable = observer(
       <table style={{ display: 'inline-block' }}>
         <caption className={classes.caption}>Kraken ({store.captionText})</caption>
         <thead>
-          <tr style={{ border: 'black solid 2px;' }}>{/* <th>Kraken</th>  */}</tr>
+          <tr>{/* <th>Kraken</th>  */}</tr>
         </thead>
         <tbody>
           <tr>

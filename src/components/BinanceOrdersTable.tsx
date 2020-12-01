@@ -13,9 +13,9 @@ import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
   table: {
-    minWidth: 650,
+    
     fontSize: 14,
-    fontWeight: 'bold',
+    
   },
   head: {
     fontSize: 14,
@@ -90,14 +90,23 @@ export const BinanceOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {asks.map((ask) => (
-                      <TableRow key={ask[0]}>
-                        <TableCell component="th" scope="row">
-                          {formatPrice(ask[0])}
+                  {asks.length ? (
+                      asks.map((ask) => (
+                        <TableRow key={ask[0]}>
+                          <TableCell component="th" scope="row">
+                            {formatPrice(ask[0])}
+                          </TableCell>
+                          <TableCell align="right">{formatQty(ask[1])}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : ''}
+                    {!asks.length && (
+                      <TableRow key={'no-data'}>
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
+                          No orders
                         </TableCell>
-                        <TableCell align="right">{formatQty(ask[1])}</TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>
@@ -112,14 +121,23 @@ export const BinanceOrdersTable = observer(
                     </TableRow>
                   </TableHead>
                   <TableBody>
-                    {bids.map((bid) => (
-                      <TableRow key={bid[0]}>
-                        <TableCell component="th" scope="row">
-                          {formatPrice(bid[0])}
+                  {bids.length ? (
+                      bids.map((bid) => (
+                        <TableRow key={bid[0]}>
+                          <TableCell component="th" scope="row">
+                            {formatPrice(bid[0])}
+                          </TableCell>
+                          <TableCell align="right">{formatQty(bid[1])}</TableCell>
+                        </TableRow>
+                      ))
+                    ) : ''}
+                    {!bids.length && (
+                      <TableRow key={'no-data'}>
+                        <TableCell component="th" scope="row" colSpan={2} align="center">
+                          No orders
                         </TableCell>
-                        <TableCell align="right">{formatQty(bid[1])}</TableCell>
                       </TableRow>
-                    ))}
+                    )}
                   </TableBody>
                 </Table>
               </TableContainer>

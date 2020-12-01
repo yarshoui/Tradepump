@@ -25,18 +25,18 @@ export let bitfinexOrdersDataArr: any;
 let pollingIntervalBitfinex: NodeJS.Timeout;
 
 export const getBitfinexOrdersData = () => {
-  console.log('###', currencyPair);
+  //console.log('###', currencyPair);
 
   async function loadJson(urlBitfinex: RequestInfo) {
     // const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
-    console.log('###', currencyPair, urlBitfinex);
+    //console.log('###', currencyPair, urlBitfinex);
     let responseBitfinex = await fetch(urlBitfinex, {
       // mode: 'no-cors',
       // referrerPolicy: 'no-referrer',
       // credentials: 'omit',
     });
     let bitData = await responseBitfinex.json();
-    console.log('bitData', bitData);
+    //console.log('bitData', bitData);
     return bitData;
   }
 
@@ -52,7 +52,7 @@ export const getBitfinexOrdersData = () => {
       if (bitfinexOrdersData.dataHandler) {
         bitfinexOrdersData.dataHandler(data);
       }
-      console.log('bitfinexOrdersData', bitfinexOrdersDataArr);
+      //console.log('bitfinexOrdersData', bitfinexOrdersDataArr);
     });
   }
 
@@ -77,15 +77,9 @@ export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
 //   krakenData.activePayload = payload;
 // };
 export const subscribeToBitfinexCurrencyPair = (inputPair: SelectorOptions) => {
-  console.log(inputPair);
+  //console.log(inputPair);
   currencyPair = PAIRS[inputPair].bitfinex;
   getBitfinexOrdersData();
-  // const socketPromise = getBitfinexSocket();
-  // const payload = getSubscribeBitfinexPayload(inputPair);
-  //  bitfinexOrdersData.activePayload = payload;
-  /*  socketPromise.then((socket) => {
-      socket.send(payload);
-     });*/
 };
 
 // export {bitfinexOrdersData};
