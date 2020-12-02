@@ -6,6 +6,7 @@ import {
   // getBitstampSocket,
 } from 'src/logic/bitstampRest';
 import { bitstampOrdersDataArr } from 'src/logic/bitstampRest';
+//import { bitstampLastTradeDataArr } from 'src/logic/bitstampRest';
 import { DEFAULT_PAIR, SelectorOptions } from './pairsConfig';
 //console.log ('bit1', bitstampOrdersDataArr);
 interface bitstampOrdersDataArr {
@@ -13,6 +14,18 @@ interface bitstampOrdersDataArr {
   asks: any[];
   bids: any[];
 }
+// interface bitstampLastTradeDataArr {
+//   // lastUpdateId: any;
+//   high: any;
+//   last: any;
+//   timestamp: any;
+//   bid: any;
+//   vwap: any;
+//   volume: any;
+//   low: any;
+//   ask: any;
+//   open: any;
+// }
 
 export class AppStoreBitstamp {
   currentBitstampPair: SelectorOptions = DEFAULT_PAIR;
@@ -22,6 +35,17 @@ export class AppStoreBitstamp {
     asks: [],
     bids: [],
   };
+  // bitstampLastTradeData: bitstampLastTradeDataArr = {
+  //   high: "",
+  //   last: "",
+  //   timestamp: [],
+  //   bid: [],
+  //   vwap: [],
+  //   volume: [],
+  //   low: [],
+  //   ask: [],
+  //   open: [],
+  // };
 
   get askBidTable() {
     //console.table('@@@ get', this.bitstampData.asks);
@@ -38,11 +62,16 @@ export class AppStoreBitstamp {
         return parseFloat(v[1]) >= this.orderQuantity;
       })
       .slice(0, 30);
+      
     return {
       asks,
-      bids,
+      bids,      
     };
   }
+  // get lastTradePrice(){
+  //   const lastTradePrc = this.bitstampLastTradeData.last;
+  //   return lastTradePrc;
+  // }
 
   constructor() {
     reaction(
@@ -91,9 +120,20 @@ export class AppStoreBitstamp {
     this.bitstampData.bids = newData.bids;
   };
 
+  //setBitstampLastPrc = (msg: any) => {
+   // const newData = msg;
+    //this.resetData();
+
+    // console.count('onmessage');
+    // console.log(newData[1]);
+   // this.bitstampLastTradeData.last = newData.lastTradePrc;
+    
+ // };
+
   resetData = () => {
     this.bitstampData.asks = [];
     this.bitstampData.bids = [];
+   // this.bitstampLastTradeData.last = "";
   };
 }
 
@@ -104,10 +144,12 @@ decorate(AppStoreBitstamp, {
   resetData: action,
   setBitstampData: action,
   askBidTable: computed,
+ // lastTradePrice: computed,
 });
 
 const appStoreBitstamp = new AppStoreBitstamp();
 
 setBitstampDataHandler(appStoreBitstamp.setBitstampData);
+//setBitstampDataHandler(appStoreBitstamp.setBitstampLastPrc);
 
 export { appStoreBitstamp };

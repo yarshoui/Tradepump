@@ -36,6 +36,7 @@ export const OrderMonitorMenu = observer(
         <select
           name="pair"
           id="pairfilter"
+          title='Select a trading pair'
           onChange={(event) => {
             const value = event.target.value as SelectorOptions;
             store.setCurrencyPair(value);
@@ -47,9 +48,9 @@ export const OrderMonitorMenu = observer(
             <TradingOption value="BTC/USDT" selected={store.currencyPair} />
           </optgroup>
           <optgroup label="Ethereum">
-            <option value="ETH/USD">ETH/USD</option>
-            <option value="ETH/EUR">ETH/EUR</option>
-            <option value="ETH/USDT">ETH/USDT</option>
+            <TradingOption value="ETH/USD" selected={store.currencyPair} />
+            <TradingOption value="ETH/EUR" selected={store.currencyPair} />
+            <TradingOption value="ETH/USDT" selected={store.currencyPair} />        
           </optgroup>
           <optgroup label="XRP">
             <option value="XRP/BTC">XRP/BTC</option>
@@ -106,6 +107,7 @@ export const OrderMonitorMenu = observer(
           type="text"
           id="qtyfilter"
           placeholder="1"
+          title='Set minimum order quantity'
           // value={store.orderQuantity}
           onChange={(event) => {
             store.setOrderQuantity(event.target.value);

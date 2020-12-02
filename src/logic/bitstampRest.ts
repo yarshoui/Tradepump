@@ -11,6 +11,13 @@ interface BitstampOrdersData {
   Response?: any | undefined;
   dataHandler?: (msg: any) => void;
 }
+// interface BitstampLastTradeData {
+//   last: string | undefined;
+  
+//   activePayload: string | undefined;
+//   Response?: any | undefined;
+//   dataHandler?: (msg: any) => void;
+// }
 
 const bitstampOrdersData: BitstampOrdersData = {
   activePayload: undefined,
@@ -18,22 +25,38 @@ const bitstampOrdersData: BitstampOrdersData = {
   bids: undefined,
   Response: undefined,
 };
+// const bitstampLastTradeData: BitstampLastTradeData = {
+//   activePayload: undefined,
+//   last: undefined,
+  
+//   Response: undefined,
+// };
 
 
 let currencyPair = 'btcusd';
 export let bitstampOrdersDataArr: any;
+//export let bitstampLastTradeDataArr: any;
 let pollingInterval: NodeJS.Timeout;
 
 export const getBitstampOrdersData = () => {
 
   async function loadJson(urlBitstamp: RequestInfo) {
     let responseBitstamp = await fetch(urlBitstamp);
-    let bitstampData = await responseBitstamp.json();
+    let bitstampData = responseBitstamp.json();
     return bitstampData;
   }
 
+  // async function loadJson(urlBitstampLastTradePrc: RequestInfo) {
+  //   let responseBitstampPrc = await fetch(urlBitstampLastTradePrc);
+  //   let bitstampPrcData = await responseBitstampPrc.json();
+  //   return bitstampPrcData;
+  //}
+
+
+
   function doRequest() {
     const urlBitstamp = `https://www.bitstamp.net/api/v2/order_book/${currencyPair}/`;
+    //const urlBitstampLastTradePrc = `https://www.bitstamp.net/api/v2/ticker/${currencyPair}/`;
     loadJson(urlBitstamp).then((data) => {
       bitstampOrdersDataArr = data;
 
@@ -42,6 +65,15 @@ export const getBitstampOrdersData = () => {
       }
       //console.log('bitstampOrdersData', bitstampOrdersDataArr);
     });
+    //Getting the last trade Price 
+    // loadJson(urlBitstampLastTradePrc).then((data) => {
+    //   bitstampLastTradeDataArr = data;
+
+    //   if (bitstampLastTradeData.dataHandler) {
+    //     bitstampLastTradeData.dataHandler(data);
+    //   }
+    //   console.log('bitstampLastTradeDataArr', bitstampLastTradeDataArr);
+    // });
   }
 
   function startPolling() {
@@ -59,9 +91,13 @@ export const getBitstampOrdersData = () => {
 export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
   bitstampOrdersData.dataHandler = dataHandler;
 };
+// export const setBitstampLastTradePriceDataHandler = (dataHandler: (msg: any) => void) => {
+//   bitstampLastTradeData.dataHandler = dataHandler;
+// };
 
 export const subscribeToBitstampCurrencyPair = (inputPair: SelectorOptions) => {
   currencyPair = PAIRS[inputPair].bitstamp;
+  //bitstampOrdersDataArr=[];
   getBitstampOrdersData();
   };
 

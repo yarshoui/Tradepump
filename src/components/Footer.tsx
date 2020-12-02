@@ -10,27 +10,27 @@ export const Footer = () => {
     <div>
       <ul className="bottom-nav">
         <li>
-          <a className="bottom-menu-button" href="#dumpLink">
+          <a className="bottom-menu-button" href="/terms">
             Terms and conditions
           </a>
         </li>
         <li>
-          <a className="bottom-menu-button" href="#dumpLink">
+          <a className="bottom-menu-button" href="/privacy">
             Privacy Policy
           </a>
         </li>
         <li>
-          <a className="bottom-menu-button" href="#dumpLink">
+          <a className="bottom-menu-button" href="/aboutus">
             About Us
           </a>
         </li>
         <li>
-          <a className="bottom-menu-button" href="#dumpLink">
+          <a className="bottom-menu-button" href="/contacts">
             Contacts
           </a>
         </li>
         <li>
-          <a className="bottom-menu-button" href="#dumpLink">
+          <a className="bottom-menu-button" href="/support">
             Support
           </a>
         </li>

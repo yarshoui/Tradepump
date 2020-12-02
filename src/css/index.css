@@ -77,6 +77,8 @@ ul.nav a {
   text-decoration: none;
   color: #fff;
 }
+
+
 ul.nav a:not(.disabled):hover {
   background: #5b7b95;
 }
@@ -84,6 +86,8 @@ ul.nav a:not(.disabled):hover {
 ul.nav a.active {
   background: #5b7b95;
 }
+
+
 
 .main {
   margin: 10px;

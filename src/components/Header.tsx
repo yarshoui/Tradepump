@@ -1,4 +1,5 @@
 import React from 'react';
+import { NavLink } from 'react-router-dom';
 import './../../src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
@@ -11,49 +12,56 @@ export const Header = (props: any) => {
   return (
     <div>
       <ul className="nav">
-        <li>
-          <a className="active" href="./index.html">
+      <li>
+          <a className="active" href="/orders">
             Orders Monitor
           </a>
         </li>
         <li>
-          <a className="disabled" href="#dumpLink">
+          <a className="disabled" href="/#dumpLink">
             Market Monitor
           </a>
         </li>
         <li>
-          <a className="disabled" href="./tradehistory.html">
+          <a className="disabled" href="/history">
             Trade History
           </a>
         </li>
         <li>
-          <a className="disabled" href="#dumpLink">
+          <a className="disabled" href="/#dumpLink">
             Market Statistics
           </a>
         </li>
-        <li>
-          <a className="disabled" href="#dumpLink">
-            Info
-          </a>
+
+
+
+        {/* <li>
+          <NavLink className="active" to="/orders">
+            Orders Monitor
+          </NavLink>
         </li>
         <li>
-          <a className="disabled" href="#dumpLink">
-            About Us
-          </a>
+          <NavLink className="disabled" to="/market">
+            Market Monitor
+          </NavLink>
         </li>
         <li>
-          <a className="disabled" href="#dumpLink">
-            Sign In
-          </a>
+          <NavLink className="disabled" to="/history">
+            Trade History
+          </NavLink>
         </li>
         <li>
-          <a className="disabled" href="#dumpLink">
-            Create Account
-          </a>
-        </li>
+          <NavLink className="disabled" to="/statistics">
+            Market Statistics
+          </NavLink>
+        </li> */}
+
+
+
+        
         <li>
           <span className="clock">
-            Date/Time:{' '}
+            Time:{' '}
             <span id="datetime">
               <Clock />
             </span>

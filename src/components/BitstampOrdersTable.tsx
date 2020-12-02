@@ -51,6 +51,7 @@ interface MonitorProps {
 export const BitstampOrdersTable = observer(
   ({ storeBitstamp }: MonitorProps): JSX.Element => {
     const { asks, bids } = storeBitstamp.askBidTable;
+    //const lastTradePrc = storeBitstamp.lastTradePrice;
     const classes = useStyles();
     const currentCcyPair = storeBitstamp.currentBitstampPair;
 
@@ -70,7 +71,7 @@ export const BitstampOrdersTable = observer(
 
     return (
       <table style={{ display: 'inline-block' }}>
-        <caption className={classes.caption}>Bitstamp</caption>
+        <caption className={classes.caption}>Bitstamp {/*lastTradePrc*/}</caption>
         <thead>
           <tr style={{ border: 'black solid 2px;' }}>{/*} <th>Bitstamp</th>*/}</tr>
         </thead>
