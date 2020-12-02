@@ -101,6 +101,7 @@ export class AppStoreBitstamp {
   }, 1000);
 
   setCurrentBitstampPair = (input: SelectorOptions) => {
+    this.resetData();
     this.currentBitstampPair = input;
   };
 
