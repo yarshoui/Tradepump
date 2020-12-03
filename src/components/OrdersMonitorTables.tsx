@@ -15,10 +15,8 @@ import './../../src/css/index.css';
 // import { themeStyles } from '../style/postcss';
 import { Header } from './Header';
 import { OrderMonitorMenu } from './OrderMonitorMenu';
-import { OrdersMonitorTables} from 'src/components/OrdersMonitorTables';
 import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
-import { appStore } from 'src/logic/appStore';
 
 // import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
 // import { PAIRS } from './../components/OrderMonitorMenu';
@@ -77,22 +75,33 @@ interface MonitorProps {
   store: AppStore;
 }
 
-export const OrdersMonitor = () => {
+export const OrdersMonitorTables = observer(
+  ({
+    store,
+  }: MonitorProps): JSX.Element => {
     const classes = useStyles();
 
     return (
-      <div>
-        <OrderMonitorMenu store={appStore} />       
-          <div className={classes.contentHolder}>
-            <OrdersMonitorTables store={appStore} />
-            <div className={classes.asideHolder}>
-              <RightAd />
-            </div>
-          </div>
-    </div>          
+          <div className={classes.tableHolder}>
+            <Grid container justify="flex-start" spacing={1}>
+              <Grid item xs={3}>
+                <KrakenOrdersTable store={store.tables.kraken} />
+              </Grid>
+              <Grid item xs={3}>
+                <BitfinexOrdersTable storeBitfinex={store.tables.bitfinex} />
+              </Grid>
+              <Grid item xs={3}>
+                <BinanceOrdersTable storeBinance={store.tables.binance} />
+              </Grid>
+              {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
+              <Grid item xs={3}>
+                <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} />
+              </Grid>
+            </Grid>
+          </div>          
     );
-  }
-
+  },
+);
 
 // export const OrderMonitor = (props: any, state: any) => {
 //   console.log('mypops', props, state);

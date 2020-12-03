@@ -13,7 +13,7 @@ export const Header = (props: any) => {
     <div>
       <ul className="nav">
       <li>
-          <a className="active" href="/orders">
+          <a className="active" href="/">
             Orders Monitor
           </a>
         </li>

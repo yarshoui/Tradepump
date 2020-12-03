@@ -17,23 +17,14 @@ import { Header } from './Header';
 import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
-import { OrdersMonitor} from 'src/components/OrdersMonitor';
-
-// import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
-// import { PAIRS } from './../components/OrderMonitorMenu';
-import { BitfinexOrdersTable } from './BitfinexOrdersTable';
-import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
-import { BinanceOrdersTable } from 'src/components/BinanceOrdersTable';
-import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
-// import { BittrexOrdersTable } from './BittrexOrdersTable';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 import { Footer } from './Footer';
-import { RightAd } from './RightAd';
 import { TopAd } from './TopAd';
-import { BrowserRouter, Route } from 'react-router-dom';
-import { Terms } from './Terms';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { Terms } from 'src/pages/Terms';
+import { OrdersMonitor } from 'src/components/OrdersMonitor';
 
 
 
@@ -80,10 +71,7 @@ interface MonitorProps {
   store: AppStore;
 }
 
-export const Monitor = observer(
-  ({
-    store,
-  }: MonitorProps): JSX.Element => {
+export const Monitor = () => {
     const classes = useStyles();
 
     return (
@@ -98,37 +86,15 @@ export const Monitor = observer(
           </div>
         </div>
         <Header />
-        
-        <OrderMonitorMenu store={store} /> {/*Need to move to Orders Monitor component*/}
-        
-        <div className={classes.contentHolder}>
+        {/* <OrdersMonitor /> */}
 
-          {/* <Route path='/orders' component={OrdersMonitor} store={store}/>
-          <Route path='/terms' component={Terms} /> */}
-          <OrdersMonitor store={store}/>
+        <Switch>
+        <Route path='/' component={OrdersMonitor} exact />
+        <Route path='/terms' component={Terms} /> 
+        </Switch>
 
-          <div className={classes.asideHolder}>
-            <RightAd />
-          </div>
-        </div>
         <Footer />
       </div>
       </BrowserRouter>
     );
-  },
-);
-
-// export const OrderMonitor = (props: any, state: any) => {
-//   console.log('mypops', props, state);
-//   return (
-
-//     <div>
-//       <TopLogoPanel />
-//       <Header />
-//       <button onClick={() => { }}></button>
-//       <OrderMonitorMenu />
-
-//     </div>
-//   );
-
-// };
+  }

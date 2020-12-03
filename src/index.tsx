@@ -30,7 +30,7 @@ const theme = themeConstructor({});
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Monitor store={appStore} />
+    <Monitor />
   </ThemeProvider>,
   document.querySelector('#root'),
 );
