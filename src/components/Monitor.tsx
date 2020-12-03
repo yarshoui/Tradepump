@@ -98,7 +98,8 @@ export const Monitor = observer(
           </div>
         </div>
         <Header />
-        <OrderMonitorMenu store={store} />
+        
+        <OrderMonitorMenu store={store} /> {/*Need to move to Orders Monitor component*/}
         
         <div className={classes.contentHolder}>
 
