@@ -25,6 +25,8 @@ import { TopAd } from './TopAd';
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
+import { Privacy } from 'src/pages/Privacy';
+import { About } from 'src/pages/About';
 
 
 
@@ -91,6 +93,9 @@ export const Monitor = () => {
         <Switch>
         <Route path='/' component={OrdersMonitor} exact />
         <Route path='/terms' component={Terms} /> 
+        <Route path='/privacy' component={Privacy} />
+        <Route path='/about' component={About} />
+
         </Switch>
 
         <Footer />

@@ -20,21 +20,19 @@ export const Footer = () => {
           </a>
         </li>
         <li>
-          <a className="bottom-menu-button" href="/aboutus">
-            About Us
+          <a className="bottom-menu-button" href="/about">
+            About
           </a>
         </li>
-        <li>
-          <a className="bottom-menu-button" href="/contacts">
-            Contacts
-          </a>
-        </li>
-        <li>
+        
+        {/* <li>
           <a className="bottom-menu-button" href="/support">
             Support
           </a>
-        </li>
+        </li> */}
       </ul>
+      <p>Send your comments and suggestions to <a className="bottom-menu-button" href="mailto:tradepump.com@gmail.com">Support</a></p>
+      <p>Copyright © 2020 TradePump.com</p>
     </div>
   );
 };
