@@ -1,11 +1,12 @@
 import React from 'react';
-import './../../src/css/index.css';
+import 'src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
 // import { BorderColor } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
 import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
+import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -56,6 +57,21 @@ export const About = () => {
   const classes = useStyles();
   return (
     <div className={classes.root}>
+      <Helmet>
+          <meta charSet="utf-8" />          
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
+          <link rel="shortcut icon" href="./favicon.ico" />
+          <meta name="theme-color" content="#000000" />
+          <meta name="application-name" content="TradePump" />
+          <meta name="description" content="Tradepump is not just a Bitcoin and Cryptocurrency Free Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
+          <meta name="robots" content="index,follow" />
+          <meta name="googlebot" content="index,follow" />
+          <meta name="google" content="notranslate" />
+          <meta name="generator" content="ReactJS"></meta>
+          <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
+          <link rel="stylesheet" href="style.css" />
+          <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com</title>
+        </Helmet>
       
         <h2>About TradePump.com</h2>
         <p>

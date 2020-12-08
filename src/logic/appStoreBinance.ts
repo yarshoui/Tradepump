@@ -73,6 +73,7 @@ export class AppStoreBinance {
   }, 1000);
 
   setCurrentBinancePair = (input: SelectorOptions) => {
+    this.resetData();
     this.currentBinancePair = input;
   };
 

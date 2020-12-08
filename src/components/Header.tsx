@@ -1,10 +1,10 @@
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-import './../../src/css/index.css';
+import 'src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
-import { Clock } from './logic/Clock';
+import { Clock } from 'src/components/logic/Clock';
 
 export const Header = (props: any) => {
   console.log('currentMOnitor', props.currMonitor);
@@ -12,7 +12,7 @@ export const Header = (props: any) => {
   return (
     <div>
       <ul className="nav">
-      <li>
+      {/* <li>
           <a className="active" href="/">
             Orders Monitor
           </a>
@@ -31,21 +31,21 @@ export const Header = (props: any) => {
           <a className="disabled" href="/#dumpLink">
             Market Statistics
           </a>
-        </li>
+        </li> */}
 
 
 
-        {/* <li>
-          <NavLink className="active" to="/orders">
+         <li>
+          <NavLink className="active" to="/">
             Orders Monitor
           </NavLink>
         </li>
-        <li>
-          <NavLink className="disabled" to="/market">
-            Market Monitor
+        {/* <li>
+          <NavLink className="disabled" to="/about">
+            About
           </NavLink>
-        </li>
-        <li>
+        </li> */}
+        {/* <li>
           <NavLink className="disabled" to="/history">
             Trade History
           </NavLink>
@@ -54,7 +54,7 @@ export const Header = (props: any) => {
           <NavLink className="disabled" to="/statistics">
             Market Statistics
           </NavLink>
-        </li> */}
+        </li>  */}
 
 
 

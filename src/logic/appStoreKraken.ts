@@ -16,7 +16,8 @@ export class AppStoreKraken {
   currentKrakenPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
 
-  captionText = 'Last Price';
+  // captionText = 'Last Price';
+  captionText = '';
 
   krakenData: KrakenData = {
     as: [],
@@ -73,6 +74,7 @@ export class AppStoreKraken {
   }, 1000);
 
   setCurrentKrakenPair = (input: SelectorOptions) => {
+    this.resetData();
     this.currentKrakenPair = input;
   };
 

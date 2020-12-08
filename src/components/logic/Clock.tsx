@@ -1,4 +1,8 @@
 import React from 'react';
+//import 'src/intro/intro.min.js';
+// import {intro} from 'src/intro/introconfig.js';
+// import 'src/intro/intro.css';
+// import introJs from 'src/intro/intro.js';
 
 /*export function startTime() {
     var dt = new Date();
@@ -32,7 +36,9 @@ export class Clock extends React.Component<{}, ClockState> {
 
   // After the component did mount, we set the state each second.
   componentDidMount() {
+    // intro.start();
     setInterval(() => this.tick(), 1000);
+    
   }
 
   // render will know everything!

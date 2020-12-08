@@ -4,6 +4,8 @@ import { observer } from 'mobx-react';
 import { TradingOption } from 'src/components/TradingOption';
 import { SelectorOptions } from 'src/logic/pairsConfig';
 import { AppStore } from 'src/logic/appStore';
+
+// import 'src/intro/introjs.min.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
@@ -43,8 +45,8 @@ export const OrderMonitorMenu = observer(
           }}
         >
           <optgroup label="Bitcoin">
-            <TradingOption value="BTC/EUR" selected={store.currencyPair} />
             <TradingOption value="BTC/USD" selected={store.currencyPair} />
+            <TradingOption value="BTC/EUR" selected={store.currencyPair} />            
             <TradingOption value="BTC/USDT" selected={store.currencyPair} />
           </optgroup>
           <optgroup label="Ethereum">
@@ -53,53 +55,58 @@ export const OrderMonitorMenu = observer(
             <TradingOption value="ETH/USDT" selected={store.currencyPair} />        
           </optgroup>
           <optgroup label="XRP">
-            <option value="XRP/BTC">XRP/BTC</option>
-            <option value="XRP/ETH">XRP/ETH</option>
-            <option value="XRP/EUR">XRP/EUR</option>
-            <option value="XRP/USD">XRP/USD</option>
-            <option value="XRP/USDT">XRP/USDT</option>
+            <TradingOption value="XRP/BTC" selected={store.currencyPair} />
+            <TradingOption value="XRP/ETH" selected={store.currencyPair} />
+            <TradingOption value="XRP/USD" selected={store.currencyPair} />
+            <TradingOption value="XRP/EUR" selected={store.currencyPair} />
+            <TradingOption value="XRP/USDT" selected={store.currencyPair} />            
           </optgroup>
           <optgroup label="Cardano">
-            <option value="ADA/BTC">ADA/BTC</option>
-            <option value="ADA/ETH">ADA/ETH</option>
-            <option value="ADA/EUR">ADA/EUR</option>
-            <option value="ADA/USD">ADA/USD</option>
+            <TradingOption value="ADA/BTC" selected={store.currencyPair} />
+            <TradingOption value="ADA/ETH" selected={store.currencyPair} />
+            <TradingOption value="ADA/USD" selected={store.currencyPair} />
+            <TradingOption value="ADA/EUR" selected={store.currencyPair} />
+            <TradingOption value="ADA/USDT" selected={store.currencyPair} />               
           </optgroup>
           <optgroup label="Bitcoin Cash">
-            <option value="BCH/BTC">BCH/BTC</option>
-            <option value="BCH/ETH">BCH/ETH</option>
-            <option value="BCH/EUR">BCH/EUR</option>
-            <option value="BCH/USD">BCH/USD</option>
-            <option value="BCH/USDT">BCH/USDT</option>
+            <TradingOption value="BCH/BTC" selected={store.currencyPair} />
+            <TradingOption value="BCH/ETH" selected={store.currencyPair} />
+            <TradingOption value="BCH/USD" selected={store.currencyPair} />
+            <TradingOption value="BCH/EUR" selected={store.currencyPair} />
+            <TradingOption value="BCH/USDT" selected={store.currencyPair} />             
           </optgroup>
           <optgroup label="Litecoin">
-            <option value="LTC/BTC">LTC/BTC</option>
-            <option value="LTC/ETH">LTC/ETH</option>
-            <option value="LTC/EUR">LTC/EUR</option>
-            <option value="LTC/USD">LTC/USD</option>
-            <option value="LTC/USDT">LTC/USDT</option>
+            <TradingOption value="LTC/BTC" selected={store.currencyPair} />
+            <TradingOption value="LTC/ETH" selected={store.currencyPair} />
+            <TradingOption value="LTC/USD" selected={store.currencyPair} />
+            <TradingOption value="LTC/EUR" selected={store.currencyPair} />
+            <TradingOption value="LTC/USDT" selected={store.currencyPair} />              
           </optgroup>
           <optgroup label="EOS">
-            <option value="EOS/BTC">EOS/BTC</option>
-            <option value="EOS/ETH">EOS/ETH</option>
-            <option value="EOS/EUR">EOS/EUR</option>
-            <option value="EOS/USD">EOS/USD</option>
+            <TradingOption value="EOS/BTC" selected={store.currencyPair} />
+            <TradingOption value="EOS/ETH" selected={store.currencyPair} />
+            <TradingOption value="EOS/USD" selected={store.currencyPair} />
+            <TradingOption value="EOS/EUR" selected={store.currencyPair} />
+            <TradingOption value="EOS/USDT" selected={store.currencyPair} />            
           </optgroup>
           <optgroup label="DASH">
-            <option value="DASH/BTC">DASH/BTC</option>
-            <option value="DASH/EUR">DASH/EUR</option>
-            <option value="DASH/USD">DASH/USD</option>
+            <TradingOption value="DASH/BTC" selected={store.currencyPair} />
+            <TradingOption value="DASH/USD" selected={store.currencyPair} />
+            <TradingOption value="DASH/EUR" selected={store.currencyPair} />                        
           </optgroup>
           <optgroup label="Stellar">
-            <option value="XLM/BTC">XLM/BTC</option>
-            <option value="XLM/EUR">XLM/EUR</option>
-            <option value="XLM/USD">XLM/USD</option>
+            <TradingOption value="XLM/BTC" selected={store.currencyPair} />
+            <TradingOption value="XLM/ETH" selected={store.currencyPair} />
+            <TradingOption value="XLM/USD" selected={store.currencyPair} />
+            <TradingOption value="XLM/EUR" selected={store.currencyPair} />
+            <TradingOption value="XLM/USDT" selected={store.currencyPair} />          
           </optgroup>
           <optgroup label="Chainlink">
-            <option value="LINK/BTC">LINK/BTC</option>
-            <option value="LINK/ETH">LINK/ETH</option>
-            <option value="LINK/EUR">LINK/EUR</option>
-            <option value="LINK/USD">LINK/USD</option>
+           <TradingOption value="LINK/BTC" selected={store.currencyPair} />
+            <TradingOption value="LINK/ETH" selected={store.currencyPair} />
+            <TradingOption value="LINK/USD" selected={store.currencyPair} />
+            <TradingOption value="LINK/EUR" selected={store.currencyPair} />
+            <TradingOption value="LINK/USDT" selected={store.currencyPair} />  
           </optgroup>
         </select>
         <span> Min Order Qty </span>
@@ -113,6 +120,8 @@ export const OrderMonitorMenu = observer(
             store.setOrderQuantity(event.target.value);
           }}
         />
+        {/* <script src='src/intro/intro.min.js'></script>
+        <script src='src/intro/introconfig.js'></script> */}
       </div>
     );
   },

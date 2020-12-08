@@ -73,6 +73,7 @@ export class AppStoreBitfinex {
   }, 1000);
 
   setCurrentBitfinexPair = (input: SelectorOptions) => {
+    this.resetData();
     this.currentBitfinexPair = input;
   };
 
