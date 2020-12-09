@@ -59,6 +59,7 @@
     "mobx-react": "^6.3.0",
     "node-fetch": "^2.6.1",
     "react": "^16.13.1",
+    "react-cookie-consent": "^6.2.1",
     "react-dom": "^16.13.1",
     "react-ga": "^3.3.0",
     "react-helmet": "^6.1.0",

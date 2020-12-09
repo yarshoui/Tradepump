@@ -7,7 +7,7 @@ import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { TopLogoPanel } from 'src/components/TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
 import Grid from '@material-ui/core/Grid';
-import { makeStyles } from '@material-ui/core/styles';
+import { makeStyles, rgbToHex } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 import { Footer } from 'src/components/Footer';
 import { TopAd } from 'src/components/TopAd';
@@ -17,6 +17,7 @@ import { OrdersMonitor } from 'src/components/OrdersMonitor';
 import { Privacy } from 'src/pages/Privacy';
 import { About } from 'src/pages/About';
 import ReactGA from 'react-ga';
+import CookieConsent from "react-cookie-consent";
 // import 'src/intro/intro.min.js';
 // import 'src/intro/introconfig.js';
 // import 'src/intro/intro.css';
@@ -66,6 +67,10 @@ const useStyles = makeStyles((theme) => ({
   asideTopHolder: {
     paddingLeft: '20px',
   },
+  cookiesNitification:{
+    color: 'rgb(240, 185, 11)',
+
+  },
 }));
 
 const steps = [
@@ -112,6 +117,8 @@ export const Monitor = () => {
         </Switch>
 
         <Footer />
+        <CookieConsent>We use cookies to enhance your experience, analyze our traffic, and for security and marketing. By visiting our website you agree to our use of cookies. <a data-bn-type="text" target="_blank" href="/privacy" className={classes.cookiesNitification}>*Read more about cookies*</a></CookieConsent>
+        
         {/* <script src='./src/intro/intro.min.js'></script>
         <script src='./src/intro/introconfig.js'></script> */}
       </div>
@@ -119,3 +126,4 @@ export const Monitor = () => {
       </BrowserRouter>
     );
   }
+
