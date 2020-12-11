@@ -40,11 +40,11 @@ export const Header = (props: any) => {
             Orders Monitor
           </NavLink>
         </li>
-        {/* <li>
+        <li>
           <NavLink className="disabled" to="/about">
             About
           </NavLink>
-        </li> */}
+        </li>
         {/* <li>
           <NavLink className="disabled" to="/history">
             Trade History
