@@ -86,6 +86,7 @@ export class AppStoreKraken {
     this.orderQuantityHighlight = quantityHighlight;
     
   }, 1000);
+  
 
 
 

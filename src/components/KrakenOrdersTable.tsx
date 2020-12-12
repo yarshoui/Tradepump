@@ -26,10 +26,11 @@ const useStyles = makeStyles({
     margin: '2px',
   },
   highlight:{
-    backgroundColor: "#AECCD7",
+    backgroundColor: "FFFFFF",
+    // backgroundColor: "#AECCD7", IF ask[1] or bid[1] >= orderQuantityHighlight change the line background color to #AECCD7
   },
 });
-//To be updated accordingly
+
 const ccyPriceToPrecise: any = {
   'BTC/USD': 0,
   'BTC/USDT': 0,
@@ -168,7 +169,7 @@ export const KrakenOrdersTable = observer(
                   <TableBody className={classes.table}>
                     {asks.length ? (
                       asks.map((ask) => (
-                        <TableRow key={ask[0]}>
+                        <TableRow key={ask[0]} className={classes.highlight}>
                           <TableCell component="th" scope="row">
                             {formatPrice(ask[0])}
                           </TableCell>
@@ -179,7 +180,7 @@ export const KrakenOrdersTable = observer(
                     {!asks.length && (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
-                          No orders
+                          No orders 
                         </TableCell>
                       </TableRow>
                     )}
