@@ -13,6 +13,7 @@ interface KrakenData {
 export class AppStore {
   currencyPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
+  orderQuantityHighlight: number = 1;
 
   tables = {
     kraken: appStoreKraken,
@@ -36,6 +37,14 @@ export class AppStore {
     this.tables.binance.setOrderQuantity(input);
     this.tables.bitstamp.setOrderQuantity(input);
   };
+  setOrderQuantityHighlight = (input: string) => {
+    // this.orderQuantity = input;
+    this.tables.kraken.setOrderQuantityHighlight(input);
+    // this.tables.bitfinex.setOrderQuantity(input);
+    // this.tables.binance.setOrderQuantity(input);
+    // this.tables.bitstamp.setOrderQuantity(input);
+  };
+
 }
 
 decorate(AppStore, {

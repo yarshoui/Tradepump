@@ -25,6 +25,9 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     margin: '2px',
   },
+  highlight:{
+    backgroundColor: "#AECCD7",
+  },
 });
 //To be updated accordingly
 const ccyPriceToPrecise: any = {

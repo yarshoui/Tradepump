@@ -120,16 +120,16 @@ export const OrderMonitorMenu = observer(
             store.setOrderQuantity(event.target.value);
           }}
         />
-        {/* <span> Highlight Min Order Qty </span>
+        <span> Highlight Min Order Qty </span>
         <input
           type="text"
           id="highlightfilter"
-          placeholder="50"
+          placeholder="1"
           title='Highlight Orders with Qty more than'          
           onChange={(event) => {
-            store.setHighlightOrderQuantity(event.target.value);
+            store.setOrderQuantityHighlight(event.target.value);
           }}
-        /> */}
+        />
 
       </div>
     );

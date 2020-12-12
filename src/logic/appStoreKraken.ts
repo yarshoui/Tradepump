@@ -15,6 +15,7 @@ interface KrakenData {
 export class AppStoreKraken {
   currentKrakenPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
+  orderQuantityHighlight: number = 1;
 
   // captionText = 'Last Price';
   captionText = '';
@@ -72,6 +73,21 @@ export class AppStoreKraken {
     this.orderQuantity = quantity;
     // console.log('here', this.orderQuantity)
   }, 1000);
+
+  setOrderQuantityHighlight = debounce((input: string) => {
+    const quantityHighlight = parseFloat(input);
+    // console.log('setHighlightOrderQuantity', quantityHighlight);
+    if (isNaN(quantityHighlight)) {
+      console.warn('Wrong number', input);
+      this.orderQuantityHighlight = 1;
+      return;
+    }
+
+    this.orderQuantityHighlight = quantityHighlight;
+    
+  }, 1000);
+
+
 
   setCurrentKrakenPair = (input: SelectorOptions) => {
     this.resetData();
