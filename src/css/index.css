@@ -69,6 +69,7 @@ ul.nav {
 ul.nav li {
   display: inline;
 }
+
 ul.nav a {
   display: inline-block;
   border: 1px solid #000;
@@ -78,11 +79,7 @@ ul.nav a {
   color: #fff;
 }
 
-ul.nav a[class="menu-button"]:hover{
-  background: #5b7b95;
-}
-
-ul.nav a:not(.disabled):hover {
+ul.nav a:not(.nonActive):hover{
   background: #5b7b95;
 }
 
@@ -90,6 +87,9 @@ ul.nav a.active {
   background: #5b7b95;
 }
 
+ul.nav a.nonActive {
+  background: rgb(50, 60, 70);
+}
 
 
 .main {

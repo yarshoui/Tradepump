@@ -36,18 +36,18 @@ export const Header = (props: any) => {
 
 
 
-         <li>
-          <NavLink className="active" to="/">
+        <li>
+          <NavLink to="/monitor">
             Orders Monitor
           </NavLink>
         </li>
         <li>
-          <NavLink className="disabled" to="/about">
+          <NavLink to="/about">
             About
           </NavLink>
         </li>
          <li>
-          <NavLink className="disabled" to="/" onClick={() => startTourAgain()}>
+          <NavLink className="nonActive" to="/monitor" onClick={() => startTourAgain()}>
             Intro tour
           </NavLink>
         </li>
@@ -57,9 +57,6 @@ export const Header = (props: any) => {
           </NavLink>
         </li>  */}
 
-
-
-        
         <li>
           <span className="clock">
             Time:{' '}

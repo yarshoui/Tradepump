@@ -31,7 +31,7 @@ const theme = themeConstructor({});
 ReactDOM.render(
   <ThemeProvider theme={theme}>
     <CssBaseline />
-    <Monitor />    
+    <Monitor />
   </ThemeProvider>,
   document.querySelector('#root'),
   

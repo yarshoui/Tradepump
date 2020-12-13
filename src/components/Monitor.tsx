@@ -11,7 +11,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 import { Footer } from 'src/components/Footer';
 import { TopAd } from 'src/components/TopAd';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
 import { Privacy } from 'src/pages/Privacy';
@@ -99,10 +99,11 @@ export const Monitor = () => {
         <Header />
         
         <Switch>
-        <Route path='/' component={OrdersMonitor} exact />
-        <Route path='/terms' component={Terms} /> 
-        <Route path='/privacy' component={Privacy} />
-        <Route path='/about' component={About} />
+          <Route path='/monitor' component={OrdersMonitor} />
+          <Route path='/terms' component={Terms} />
+          <Route path='/privacy' component={Privacy} />
+          <Route path='/about' component={About} />
+          <Redirect path='/' to='/monitor' />
         </Switch>
 
         <Footer />
