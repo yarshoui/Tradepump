@@ -5,6 +5,7 @@ import 'src/css/index.css';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
 import { Clock } from 'src/components/logic/Clock';
+import { startTourAgain } from 'src/components/intro/config';
 
 export const Header = (props: any) => {
   console.log('currentMOnitor', props.currMonitor);
@@ -46,7 +47,7 @@ export const Header = (props: any) => {
           </NavLink>
         </li>
          <li>
-          <NavLink className="disabled" to="/">
+          <NavLink className="disabled" to="/" onClick={() => startTourAgain()}>
             Intro tour
           </NavLink>
         </li>
