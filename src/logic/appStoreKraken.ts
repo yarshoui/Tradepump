@@ -17,6 +17,16 @@ export class AppStoreKraken {
   orderQuantity: number = 1;
   orderQuantityHighlight: number = 1;
 
+  defaultQuantityHighlight = 1;
+
+  shouldHighlight = (inputValue: string) => {
+    if (this.orderQuantityHighlight === this.defaultQuantityHighlight) {
+      return false;
+    }
+
+    return parseFloat(inputValue) >= this.orderQuantityHighlight;
+  }
+
   // captionText = 'Last Price';
   captionText = '';
 
@@ -84,10 +94,7 @@ export class AppStoreKraken {
     }
 
     this.orderQuantityHighlight = quantityHighlight;
-    
   }, 1000);
-  
-
 
 
   setCurrentKrakenPair = (input: SelectorOptions) => {

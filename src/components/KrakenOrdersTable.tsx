@@ -25,9 +25,11 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     margin: '2px',
   },
+  base:{
+    backgroundColor: "#FFFFFF",
+  },
   highlight:{
-    backgroundColor: "FFFFFF",
-    // backgroundColor: "#AECCD7", IF ask[1] or bid[1] >= orderQuantityHighlight change the line background color to #AECCD7
+    backgroundColor: "#AECCD7",
   },
 });
 
@@ -168,14 +170,17 @@ export const KrakenOrdersTable = observer(
                   </TableHead>
                   <TableBody className={classes.table}>
                     {asks.length ? (
-                      asks.map((ask) => (
-                        <TableRow key={ask[0]} className={classes.highlight}>
-                          <TableCell component="th" scope="row">
-                            {formatPrice(ask[0])}
-                          </TableCell>
-                          <TableCell align="right">{formatQty(ask[1])}</TableCell>
-                        </TableRow>
-                      ))
+                      asks.map((ask) => {
+                        const rowClassName = store.shouldHighlight(ask[1]) ? classes.highlight : classes.base;
+                        return (
+                          <TableRow key={ask[0]} className={rowClassName}>
+                            <TableCell component="th" scope="row">
+                              {formatPrice(ask[0])}
+                            </TableCell>
+                            <TableCell align="right">{formatQty(ask[1])}</TableCell>
+                          </TableRow>
+                        );
+                      })
                     ) : ''}
                     {!asks.length && (
                       <TableRow key={'no-data'}>
@@ -199,14 +204,17 @@ export const KrakenOrdersTable = observer(
                   </TableHead>
                   <TableBody>
                     {bids.length ? (
-                      bids.map((bid) => (
-                        <TableRow key={bid[0]}>
-                          <TableCell component="th" scope="row">
-                            {formatPrice(bid[0])}
-                          </TableCell>
-                          <TableCell align="right">{formatQty(bid[1])}</TableCell>
-                        </TableRow>
-                      ))
+                      bids.map((bid) => {
+                        const rowClassName = store.shouldHighlight(bid[1]) ? classes.highlight : classes.base;
+                        return (
+                          <TableRow key={bid[0]} className={rowClassName}>
+                            <TableCell component="th" scope="row">
+                              {formatPrice(bid[0])}
+                            </TableCell>
+                            <TableCell align="right">{formatQty(bid[1])}</TableCell>
+                          </TableRow>
+                        );
+                      })
                     ) : ''}
                     {!bids.length && (
                       <TableRow key={'no-data'}>

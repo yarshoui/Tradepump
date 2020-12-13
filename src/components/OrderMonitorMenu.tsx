@@ -125,7 +125,7 @@ export const OrderMonitorMenu = observer(
           type="text"
           id="highlightfilter"
           placeholder="1"
-          title='Highlight Orders with Qty more than'          
+          title='Highlight Orders with Qty more than'
           onChange={(event) => {
             store.setOrderQuantityHighlight(event.target.value);
           }}

@@ -37,6 +37,7 @@ export class AppStore {
     this.tables.binance.setOrderQuantity(input);
     this.tables.bitstamp.setOrderQuantity(input);
   };
+
   setOrderQuantityHighlight = (input: string) => {
     // this.orderQuantity = input;
     this.tables.kraken.setOrderQuantityHighlight(input);
