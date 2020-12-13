@@ -148,12 +148,12 @@ export const BitfinexOrdersTable = observer(
       <table style={{ display: 'inline-block' }}>
         <caption className={classes.caption}>Bitfinex</caption>
         <thead>
-          <tr style={{ border: 'black solid 2px;' }}>{/*<th>Bitfinex</th>*/}</tr>
+          <tr style={{ border: 'black solid 2px' }}>{/*<th>Bitfinex</th>*/}</tr>
         </thead>
         <tbody>
           <tr>
             <td align="center"></td>
-            <td className="inline" style={{ border: 'black solid 1px;' }}>
+            <td className="inline" style={{ border: 'black solid 1px' }}>
               <TableContainer component={Paper}>
                 <Table size="small" aria-label="a dense table">
                   <TableHead>
@@ -184,7 +184,7 @@ export const BitfinexOrdersTable = observer(
                 </Table>
               </TableContainer>
             </td>
-            <td className="inline" style={{ border: 'black solid 1px;' }}>
+            <td className="inline" style={{ border: 'black solid 1px' }}>
               <TableContainer component={Paper}>
                 <Table size="small" aria-label="a dense table">
                   <TableHead>

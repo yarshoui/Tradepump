@@ -13,9 +13,9 @@ import './../../src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
-import { Header } from './Header';
-import { OrderMonitorMenu } from './OrderMonitorMenu';
-import { TopLogoPanel } from './TopLogoPanel';
+// import { Header } from './Header';
+// import { OrderMonitorMenu } from './OrderMonitorMenu';
+// import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
 
 // import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
@@ -28,9 +28,9 @@ import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
-import { Footer } from './Footer';
-import { RightAd } from './RightAd';
-import { TopAd } from './TopAd';
+// import { Footer } from './Footer';
+// import { RightAd } from './RightAd';
+// import { TopAd } from './TopAd';
 
 const useStyles = makeStyles((theme) => ({
   root: {

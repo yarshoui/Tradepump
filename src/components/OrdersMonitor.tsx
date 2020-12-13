@@ -1,6 +1,6 @@
 // import { map } from 'lodash';
 import React from 'react';
-import { observer } from 'mobx-react';
+// import { observer } from 'mobx-react';
 import './../../src/css/index.css';
 
 // import Table from '@material-ui/core/Table';
@@ -13,26 +13,26 @@ import './../../src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
-import { Header } from './Header';
+// import { Header } from './Header';
 import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { OrdersMonitorTables} from 'src/components/OrdersMonitorTables';
-import { TopLogoPanel } from './TopLogoPanel';
+// import { TopLogoPanel } from './TopLogoPanel';
 import { AppStore } from 'src/logic/appStore';
 import { appStore } from 'src/logic/appStore';
 
 // import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
 // import { PAIRS } from './../components/OrderMonitorMenu';
-import { BitfinexOrdersTable } from './BitfinexOrdersTable';
-import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
-import { BinanceOrdersTable } from 'src/components/BinanceOrdersTable';
-import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
+// import { BitfinexOrdersTable } from './BitfinexOrdersTable';
+// import { KrakenOrdersTable } from 'src/components/KrakenOrdersTable';
+// import { BinanceOrdersTable } from 'src/components/BinanceOrdersTable';
+// import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
 // import { BittrexOrdersTable } from './BittrexOrdersTable';
-import Grid from '@material-ui/core/Grid';
+// import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
-import { Footer } from './Footer';
+// import { Footer } from './Footer';
 import { RightAd } from './RightAd';
-import { TopAd } from './TopAd';
+// import { TopAd } from './TopAd';
 import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({

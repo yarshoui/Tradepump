@@ -4,7 +4,7 @@ import ReactDOM from 'react-dom';
 import { ThemeProvider } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 
-import { appStore } from './logic/appStore';
+// import { appStore } from './logic/appStore';
 
 import { Monitor } from './components/Monitor';
 

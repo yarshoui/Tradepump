@@ -5,7 +5,7 @@ import 'src/css/index.css';
 // import { themeStyles } from '../style/postcss';
 // import { BorderColor } from '@material-ui/icons';
 import { makeStyles } from '@material-ui/core/styles';
-import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
+// import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 
 const useStyles = makeStyles((theme) => ({
@@ -58,7 +58,7 @@ export const About = () => {
   return (
     <div className={classes.root}>
       <Helmet>
-          <meta charSet="utf-8" />          
+          <meta charSet="utf-8" />
           <meta name="viewport" content="width=device-width, initial-scale=1" />
           <link rel="shortcut icon" href="./favicon.ico" />
           <meta name="theme-color" content="#000000" />

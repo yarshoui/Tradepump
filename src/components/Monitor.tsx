@@ -1,13 +1,13 @@
 // import { map } from 'lodash';
-import React from 'react';
-import { observer } from 'mobx-react';
+import React, { useEffect } from 'react';
+// import { observer } from 'mobx-react';
 import 'src/css/index.css';
 import { Header } from 'src/components/Header';
-import { OrderMonitorMenu } from './OrderMonitorMenu';
+// import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { TopLogoPanel } from 'src/components/TopLogoPanel';
-import { AppStore } from 'src/logic/appStore';
-import Grid from '@material-ui/core/Grid';
-import { makeStyles, rgbToHex } from '@material-ui/core/styles';
+// import { AppStore } from 'src/logic/appStore';
+// import Grid from '@material-ui/core/Grid';
+import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
 import { Footer } from 'src/components/Footer';
 import { TopAd } from 'src/components/TopAd';
@@ -16,6 +16,7 @@ import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
 import { Privacy } from 'src/pages/Privacy';
 import { About } from 'src/pages/About';
+import { start } from 'src/components/intro/config';
 import ReactGA from 'react-ga';
 import CookieConsent from "react-cookie-consent";
 // import 'src/intro/intro.min.js';
@@ -25,7 +26,6 @@ import CookieConsent from "react-cookie-consent";
 
 // import { Steps, Hints } from 'intro.js-react';
 //import Analytics from 'analytics';
-
 
 ReactGA.initialize('G-JC86H2ED6J-xxx');
 
@@ -73,31 +73,20 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = [
-  {
-    intro: 'Welcome to our new website!'
-  },
-  {
-    element: '#pairfilter',
-    intro: 'test 2',
-  },
-  
-];
-interface MonitorProps {
-  store: AppStore;
-}
+
+// interface MonitorProps {
+//   store: AppStore;
+// }
 
 export const Monitor = () => {
     const classes = useStyles();
 
+    useEffect(() => {
+      start();
+    }, []);
+
     return (
       <BrowserRouter>
-            {/* <Steps
-        enabled={stepsEnabled}
-        steps={steps}
-        initialStep={initialStep}
-        onExit={this.onExit}
-      /> */}
       <div className={classes.root}>
         <div className={classes.topHolder}>
           <div className={classes.logoHolder}>
@@ -118,9 +107,6 @@ export const Monitor = () => {
 
         <Footer />
         <CookieConsent>We use cookies to enhance your experience, analyze our traffic, and for security and marketing. By visiting our website you agree to our use of cookies. <a data-bn-type="text" target="_blank" href="/privacy" className={classes.cookiesNitification}>*Read more about cookies*</a></CookieConsent>
-        
-        {/* <script src='./src/intro/intro.min.js'></script>
-        <script src='./src/intro/introconfig.js'></script> */}
       </div>
 
       </BrowserRouter>
