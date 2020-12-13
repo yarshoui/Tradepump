@@ -39,6 +39,7 @@ export const OrderMonitorMenu = observer(
           name="pair"
           id="pairfilter"
           title='Select a trading pair'
+          value={store.currencyPair}
           onChange={(event) => {
             const value = event.target.value as SelectorOptions;
             store.setCurrencyPair(value);

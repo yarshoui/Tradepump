@@ -6,9 +6,9 @@ interface TradingOption {
   text?: string;
 }
 
-export const TradingOption = ({ value, selected, text }: TradingOption) => {
+export const TradingOption = ({ value, text }: TradingOption) => {
   return (
-    <option value={value} selected={value === selected}>
+    <option value={value}>
       {text || value}
     </option>
   );

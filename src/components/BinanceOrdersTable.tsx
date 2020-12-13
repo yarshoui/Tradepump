@@ -173,8 +173,7 @@ export const BinanceOrdersTable = observer(
                           <TableCell align="right">{formatQty(ask[1])}</TableCell>
                         </TableRow>
                       ))
-                    ) : ''}
-                    {!asks.length && (
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders
@@ -204,8 +203,7 @@ export const BinanceOrdersTable = observer(
                           <TableCell align="right">{formatQty(bid[1])}</TableCell>
                         </TableRow>
                       ))
-                    ) : ''}
-                    {!bids.length && (
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders
