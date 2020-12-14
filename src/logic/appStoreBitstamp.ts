@@ -30,6 +30,17 @@ interface bitstampOrdersDataArr {
 export class AppStoreBitstamp {
   currentBitstampPair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
+  orderQuantityHighlight: number = 1;
+
+  defaultQuantityHighlight = 1;
+
+  shouldHighlight = (inputValue: string) => {
+    if (this.orderQuantityHighlight === this.defaultQuantityHighlight) {
+      return false;
+    }
+
+    return parseFloat(inputValue) >= this.orderQuantityHighlight;
+  }
 
   bitstampData: bitstampOrdersDataArr = {
     asks: [],
@@ -98,6 +109,18 @@ export class AppStoreBitstamp {
 
     this.orderQuantity = quantity;
     console.log('here', this.orderQuantity);
+  }, 1000);
+
+  setOrderQuantityHighlight = debounce((input: string) => {
+    const quantityHighlight = parseFloat(input);
+    // console.log('setHighlightOrderQuantity', quantityHighlight);
+    if (isNaN(quantityHighlight)) {
+      console.warn('Wrong number', input);
+      this.orderQuantityHighlight = 1;
+      return;
+    }
+
+    this.orderQuantityHighlight = quantityHighlight;
   }, 1000);
 
   setCurrentBitstampPair = (input: SelectorOptions) => {

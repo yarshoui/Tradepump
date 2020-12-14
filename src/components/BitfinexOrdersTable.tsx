@@ -26,6 +26,12 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     margin: '2px',
   },
+  base:{
+    backgroundColor: "#FFFFFF",
+  },
+  highlight:{
+    backgroundColor: "#AECCD7",
+  },
 });
 
 const ccyPriceToPrecise: any = {
@@ -161,29 +167,31 @@ export const BitfinexOrdersTable = observer(
                   </TableHead>
                   <TableBody>
                   {asks.length ? (
-                      asks.map((ask) => (
-                        <TableRow key={ask['price']}>
+                      asks.map((ask) => {
+                        const rowClassName = storeBitfinex.shouldHighlight(ask['amount']) ? classes.highlight : classes.base;
+                        return (
+                        <TableRow key={ask['price']} className={rowClassName}>
                           <TableCell component="th" scope="row">
                             {formatPrice(ask['price'])}
                           </TableCell>
                           <TableCell align="right">{formatQty(ask['amount'])}</TableCell>
                         </TableRow>
-                      ))
-                    ) : ''}
-                    {!asks.length && (
+                        );
+                      })
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders
                         </TableCell>
                       </TableRow>
                     )}
-                    </TableBody>
+                  </TableBody>
                 </Table>
               </TableContainer>
             </td>
             <td className="inline">
               <TableContainer component={Paper}>
-                <Table size="small" aria-label="a dense table">
+                <Table size="small">
                   <TableHead>
                     <TableRow>
                       <TableCell>Bid Price</TableCell>
@@ -192,16 +200,18 @@ export const BitfinexOrdersTable = observer(
                   </TableHead>
                   <TableBody>
                   {bids.length ? (
-                      bids.map((bid) => (
-                        <TableRow key={bid['price']}>
+                      bids.map((bid) => {
+                        const rowClassName = storeBitfinex.shouldHighlight(bid['amount']) ? classes.highlight : classes.base;
+                        return (
+                        <TableRow key={bid['price']} className={rowClassName}>
                           <TableCell component="th" scope="row">
                             {formatPrice(bid['price'])}
                           </TableCell>
                           <TableCell align="right">{formatQty(bid['amount'])}</TableCell>
                         </TableRow>
-                      ))
-                    ) : ''}
-                    {!bids.length && (
+                        );
+                      })
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders

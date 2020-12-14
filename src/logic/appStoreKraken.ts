@@ -73,7 +73,7 @@ export class AppStoreKraken {
 
   setOrderQuantity = debounce((input: string) => {
     const quantity = parseFloat(input);
-    console.log('setOrderQuantity', quantity);
+    // console.log('setOrderQuantity', quantity);
     if (isNaN(quantity)) {
       console.warn('Wrong number', input);
       this.orderQuantity = 1;

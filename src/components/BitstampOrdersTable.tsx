@@ -25,6 +25,12 @@ const useStyles = makeStyles({
     fontWeight: 'bold',
     margin: '2px',
   },
+  base:{
+    backgroundColor: "#FFFFFF",
+  },
+  highlight:{
+    backgroundColor: "#AECCD7",
+  },
 });
 
 const ccyPriceToPrecise: any = {
@@ -145,16 +151,13 @@ export const BitstampOrdersTable = observer(
 
     return (
       <table style={{ display: 'inline-block' }}>
-        <caption className={classes.caption}>Bitstamp {/*lastTradePrc*/}</caption>
-        <thead>
-          <tr style={{ border: 'black solid 2px;' }}>{/*} <th>Bitstamp</th>*/}</tr>
-        </thead>
+        <caption className={classes.caption}>Bitstamp {/*lastTradePrc*/}</caption>        
         <tbody>
           <tr>
             <td align="center"></td>
-            <td className="inline" style={{ border: 'black solid 1px;' }}>
+            <td className="inline">
               <TableContainer component={Paper}>
-                <Table size="small" aria-label="a dense table">
+                <Table size="small">
                   <TableHead>
                     <TableRow>
                       <TableCell>Ask Price</TableCell>
@@ -163,16 +166,18 @@ export const BitstampOrdersTable = observer(
                   </TableHead>
                   <TableBody>
                   {asks.length ? (
-                      asks.map((ask) => (
-                        <TableRow key={ask[0]}>
+                      asks.map((ask) => {
+                        const rowClassName = storeBitstamp.shouldHighlight(ask[1]) ? classes.highlight : classes.base;
+                        return (
+                        <TableRow key={ask[0]} className={rowClassName}>
                           <TableCell component="th" scope="row">
                             {formatPrice(ask[0])}
                           </TableCell>
                           <TableCell align="right">{formatQty(ask[1])}</TableCell>
                         </TableRow>
-                      ))
-                    ) : ''}
-                    {!asks.length && (
+                        );
+                      })
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders
@@ -183,9 +188,9 @@ export const BitstampOrdersTable = observer(
                 </Table>
               </TableContainer>
             </td>
-            <td className="inline" style={{ border: 'black solid 1px;' }}>
+            <td className="inline">
               <TableContainer component={Paper}>
-                <Table size="small" aria-label="a dense table">
+                <Table size="small">
                   <TableHead>
                     <TableRow>
                       <TableCell>Bid Price</TableCell>
@@ -194,16 +199,18 @@ export const BitstampOrdersTable = observer(
                   </TableHead>
                   <TableBody>
                   {bids.length ? (
-                      bids.map((bid) => (
-                        <TableRow key={bid[0]}>
+                      bids.map((bid) => {
+                        const rowClassName = storeBitstamp.shouldHighlight(bid[1]) ? classes.highlight : classes.base;
+                        return (
+                        <TableRow key={bid[0]} className={rowClassName}>
                           <TableCell component="th" scope="row">
                             {formatPrice(bid[0])}
                           </TableCell>
                           <TableCell align="right">{formatQty(bid[1])}</TableCell>
                         </TableRow>
-                      ))
-                    ) : ''}
-                    {!bids.length && (
+                        );
+                      })
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders

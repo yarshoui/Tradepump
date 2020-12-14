@@ -152,10 +152,7 @@ export const KrakenOrdersTable = observer(
     //console.table(asks);
     return (
       <table style={{ display: 'inline-block' }}>
-        <caption className={classes.caption}>Kraken {store.captionText}</caption>
-        <thead>
-          <tr>{/* <th>Kraken</th>  */}</tr>
-        </thead>
+        <caption className={classes.caption}>Kraken {store.captionText}</caption>        
         <tbody>
           <tr>
             <td align="center"></td>
@@ -181,11 +178,10 @@ export const KrakenOrdersTable = observer(
                           </TableRow>
                         );
                       })
-                    ) : ''}
-                    {!asks.length && (
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
-                          No orders 
+                          No orders
                         </TableCell>
                       </TableRow>
                     )}
@@ -215,8 +211,7 @@ export const KrakenOrdersTable = observer(
                           </TableRow>
                         );
                       })
-                    ) : ''}
-                    {!bids.length && (
+                    ) : (
                       <TableRow key={'no-data'}>
                         <TableCell component="th" scope="row" colSpan={2} align="center">
                           No orders

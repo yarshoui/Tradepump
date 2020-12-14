@@ -18,6 +18,18 @@ interface binanceOrdersDataArr {
 export class AppStoreBinance {
   currentBinancePair: SelectorOptions = DEFAULT_PAIR;
   orderQuantity: number = 1;
+  orderQuantityHighlight: number = 1;
+
+  defaultQuantityHighlight = 1;
+
+  shouldHighlight = (inputValue: string) => {
+    if (this.orderQuantityHighlight === this.defaultQuantityHighlight) {
+      return false;
+    }
+    
+
+    return parseFloat(inputValue) >= this.orderQuantityHighlight;
+  }
 
   binanceData: binanceOrdersDataArr = {
     asks: [],
@@ -49,7 +61,7 @@ export class AppStoreBinance {
     reaction(
       () => this.currentBinancePair,
       (pair: SelectorOptions) => {
-        console.log('pairChanged', pair);
+        // console.log('pairChanged', pair);
         subscribeToBinanceCurrencyPair(pair);
       },
       {
@@ -61,7 +73,7 @@ export class AppStoreBinance {
   setOrderQuantity = debounce((input: string) => {
     //Need to rename setOrderQuantity for Binance
     const quantity = parseFloat(input);
-    console.log('setOrderQuantity Binance', quantity);
+    // console.log('setOrderQuantity Binance', quantity);
     if (isNaN(quantity)) {
       console.warn('Wrong number', input);
       this.orderQuantity = 1;
@@ -69,7 +81,19 @@ export class AppStoreBinance {
     }
 
     this.orderQuantity = quantity;
-    console.log('here', this.orderQuantity);
+    // console.log('here', this.orderQuantity);
+  }, 1000);
+
+  setOrderQuantityHighlight = debounce((input: string) => {
+    const quantityHighlight = parseFloat(input);
+    // console.log('setHighlightOrderQuantity', quantityHighlight);
+    if (isNaN(quantityHighlight)) {
+      console.warn('Wrong number', input);
+      this.orderQuantityHighlight = 1;
+      return;
+    }
+
+    this.orderQuantityHighlight = quantityHighlight;
   }, 1000);
 
   setCurrentBinancePair = (input: SelectorOptions) => {
