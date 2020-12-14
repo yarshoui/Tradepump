@@ -8,7 +8,7 @@ const SHOW_KEY_NAME = 'intro_shown';
 const steps = [
   {
     intro:
-      'Welcome to TradePump.com! This is Free Bitcoin and Cryptocurrency aggregator. Our servise is the best place to know crypto exchanges Orders Books. Feel free to skip the tour if you are not a new visitor.',
+      'Welcome to TradePump.com! <br />This is Free Bitcoin and Cryptocurrency aggregator. Our servise is the best place to know crypto exchanges Orders Books.<br />Feel free to skip the tour if you are not a new visitor.',
   },
   {
     element: '#pairfilter',

@@ -119,8 +119,8 @@ footer a {
   position:absolute;
   visibility:visible;
   background-color:#fff;
-  /* min-width:350px; */
-  max-width: 350px;
+  min-width:450px !important;
+  max-width: 500px;
   border-radius:5px;
   -webkit-box-shadow:0 3px 30px rgba(33,33,33,.3);
   box-shadow:0 3px 30px rgba(33,33,33,.3);
