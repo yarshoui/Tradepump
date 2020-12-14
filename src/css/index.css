@@ -6,7 +6,6 @@
 }
 
 .topadv {
-  
   height: 90px;
   width: 728px;
   margin: 2px;
@@ -79,7 +78,7 @@ ul.nav a {
   color: #fff;
 }
 
-ul.nav a:not(.nonActive):hover{
+ul.nav a:not(.nonActive):hover {
   background: #5b7b95;
 }
 
@@ -90,7 +89,6 @@ ul.nav a.active {
 ul.nav a.nonActive {
   background: rgb(50, 60, 70);
 }
-
 
 .main {
   margin: 10px;
@@ -114,7 +112,19 @@ footer a {
   background: red;
 }
 
-/* .bid thead > tr > td:nth-child(3) {
-  display: none;
-background: red
-} */
+
+.introjs-tooltip {
+  -webkit-box-sizing:content-box;
+  box-sizing:content-box;
+  position:absolute;
+  visibility:visible;
+  background-color:#fff;
+  /* min-width:350px; */
+  max-width: 350px;
+  border-radius:5px;
+  -webkit-box-shadow:0 3px 30px rgba(33,33,33,.3);
+  box-shadow:0 3px 30px rgba(33,33,33,.3);
+  -webkit-transition:opacity .1s ease-out;
+  -o-transition:opacity .1s ease-out;
+  transition:opacity .1s ease-out
+}

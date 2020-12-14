@@ -56,8 +56,8 @@ export function restoreSocket() {
       console.log('[open] Connection established 1');
       intervalId && clearInterval(intervalId);
       sendData();
-      //resolve(krakenData.socket as WebSocket);
-      resolve(krakenData.socket);
+      resolve(krakenData.socket as WebSocket);
+      // resolve(krakenData.socket);
     };
 
     krakenData.socket.onerror = (error: any) => {
@@ -76,8 +76,8 @@ export const getKrakenSocket = (): Promise<WebSocket> => {
   }
 
   return new Promise((resolve) => {
-    resolve(krakenData.socket);
-    //resolve(krakenData.socket as WebSocket);
+    // resolve(krakenData.socket);
+    resolve(krakenData.socket as WebSocket);
   });
 };
 
