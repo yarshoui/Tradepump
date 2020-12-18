@@ -46,11 +46,11 @@ export const Header = (props: any) => {
             About
           </NavLink>
         </li>
-         <li>
+         {/* <li>
           <NavLink className="nonActive" to="/monitor" onClick={() => startTourAgain()}>
             Intro tour
           </NavLink>
-        </li>
+        </li> */}
         {/* <li>
           <NavLink className="disabled" to="/statistics">
             Market Statistics

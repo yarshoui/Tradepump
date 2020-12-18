@@ -19,6 +19,11 @@ import { About } from 'src/pages/About';
 import { start } from 'src/components/intro/config';
 import ReactGA from 'react-ga';
 import CookieConsent from "react-cookie-consent";
+import {Tour} from '@styled-icons/material/Tour';
+import {Help} from '@styled-icons/material-twotone/Help';
+import { startTourAgain } from 'src/components/intro/config';
+
+// import styled from 'styled-components';
 // import 'src/intro/intro.min.js';
 // import 'src/intro/introconfig.js';
 // import 'src/intro/intro.css';
@@ -71,6 +76,19 @@ const useStyles = makeStyles((theme) => ({
     color: 'rgb(240, 185, 11)',
 
   },
+  introIcon: {
+    color: '#AECCD7',
+    // color: '#F4B200', //yellow
+    // color: 'rgb(50, 60, 70)',    
+        
+   
+    
+    position: 'fixed',
+    right:'20px',
+    bottom: '20px',
+    
+
+  }
 }));
 
 
@@ -105,9 +123,11 @@ export const Monitor = () => {
           <Route path='/about' component={About} />
           <Redirect path='/' to='/monitor' />
         </Switch>
+        <Help className={classes.introIcon} size="50" title="Intro Tour" onClick={() => startTourAgain()}/>
 
         <Footer />
         <CookieConsent>We use cookies to enhance your experience, analyze our traffic, and for security and marketing. By visiting our website you agree to our use of cookies. <a data-bn-type="text" target="_blank" href="/privacy" className={classes.cookiesNitification}>*Read more about cookies*</a></CookieConsent>
+       
       </div>
 
       </BrowserRouter>

@@ -8,7 +8,7 @@ const SHOW_KEY_NAME = 'intro_shown';
 const steps = [
   {
     intro:
-      'Welcome to TradePump.com! <br />This is Free Bitcoin and Cryptocurrency aggregator. Our servise is the best place to know crypto exchanges Orders Books.<br />Feel free to skip the tour if you are not a new visitor.',
+      'Welcome to TradePump.com! <br />This is Free Bitcoin and Cryptocurrency aggregator. Our servise will help you to see the largest crypto exchanges live Orders Books with maximum depth avaialble.<br /> We are constantly developing our servise. Feel free to send your proppositions to <a href="mailto:support@tradepump.com" style="color:rgb(240, 185, 11)">Support</a> or just skip the tour if you are not a new visitor.',
   },
   {
     element: '#pairfilter',
@@ -16,7 +16,7 @@ const steps = [
   },
   {
     element: '#qtyfilter',
-    intro: 'Set Minimum Orders Quantity to be shown.',
+    intro: 'Set Minimum Orders Quantity to be shown.<br /> <br />This filter will allow you to see large blocks of Asks/Bids in the Orders Book',
   },
   {
     element: '#highlightfilter',

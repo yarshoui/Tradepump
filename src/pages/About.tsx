@@ -51,6 +51,11 @@ const useStyles = makeStyles((theme) => ({
   asideTopHolder: {
     paddingLeft: '20px',
   },
+
+  aboutPageLinks:{
+    textDecoration: 'none',
+    color: 'blue',
+  },
 }));
 
 export const About = () => {
@@ -78,15 +83,16 @@ export const About = () => {
           <em>Last Updated: December 4, 2020</em>
         </p>
 
-        <p><a href="http://tradepump.com">TradePump</a> is an Indispensable assistant in cryptocurrency trading. 
-        Our service is to aggregate and provide Order Books and Trades History from the bigest cryptocurrency exchanges:</p>
+        <p><a href="http://tradepump.com" className={classes.aboutPageLinks}>TradePump</a> is an Indispensable assistant in cryptocurrency trading. 
+        Our service allows to aggregate and provide Order Books and Trades History (not yet implemented) from the bigest cryptocurrency exchanges:</p>
         <ul>
-          <li><a href="https://kraken.com">KRAKEN</a></li>
-          <li><a href="https://bitfinex.com">BITFINEX</a></li>
-          <li><a href="https://binance.com">BINANCE</a></li>
-          <li><a href="https://bitstamp.net">BITSTAMP</a></li>
+          <li><a href="https://kraken.com" className={classes.aboutPageLinks}>KRAKEN</a></li>
+          <li><a href="https://bitfinex.com" className={classes.aboutPageLinks}>BITFINEX</a></li>
+          <li><a href="https://binance.com" className={classes.aboutPageLinks}>BINANCE</a></li>
+          <li><a href="https://bitstamp.net" className={classes.aboutPageLinks}>BITSTAMP</a></li>
           </ul>
         <p>The information provided by our servise is inaccessible to other traders and gives practical benefits to our Users.</p>
+        <p>We are constantly developing our servise so feel free to send your proppositions to <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Support</a>. Your experience is very important to us!</p>
         <p>
           By using our servise User gets an important information about large blocks and trades which exchanges do not show.
         </p>

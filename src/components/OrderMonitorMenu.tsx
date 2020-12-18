@@ -34,7 +34,7 @@ export const OrderMonitorMenu = observer(
     return (
       <div className="top-menu">
         {' '}
-        <span> Trading Pair </span>
+        <span style={{ marginLeft: '10px' }}> Trading Pair </span>
         <select
           name="pair"
           id="pairfilter"
@@ -110,7 +110,7 @@ export const OrderMonitorMenu = observer(
             <TradingOption value="LINK/USDT" selected={store.currencyPair} />  
           </optgroup>
         </select>
-        <span> Min Order Qty </span>
+        <span style={{ marginLeft: '5px' }}> Min Order Qty </span>
         <input
           type="text"
           id="qtyfilter"
@@ -121,7 +121,7 @@ export const OrderMonitorMenu = observer(
             store.setOrderQuantity(event.target.value);
           }}
         />
-        <span> Highlight Min Order Qty </span>
+        <span style={{ marginLeft: '5px' }}> Highlight Min Order Qty </span>
         <input
           type="text"
           id="highlightfilter"
