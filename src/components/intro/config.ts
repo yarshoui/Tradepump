@@ -5,6 +5,7 @@ import 'src/css/index.css';
 
 const SHOW_KEY_NAME = 'intro_shown';
 
+
 const steps = [
   {
     intro:
