@@ -10,7 +10,7 @@ export const TopLogoPanel = () => {
     <div>
       <div className="top">
         <a className="logo" href="http://tradepump.com">
-          TradePump.com
+         <img src="./Icon3.jpg" alt="tradepump-logo"></img>
         </a>
       </div>
     </div>

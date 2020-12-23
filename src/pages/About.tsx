@@ -82,9 +82,10 @@ export const About = () => {
         <p>
           <em>Last Updated: December 4, 2020</em>
         </p>
+        <p>This web application will help you to become a better crypto-trader and make smart decisions on buying or selling criptocurrecncy.</p>
 
         <p><a href="http://tradepump.com" className={classes.aboutPageLinks}>TradePump</a> is an Indispensable assistant in cryptocurrency trading. 
-        Our service allows to aggregate and provide Order Books and Trades History (not yet implemented) from the bigest cryptocurrency exchanges:</p>
+        Our service allows to aggregate and provide Order Books, Trades History and other analytics data from the bigest cryptocurrency exchanges:</p>
         <ul>
           <li><a href="https://kraken.com" className={classes.aboutPageLinks}>KRAKEN</a></li>
           <li><a href="https://bitfinex.com" className={classes.aboutPageLinks}>BITFINEX</a></li>
@@ -95,7 +96,14 @@ export const About = () => {
         <p>We are constantly developing our servise so feel free to send your proppositions to <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Support</a>. Your experience is very important to us!</p>
         <p>
           By using our servise User gets an important information about large blocks and trades which exchanges do not show.
+
         </p>
+        <h2>Getting real-time data</h2>
+        <p>TradePump uses websokets and Public APIs provided by crypto exchanges to get and aggregate real-time updates on Order Books, Trades History and other data.</p>
+        <h2>Orders Monitor Filters</h2>
+        <p>We have just a couple of filter fields which allow to precise the data received trom the exchanges:</p>
+        <p><strong>Min Order Qty</strong> - allows you to filter Orders Book for the exact cryptocurrency. Orders with Quantity more than mentioned in the field will remain in the table. </p>
+        <p><strong>Highlight Min Order Qty</strong> - allows you to highlight orders with Quantity equal or more than mentioned in the field.</p>
 
       
     </div>

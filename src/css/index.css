@@ -22,11 +22,12 @@
 
 .top {
   display: block;
-  padding-left: 20px;
+  padding-left: 10px;
+  margin: 2px;
 }
 .top a {
   text-decoration: none;
-  font-size: 48px;
+  /* font-size: 48px; */
   color: rgb(50, 60, 70);
   font-weight: bold;
 }
