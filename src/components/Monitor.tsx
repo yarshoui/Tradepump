@@ -100,6 +100,7 @@ export const Monitor = () => {
     const classes = useStyles();
 
     useEffect(() => {
+      // if  (localStorage['needTostartTrue'] == true)
       start();
     }, []);
 
@@ -124,18 +125,8 @@ export const Monitor = () => {
           <Redirect path='/' to='/monitor' />
         </Switch>
         <Help className={classes.introIcon} size="50" title="Intro Tour" 
-        onClick={() => {
-          if (window.location.pathname == '/monitor'){startTourAgain()}
-          else (window.location.pathname = '/monitor');
-        // window.location.pathname = '/monitor';
-        // startTourAgain(); 
-        // setTimeout(() => startTourAgain(), 3000);}}/>
-        //  window.setTimeout(function(){
-        //   console.log('setTimeout works');
-        //   startTourAgain();     
-        // }, 3000);
-        }}/> 
-
+        onClick={() => {startTourAgain()}}/> 
+          
         <Footer />
         <CookieConsent>We use cookies to enhance your experience, analyze our traffic, and for security and marketing. By visiting our website you agree to our use of cookies. <a data-bn-type="text" target="_blank" href="/privacy" className={classes.cookiesNitification}>*Read more about cookies*</a></CookieConsent>
        

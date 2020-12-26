@@ -27,7 +27,12 @@ const steps = [
 
 export const startTourAgain = () => {
   localStorage.removeItem(SHOW_KEY_NAME);
-  start();
+  if (window.location.pathname === '/monitor'){
+    start();
+  }
+  else {
+    window.location.pathname = '/monitor';
+  }  
 };
 
 export const start = () => {
