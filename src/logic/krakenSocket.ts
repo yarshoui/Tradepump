@@ -34,7 +34,7 @@ const sendData = () => {
         console.error('Kraken socket error :' + error);
       }
     });
-  }, 3000);
+  }, 4000);
 
   if (!krakenData.activePayload) {
     return;

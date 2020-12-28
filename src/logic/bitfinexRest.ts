@@ -45,7 +45,8 @@ export const getBitfinexOrdersData = () => {
     // for local development we will use proxy,
     // check setupProxy.js for details
     // const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
-    const urlBitfinex = `/v1/book/${currencyPair}?limit_bids=4000&limit_asks=4000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+    const baseUrl = (process.env.NODE_ENV === 'development')?'':'https://api.bitfinex.com';
+    const urlBitfinex = `${baseUrl}/v1/book/${currencyPair}?limit_bids=4000&limit_asks=4000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
     loadJson(urlBitfinex).then((data) => {
       bitfinexOrdersDataArr = data;
 

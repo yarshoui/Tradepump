@@ -32,7 +32,9 @@ import { startTourAgain } from 'src/components/intro/config';
 // import { Steps, Hints } from 'intro.js-react';
 //import Analytics from 'analytics';
 
-ReactGA.initialize('G-JC86H2ED6J-xxx');
+ReactGA.initialize('UA-184831310-1');
+
+
 
 
 const useStyles = makeStyles((theme) => ({
@@ -91,16 +93,11 @@ const useStyles = makeStyles((theme) => ({
   }
 }));
 
-
-// interface MonitorProps {
-//   store: AppStore;
-// }
-
 export const Monitor = () => {
     const classes = useStyles();
 
     useEffect(() => {
-      // if  (localStorage['needTostartTrue'] == true)
+      // ReactGA.pageview(window.location.pathname + window.location.search);
       start();
     }, []);
 

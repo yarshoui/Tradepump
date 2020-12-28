@@ -101,9 +101,10 @@ export const About = () => {
         <h2>Getting real-time data</h2>
         <p>TradePump uses websokets and Public APIs provided by crypto exchanges to get and aggregate real-time updates on Order Books, Trades History and other data.</p>
         <h2>Orders Monitor Filters</h2>
-        <p>We have just a couple of filter fields which allow to precise the data received trom the exchanges:</p>
+        <p>We have just a couple of filter fields available on Orders Monitor window which allow to precise the data received trom the exchanges:</p>
         <p><strong>Min Order Qty</strong> - allows you to filter Orders Book for the exact cryptocurrency. Orders with Quantity more than mentioned in the field will remain in the table. </p>
         <p><strong>Highlight Min Order Qty</strong> - allows you to highlight orders with Quantity equal or more than mentioned in the field.</p>
+        <p>If you are trading on any exchange which is mentioned above and the currency pair you are interested in is not on the Currency Pair list please write an email to <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Support</a>. Your experience is very important to us!</p>
 
       
     </div>

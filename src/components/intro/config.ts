@@ -1,7 +1,9 @@
 import IntroJs from 'intro.js';
-import 'intro.js/minified/introjs.min.css';
-import 'intro.js/themes/introjs-modern.css';
+// import 'intro.js/minified/introjs.min.css';
+// import 'intro.js/themes/introjs-modern.css';
 import 'src/css/index.css';
+import 'src/css/introjs.min.css';
+import 'src/css/introjs-modern.css';
 
 const SHOW_KEY_NAME = 'intro_shown';
 

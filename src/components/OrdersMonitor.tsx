@@ -1,5 +1,5 @@
 // import { map } from 'lodash';
-import React from 'react';
+import React, { useEffect } from 'react';
 // import { observer } from 'mobx-react';
 import './../../src/css/index.css';
 
@@ -34,6 +34,9 @@ import { makeStyles } from '@material-ui/core/styles';
 import { RightAd } from './RightAd';
 // import { TopAd } from './TopAd';
 import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-184831310-1');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -80,6 +83,10 @@ interface MonitorProps {
 
 export const OrdersMonitor = () => {
     const classes = useStyles();
+    useEffect( () => {
+      // GoogleAnalytics
+      ReactGA.pageview(window.location.pathname + window.location.search); 
+  });
 
     return (
       <div>
