@@ -33,7 +33,7 @@ export const Footer = () => {
         </li> */}
       </ul>
       <p>Send your comments and suggestions to <a className="bottom-menu-button" href="mailto:support@tradepump.com">Support</a></p>
-      <p>Copyright © 2020 TradePump.com</p>
+      <p>Copyright © 2021 TradePump.com</p>
     </div>
   );
 };

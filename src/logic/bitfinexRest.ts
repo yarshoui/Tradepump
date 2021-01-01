@@ -28,13 +28,9 @@ export const getBitfinexOrdersData = () => {
   //console.log('###', currencyPair);
 
   async function loadJson(urlBitfinex: RequestInfo) {
-    // const proxy = 'https://cors-anywhere.herokuapp.com/'; //need to avoid external proxy
+    const proxy = 'https://infinite-tundra-40619.herokuapp.com/'; //my proxy
     //console.log('###', currencyPair, urlBitfinex);
-    let responseBitfinex = await fetch(urlBitfinex, {
-      // mode: 'no-cors',
-      // referrerPolicy: 'no-referrer',
-      // credentials: 'omit',
-    });
+    let responseBitfinex = await fetch(proxy + urlBitfinex); 
     let bitData = await responseBitfinex.json();
     //console.log('bitData', bitData);
     return bitData;
@@ -44,9 +40,9 @@ export const getBitfinexOrdersData = () => {
     // IMPORTANT: use node server on prod
     // for local development we will use proxy,
     // check setupProxy.js for details
-    // const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=2000&limit_asks=2000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
-    const baseUrl = (process.env.NODE_ENV === 'development')?'':'https://api.bitfinex.com';
-    const urlBitfinex = `${baseUrl}/v1/book/${currencyPair}?limit_bids=4000&limit_asks=4000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+    const urlBitfinex = `https://api.bitfinex.com/v1/book/${currencyPair}?limit_bids=4000&limit_asks=4000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
+    // const baseUrl = (process.env.NODE_ENV === 'development')?'':'https://api.bitfinex.com';
+    // const urlBitfinex = `${baseUrl}/v1/book/${currencyPair}?limit_bids=4000&limit_asks=4000`; //Should be limit_bids=10k&limit_asks=10k, 'btcusd' should be taken from [PAIRS[inputPair].bitfinex]]
     loadJson(urlBitfinex).then((data) => {
       bitfinexOrdersDataArr = data;
 
@@ -62,7 +58,7 @@ export const getBitfinexOrdersData = () => {
       clearInterval(pollingIntervalBitfinex);
     }
 
-    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 20000);
+    pollingIntervalBitfinex = setInterval(doRequestBitfinex, 3000); //was 20000
   }
 
   doRequestBitfinex();

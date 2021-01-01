@@ -19,7 +19,7 @@ import { About } from 'src/pages/About';
 import { start } from 'src/components/intro/config';
 import ReactGA from 'react-ga';
 import CookieConsent from "react-cookie-consent";
-import {Tour} from '@styled-icons/material/Tour';
+// import {Tour} from '@styled-icons/material/Tour';
 import {Help} from '@styled-icons/material-twotone/Help';
 import { startTourAgain } from 'src/components/intro/config';
 

@@ -41,7 +41,8 @@ let pollingInterval: NodeJS.Timeout;
 export const getBitstampOrdersData = () => {
 
   async function loadJson(urlBitstamp: RequestInfo) {
-    let responseBitstamp = await fetch(urlBitstamp);
+    const proxy = 'https://infinite-tundra-40619.herokuapp.com/'; //my proxy
+    let responseBitstamp = await fetch(proxy + urlBitstamp);
     let bitstampData = responseBitstamp.json();
     return bitstampData;
   }

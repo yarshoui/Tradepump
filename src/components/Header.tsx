@@ -5,7 +5,7 @@ import 'src/css/index.css';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
 // import { themeStyles } from '../style/postcss';
 import { Clock } from 'src/components/logic/Clock';
-import { startTourAgain } from 'src/components/intro/config';
+// import { startTourAgain } from 'src/components/intro/config';
 
 export const Header = (props: any) => {
   console.log('currentMOnitor', props.currMonitor);
