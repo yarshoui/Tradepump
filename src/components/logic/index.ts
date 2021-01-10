@@ -1,64 +1,24 @@
 export const d = 1;
-// export const subscribeToCurrencyPair = ()=>{
-//   const payload = {
-//     event: 'subscribe',
-//     pair: ['XBT/USD'],
-//     subscription: {
-//       depth: 1000,
-//       name: 'book',
-//     }
-//   };
 
-//   return JSON.stringify(payload);
-// }
+// import express from 'express';
+// const app  = express();
+// const port = 8080;
 
-// export const subscribeToTradeTable = ()=>{
-//   const payload = {
-//     event: 'subscribe',
-//     pair: [],
-//     subscription: {
-//       name: 'trade',
-//     }
-//   };
 
-//   return JSON.stringify(payload);
-// }
+// app.get( "/", ( req: any, res ) => {
+//     res.redirect( "/monitor" );
+// } );
 
-// export function sendSubscription() {
-//   // let subscription;
+// app.get( "/monitor", ( req: any, res ) => {
+//     res.render( "/monitor" );
+// } );
 
-//   // switch (type) {
-//   //   case '/':
-//   //   case '/pair':
-//   //     subscription = subscribeToCurrencyPair;
-//   //     break;
-//   //   case '/trade':
-//   //     subscription = subscribeToTradeTable;
-//   //     break;
-//   // }
+// app.get( "/about", ( req: any, res ) => {
+//     res.render( "about" );
+// } );
 
-//   const sub = subscribeToCurrencyPair();
-//   ws.send(sub);
-// }
-
-// export function prepareSocket() {
-//   ws = new WebSocket('wss://ws.kraken.com');
-
-//   ws.onclose = (data)=>{
-//     prepareSocket();
-//     console.log('WebSocket is closed now.', data);
-//   }
-
-//   ws.onopen = ()=>{
-//     console.log('[open] Connection established 1');
-//     setInterval(sendSubscription, 30000);
-
-//     sendSubscription('/trade');
-//   }
-
-//   ws.onerror = (error)=>{
-//     console.log(`[error] ${error.message}`);
-//   }
-
-//   ws.onmessage = function(msg) {  }
-// }
+// // start the express server
+// app.listen( port, () => {
+//     // tslint:disable-next-line:no-console
+//     console.log( `server started at http://localhost:${ port }` );
+// } );

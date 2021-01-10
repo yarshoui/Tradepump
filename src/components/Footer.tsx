@@ -1,5 +1,6 @@
 import React from 'react';
 import 'src/css/index.css';
+import { NavLink } from 'react-router-dom';
 
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
@@ -9,8 +10,8 @@ import 'src/css/index.css';
 export const Footer = () => {
   return (
     <div>
-      <ul className="bottom-nav">
-        <li>
+      <ul className="nav-footer">
+        {/* <li>
           <a className="bottom-menu-button" href="/terms">
             Terms and conditions
           </a>
@@ -24,16 +25,26 @@ export const Footer = () => {
           <a className="bottom-menu-button" href="/about">
             About
           </a>
-        </li>
-        
-        {/* <li>
-          <a className="bottom-menu-button" href="/support">
-            Support
-          </a>
         </li> */}
+        
+        <li>
+          <NavLink to="/terms">
+            Terms and conditions
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/privacy">
+            Privacy Policy
+          </NavLink>
+        </li>
+        <li>
+          <NavLink to="/about">
+            About
+          </NavLink>
+        </li>
       </ul>
-      <p>Send your comments and suggestions to <a className="bottom-menu-button" href="mailto:support@tradepump.com">Support</a></p>
-      <p>Copyright © 2021 TradePump.com</p>
+      <p style={{ marginLeft: '10px' }}>Send your comments and suggestions to <a className="bottom-menu-button" href="mailto:support@tradepump.com">Support</a></p>
+      <p style={{ marginLeft: '10px' }}>Copyright © 2021 TradePump.com</p>
     </div>
   );
 };
