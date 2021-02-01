@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect }  from 'react';
 import 'src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
@@ -7,6 +7,9 @@ import 'src/css/index.css';
 import { makeStyles } from '@material-ui/core/styles';
 // import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
+import ReactGA from 'react-ga';
+
+ReactGA.initialize('UA-184831310-1');
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -55,6 +58,12 @@ const useStyles = makeStyles((theme) => ({
 
 export const Privacy = () => {
   const classes = useStyles();
+
+  useEffect( () => {
+    // GoogleAnalytics
+    ReactGA.pageview(window.location.pathname + window.location.search); 
+  });
+
   return (
     <div className={classes.root}>
       <Helmet>
@@ -71,6 +80,12 @@ export const Privacy = () => {
           <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
           <link rel="stylesheet" href="style.css" />
           <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com</title>
+          <meta property="og:title" content="Bitcoin & Cryptocurrency Aggregator | TradePump.com" />
+          <meta property="og:type" content="website" />
+          <meta property="og:url" content="https://www.tradepump.com/privacy" />
+          <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
+          <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
+
         </Helmet>
       
         <h2>Privacy Policy</h2>
