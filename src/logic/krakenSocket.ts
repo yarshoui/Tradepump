@@ -16,7 +16,7 @@ let intervalId: NodeJS.Timeout;
 const sendData = () => {
   console.log('sendData');
   intervalId = setInterval(() => {
-    console.log('sendData setInterval', krakenData);
+    console.log('Kraken sendData setInterval', krakenData);
     if (!krakenData.activePayload) {
       return;
     }
@@ -49,11 +49,11 @@ export function restoreSocket() {
 
     krakenData.socket.onclose = () => {
       restoreSocket();
-      console.log('WebSocket is closed now.');
+      console.log('[close] Kraken WebSocket is closed now.');
     };
 
     krakenData.socket.onopen = () => {
-      console.log('[open] Connection established 1');
+      console.log('[open] Connection established to Kraken WebSocket');
       intervalId && clearInterval(intervalId);
       sendData();
       resolve(krakenData.socket as WebSocket);
@@ -80,12 +80,11 @@ export const getKrakenSocket = (): Promise<WebSocket> => {
     resolve(krakenData.socket as WebSocket);
   });
 };
-
+//payload for "name": "book"
 const getSubscribePayload = (inputPair: SelectorOptions) => {
   const payload = {
     event: 'subscribe',
     pair: [PAIRS[inputPair].kraken],
-    // pair: [ inputPair, ],
     subscription: {
       depth: 1000,
       name: 'book',
@@ -94,19 +93,32 @@ const getSubscribePayload = (inputPair: SelectorOptions) => {
 
   return JSON.stringify(payload);
 };
+//end
+
+//payload for "name": "trade"
+const getSubscribePayloadTrade = (inputPair: SelectorOptions) => {
+  const payloadTrade = {
+    event: 'subscribe',
+    pair: [PAIRS[inputPair].kraken],
+    subscription: {      
+      name: 'trade',
+    },
+  };
+
+  return JSON.stringify(payloadTrade);
+};
+//end
 
 export const setKrakenDataHandler = (dataHandler: (msg: any) => void) => {
   krakenData.dataHandler = dataHandler;
 };
 
-// export const setPayloadForKrakenCurrencyPair = (inputPair: string) => {
-//   const payload = getSubscribePayload(inputPair);
-//   krakenData.activePayload = payload;
-// };
+
 
 export const subscribeToKrakenCurrencyPair = (inputPair: SelectorOptions) => {
   const socketPromise = getKrakenSocket();
   const payload = getSubscribePayload(inputPair);
+
   krakenData.activePayload = payload;
   socketPromise.then((socket) => {
     socket.send(payload);
