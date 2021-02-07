@@ -2,7 +2,7 @@ import { PAIRS, SelectorOptions } from 'src/logic/pairsConfig';
 
 interface KrakenData {
   socket: WebSocket | undefined;
-  activePayload: string | undefined;
+  activePayload: string [] | undefined;
   dataHandler?: (msg: any) => void;
 }
 
@@ -27,9 +27,14 @@ const sendData = () => {
         return;
       }
 
-      //console.log('here', krakenData);
+      console.log('here', krakenData);
       try {
-        socket.send(krakenData.activePayload);
+        // socket.send(krakenData.activePayload);
+        
+          krakenData.activePayload && krakenData.activePayload.forEach((payload) => {
+            socket?.send(payload);
+          });
+        
       } catch (error) {
         console.error('Kraken socket error :' + error);
       }
@@ -40,7 +45,10 @@ const sendData = () => {
     return;
   }
 
-  krakenData.socket?.send(krakenData.activePayload);
+  // krakenData.socket?.send(krakenData.activePayload);
+  krakenData.activePayload && krakenData.activePayload.forEach((payload) => {
+    krakenData.socket?.send(payload);
+  });
 };
 
 export function restoreSocket() {
@@ -117,10 +125,20 @@ export const setKrakenDataHandler = (dataHandler: (msg: any) => void) => {
 
 export const subscribeToKrakenCurrencyPair = (inputPair: SelectorOptions) => {
   const socketPromise = getKrakenSocket();
-  const payload = getSubscribePayload(inputPair);
+  // const payload = getSubscribePayload(inputPair);
+  const payload1 = getSubscribePayload(inputPair);
+  const payload2 = getSubscribePayloadTrade(inputPair);
 
-  krakenData.activePayload = payload;
+  krakenData.activePayload = [ payload1, payload2 ];
+  
+
   socketPromise.then((socket) => {
-    socket.send(payload);
+    // socket.send(payload);
+    return krakenData.activePayload 
+    && krakenData.activePayload
+    ?.
+    forEach((payload) => {
+      socket.send(payload);
+    });
   });
 };
