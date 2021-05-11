@@ -22,6 +22,8 @@ import CookieConsent from "react-cookie-consent";
 // import {Tour} from '@styled-icons/material/Tour';
 import {Help} from '@styled-icons/material-twotone/Help';
 import { startTourAgain } from 'src/components/intro/config';
+import { AuthBlock } from './AuthBlock';
+import { userStore } from 'src/logic/userStore';
 
 // import styled from 'styled-components';
 // import 'src/intro/intro.min.js';
@@ -103,32 +105,32 @@ export const Monitor = () => {
 
     return (
       <BrowserRouter>
-      <div className={classes.root}>
-        <div className={classes.topHolder}>
-          <div className={classes.logoHolder}>
-            <TopLogoPanel />
+        <div className={classes.root}>
+          <div className={classes.topHolder}>
+            <div className={classes.logoHolder}>
+              <TopLogoPanel />
+              <AuthBlock store={userStore} />
+            </div>
+            <div className={classes.asideTopHolder}>
+              <TopAd />
+            </div>
           </div>
-          <div className={classes.asideTopHolder}>
-            <TopAd />
-          </div>
-        </div>
-        <Header />
-        
-        <Switch>
-          <Route path='/monitor' component={OrdersMonitor} />
-          <Route path='/terms' component={Terms} />
-          <Route path='/privacy' component={Privacy} />
-          <Route path='/about' component={About} />
-          <Redirect path='/' to='/monitor' />
-        </Switch>
-        <Help className={classes.introIcon} size="50" title="Intro Tour" 
-        onClick={() => {startTourAgain()}}/> 
+          <Header />
           
-        <Footer />
-        <CookieConsent>We use cookies to enhance your experience, analyze our traffic, and for security and marketing. By visiting our website you agree to our use of cookies. <a data-bn-type="text" target="_blank" href="/privacy" className={classes.cookiesNitification}>*Read more about cookies*</a></CookieConsent>
-       
-      </div>
-
+          <Switch>
+            <Route path='/monitor' component={OrdersMonitor} />
+            <Route path='/terms' component={Terms} />
+            <Route path='/privacy' component={Privacy} />
+            <Route path='/about' component={About} />
+            <Redirect path='/' to='/monitor' />
+          </Switch>
+          <Help className={classes.introIcon} size="50" title="Intro Tour" 
+          onClick={() => {startTourAgain()}}/> 
+            
+          <Footer />
+          <CookieConsent>We use cookies to enhance your experience, analyze our traffic, and for security and marketing. By visiting our website you agree to our use of cookies. <a data-bn-type="text" target="_blank" href="/privacy" className={classes.cookiesNitification}>*Read more about cookies*</a></CookieConsent>
+        
+        </div>
       </BrowserRouter>
     );
   }
