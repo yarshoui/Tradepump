@@ -17,8 +17,7 @@ import './../../src/css/index.css';
 import { OrderMonitorMenu } from './OrderMonitorMenu';
 import { OrdersMonitorTables} from 'src/components/OrdersMonitorTables';
 // import { TopLogoPanel } from './TopLogoPanel';
-import { AppStore } from 'src/logic/appStore';
-import { appStore } from 'src/logic/appStore';
+import { appStore, AppStore } from 'src/logic/appStore';
 
 // import { subscribeToBitfinexCurrencyPair } from 'src/logic/bitfinexRest';
 // import { PAIRS } from './../components/OrderMonitorMenu';
