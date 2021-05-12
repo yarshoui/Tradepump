@@ -16,6 +16,7 @@ import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
 import { Privacy } from 'src/pages/Privacy';
 import { About } from 'src/pages/About';
+import { SignUp } from 'src/pages/Sign-up';
 import { start } from 'src/components/intro/config';
 import ReactGA from 'react-ga';
 import CookieConsent from "react-cookie-consent";
@@ -24,6 +25,7 @@ import {Help} from '@styled-icons/material-twotone/Help';
 import { startTourAgain } from 'src/components/intro/config';
 import { AuthBlock } from './AuthBlock';
 import { userStore } from 'src/logic/userStore';
+import { SignIn } from 'src/pages/Sign-in';
 
 // import styled from 'styled-components';
 // import 'src/intro/intro.min.js';
@@ -122,6 +124,8 @@ export const Monitor = () => {
             <Route path='/terms' component={Terms} />
             <Route path='/privacy' component={Privacy} />
             <Route path='/about' component={About} />
+            <Route path='/sign-up' component={SignUp} />
+            <Route path='/sign-up' component={SignIn} />
             <Redirect path='/' to='/monitor' />
           </Switch>
           <Help className={classes.introIcon} size="50" title="Intro Tour" 
