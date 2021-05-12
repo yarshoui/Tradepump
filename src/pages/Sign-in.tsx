@@ -196,6 +196,108 @@ export const SignIn = () => {
                   </div>
                 </div>
               </div>
+//Reset my password button form
+              <div className="self-service relative" data-testid="self-service">
+                <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
+                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
+                </button>
+                <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-password-form">
+                  <div className="illustration-container relative flex items-center justify-center mt20">
+                    <img src="/bundles/87209c565877218f06b7.svg"/>
+                  </div>
+                  <div className="action-container">
+                    <span className="f5-smaller self-service-heading db">Recover your password</span>
+                    <h3>
+                      <span className="f4 self-service-description db mt10">Enter the email address and username associated with your Kraken account to receive an email with password reset instructions.</span>
+                    </h3>
+                    <form className="form recover-password-form" method="POST" tabIndex="-1">
+                      <input type="hidden" name="csr"/>
+                        <div className="flex flex-column">
+                          <div className="flex justify-center flex-column">
+                            <div className="input flex items-center dib ba w-100 overflow-hidden">
+                              <div className="relative dib w-100">
+                                <input data-testid="email-input" name="email" type="text" autocomplete="current-email" class="" value=""/>
+                                  <label className="form-label f5 nowrap absolute top-0 h1 ma0">
+                                    <span className="required-label">
+                                      <span>Email</span>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                              <div className="input flex items-center dib ba w-100 overflow-hidden">
+                                <div className="relative dib w-100">
+                                  <input data-testid="username-input" name="username" type="text" className="" value=""/>
+                                    <label className="form-label f5 nowrap absolute top-0 h1 ma0">
+                                      <span className="required-label">
+                                        <span>Username</span>
+                                      </span>
+                                    </label>
+                                  </div>
+                                </div>
+                              </div>
+                              <div className="flex">
+                                <button data-testid="submit-button" class="button di fw4 submit maintain-style starboard" type="submit" disabled="">
+                                  <div className="flex justify-center items-center">
+                                    <span className="f6x lh-solid ttu ls-1">
+                                      <span>Recover password</span>
+                                    </span>
+                                  </div>
+                                </button>
+                              </div>
+                              <button className="flex self-service-link brand-color underline mt10" type="button">
+                                <span>Forgot username?</span>
+                              </button>
+                            </div>
+                          </form>
+                        </div>
+                      </div>
+                    </div>
+//Remembering my username button form
+              <div className="self-service relative" data-testid="self-service">
+                <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
+                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
+                </button>
+                <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-username-form">
+                  <div className="illustration-container relative flex items-center justify-center mt20">
+                    <img src="/bundles/8a2c5e0aca9d632490bb.svg"/>
+                  </div>
+                  <div className="action-container">
+                    <span className="f5-smaller self-service-heading db">Recover your username</span>
+                    <h3>
+                      <span className="f4 self-service-description db mt10">Enter the email address associated with your Kraken account to receive an email with your username.</span>
+                    </h3>
+                    <form className="form recover-username-form" method="POST" tabIndex="-1">
+                      <input type="hidden" name="csr"/>
+                        <div className="flex flex-column">
+                          <div className="flex justify-center flex-column">
+                            <div className="input flex items-center dib ba w-100 overflow-hidden">
+                              <div className="relative dib w-100">
+                                <input data-testid="email-input" name="email" type="text" autocomplete="current-email" class="" value=""/>
+                                  <label className="form-label f5 nowrap absolute top-0 h1 ma0">
+                                    <span className="required-label">
+                                      <span>Email</span>
+                                    </span>
+                                  </label>
+                                </div>
+                              </div>
+                            </div>
+                            <div className="flex">
+                              <button data-testid="submit-button" class="button di fw4 submit maintain-style starboard" type="submit" disabled="">
+                                <div className="flex justify-center items-center">
+                                  <span className="f6x lh-solid ttu ls-1">
+                                    <span>Recover username</span>
+                                  </span>
+                                </div>
+                              </button>
+                            <div className="flex items-center ml20 mt20">Forgot email? 
+                              <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Contact Support</a>
+                            </div>
+                          </div>
+                        </div>
+                      </form>
+                    </div>
+                  </div>
+                </div>
             </div>
           </div>
         </div>
