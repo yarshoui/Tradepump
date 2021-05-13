@@ -125,7 +125,7 @@ export const Monitor = () => {
             <Route path='/privacy' component={Privacy} />
             <Route path='/about' component={About} />
             <Route path='/sign-up' component={SignUp} />
-            <Route path='/sign-up' component={SignIn} />
+            <Route path='/sign-in' component={SignIn} />
             <Redirect path='/' to='/monitor' />
           </Switch>
           <Help className={classes.introIcon} size="50" title="Intro Tour" 

@@ -9,7 +9,7 @@ import './../../src/css/index.css';
 export const RightAd = () => {
   return (
     <div style={{ visibility: 'visible', display: 'inline-block', borderColor: 'black' }}>
-      <script data-ad-client="ca-pub-4950025876386607" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script>
+      {/* <script data-ad-client="ca-pub-4950025876386607" async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js"></script> */}
       {/* <p>Please disable your ad-blocker! (adv 160*600 align bottom)</p>
       <p>You may not like this ad, but it supports the developer and keeps this site free.</p> */}
     </div>

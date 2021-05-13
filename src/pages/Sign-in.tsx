@@ -155,7 +155,7 @@ export const SignIn = () => {
                 </form>
               </div>
 
-              //Secure Sign-In Help to restore Username or password (like on https://www.kraken.com/sign-in)
+{/* Secure Sign-In Help to restore Username or password (like on https://www.kraken.com/sign-in) */}
               <div className="flex flex-grow-1 justify-center content-wrapper relative">
                 <button className="protect-account-close-button flex items-center justify-center absolute pointer" data-testid="protect-account-close-button">
                   <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
@@ -184,19 +184,13 @@ export const SignIn = () => {
                           </span>
                         </div>
                       </button>
-                      <button data-testid="bypass-tfa" className="button di fw4 need-help-button mt10 f6x w-100 starboard" type="button">
-                        <div className="flex justify-center items-center">
-                          <span className="f6x lh-solid ttu ls-1">
-                            <span className="ttn">My Sign-in 2FA method</span>
-                          </span>
-                        </div>
-                      </button>
+                      
                       <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Contact Support</a>
                     </div>
                   </div>
                 </div>
               </div>
-//Reset my password button form
+{/* Reset my password button form */}
               <div className="self-service relative" data-testid="self-service">
                 <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
                   <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
@@ -252,7 +246,7 @@ export const SignIn = () => {
                         </div>
                       </div>
                     </div>
-//Remembering my username button form
+{/* Remembering my username button form */}
               <div className="self-service relative" data-testid="self-service">
                 <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
                   <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>

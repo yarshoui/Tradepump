@@ -92,7 +92,7 @@ export const SignUp = () => {
           <form method="POST" action="/sign-up">
             <input type="hidden" name="a488a0256d669666eb6e986577e96270faf81fe70c927903d8a801382c5404da" value="b76ebf80de8e53220584"/>
             <input type="hidden" name="a488a0256d669666eb6e986577e96270faf81fe70c927903d8a801382c5404da-time" value="11.440000031143427"/>
-// E-Mail input            
+ {/* E-Mail input             */}
             <div className="mb3">
               <div className="flex relative Field-module_container__2SO49 RetailField-module_retailField__2JJkb RetailField-module_fontWeightRetail__1zq82 Field-module_negative__2LDT6">
                 <div className="flex w-100 tl items-center">
@@ -103,7 +103,7 @@ export const SignUp = () => {
                 </div>
               </div>
             </div>
-// Username input            
+ {/* Username input             */}
             <div className="SignupForm-module_usernamePasswordFields__2qidk">
               <div className="SignupForm-module_usernameField__2kYML">
                 <div>
@@ -117,7 +117,7 @@ export const SignUp = () => {
                   </div>
                 </div>
               </div>
-// Password input             
+ {/* Password input              */}
               <div className="SignupForm-module_passwordField__yyegQ" data-reach-tooltip-trigger="">
                 <div className="flex relative Field-module_container__2SO49 RetailField-module_retailField__2JJkb RetailField-module_fontWeightRetail__1zq82">
                   <div className="flex w-100 tl items-center">
@@ -138,7 +138,7 @@ export const SignUp = () => {
                 </div>
               </div>
             </div>
-// Select your country button
+ {/* Select your country button */}
             <div className="relative pointer border-radius mb3 Dropdown-module_retailField__2VFcM Dropdown-module_fontWeightRetail__20_h9 Dropdown-module_dropdown__1E-NF Dropdown-module_dirty__JoYL3 Dropdown-module_retailDirty__2_CDn" data-testid="country-selector" role="combobox" aria-expanded="false" aria-haspopup="listbox" aria-labelledby="downshift-3-label">
               <button data-testid="button-toggle-country" className="bg-pure-white relative flex items-center pl3/2 pr3/2 h-100 w-100 tl text-N600 caption-2 Dropdown-module_FieldItem__3wy5h Dropdown-module_button__2_NAp" type="button" role="button" aria-label="open menu" aria-haspopup="true" data-toggle="true" name="country" id="country">
                 <div className="flex h-100 w-100">
@@ -157,7 +157,7 @@ export const SignUp = () => {
                 </div>
               </button>
             </div>
-// Accept agreement tick box            
+{/* Accept agreement tick box             */}
             <div className="mb3">
               <label htmlFor="agreement" data-testid="agreement-checkbox" className="flex items-center">
                 <div className="Checkbox-module_checkbox__1oJuk flex-shrink-0 SignupForm-module_linkFocusCheckbox__1AK2P mr1">
