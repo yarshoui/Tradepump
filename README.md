@@ -27,6 +27,8 @@ Keys names must persist.
 | IP | IP or hostname to listen on | 127.0.0.1 |
 | PORT | Port to listen on | 8080 |
 | JWT_KEYS_FOLDER | Json Web Token keys folder containing `jwt.key` and `jwt.pem`. | `<project root>/keys` |
+| DATABASE_URL | Database URL | postgres://master:1234qwert=@localhost:5432/tradepump |
+| ADMIN_PASSWORD | Set admin password in database | 1234qwert= |
 
 <br>
 
@@ -44,3 +46,15 @@ To build docker image locally, follow those steps:
 1. Generate the keys as described in [Json web token auth](#json-web-token-auth) section.
 2. Create `keys` folder. `mkdir keys`
 3. Run docker container with ``docker run --rm -d -p 8080:8080 -v `pwd`/keys:/app/keys tradepump``
+
+### Database
+
+Database located under `/database` folder.<br>
+The structure of the project is
+```
+|- docker-entripoint-initdb.d/ # Folder with sql files to apply
+|- pgadmin4\ # PGAdmin4 related folder for local development
+|  |- config # pgadmin4 configuration files
+|  |- storage # Folder to mount with container for pgadmin save data
+|- docker-compose.yml # Docker compose file for local development
+```

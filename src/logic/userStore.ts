@@ -1,9 +1,14 @@
 import { action, decorate, observable } from 'mobx';
+import { apiErrorGuard, fetchData } from 'src/utils/apiUtils';
 
 export interface UserModel {
-  id: number;
-  name: string;
+  user_id: number;
+  user_name: string;
 }
+
+export const userGuard = (model: any): model is UserModel => 
+  model &&
+  model.user_id > 0;
 
 export class UserStore {
   initializing: boolean;
@@ -16,31 +21,27 @@ export class UserStore {
   }
 
   async checkAuth() {
-    const data = await fetch('/api/v1/user/login', { credentials: 'include' }).then(res => res.json());
+    const data = await fetchData<UserModel>('/api/v1/user/login');
 
     this.initializing = false;
-    if (data.id) {
-      this.user = data as UserModel;
+    if (userGuard(data)) {
+      this.user = data;
     }
   }
 
   async signIn(login: string, password: string) {
     this.initializing = true;
     try {
-      const data = await fetch('/api/v1/user/login', {
+      const data = await fetchData<UserModel>('/api/v1/user/login', {
         method: 'POST',
         body: JSON.stringify({ login, password }),
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json; encoding=utf-8',
-        },
-      }).then(res => res.json());
+      });
 
       this.initializing = false;
-      if (data.error) {
+      if (apiErrorGuard(data)) {
         this.errorMessage = data.error;
       } else {
-        this.user = data as UserModel;
+        this.user = data;
         this.errorMessage = undefined;
       }
     } catch (err) {
@@ -52,7 +53,7 @@ export class UserStore {
   async logout() {
     this.user = undefined;
     this.errorMessage = undefined;
-    await fetch('/api/v1/user/logout');
+    await fetchData('/api/v1/user/logout');
   }
 }
 

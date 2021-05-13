@@ -1,0 +1,25 @@
+version: "3.4"
+
+services:
+  db:
+    image: postgres:11
+    volumes:
+      - ./docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: master
+      POSTGRES_PASSWORD: 1234qwert=
+      POSTGRES_DB: tradepump
+    ports:
+      - 5432:5432
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    volumes:
+      - ./pgadmin4/config:/pgadmin4/config
+      - ./pgadmin4/storage:/var/lib/pgadmin/storage
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tradepump.com
+      PGADMIN_DEFAULT_PASSWORD: 1234qwert=
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/config/servers.json
+    ports:
+      - 8080:80

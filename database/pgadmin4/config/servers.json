@@ -1,0 +1,14 @@
+{
+  "Servers": {
+    "1": {
+      "Name": "Local Development",
+      "Group": "Servers",
+      "Port": 5432,
+      "SSLMode": "prefer",
+      "Username": "master",
+      "PassFile": "/pgadmin4/config/.pgpass",
+      "Host": "db",
+      "MaintenanceDB": "tradepump"
+    }
+  }
+}
