@@ -56,6 +56,11 @@ export const Header = (props: any) => {
             Sign-In
           </NavLink>
         </li>
+        <li>
+          <NavLink to="/monitor">
+            Logout
+          </NavLink>
+        </li>
          {/* <li>
           <NavLink className="nonActive" to="/monitor" onClick={() => startTourAgain()}>
             Intro tour
