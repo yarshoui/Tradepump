@@ -97,7 +97,7 @@ export const SignIn = () => {
                 <span>Secure Sign-In</span>
               </div>
               <div className="flex flex-column login-form-container">
-                <form className="form login-form login-form-2fa" method="POST" tabIndex="-1">
+                <form className="form login-form login-form-2fa" method="POST" tabIndex={-1}>
                   <input type="hidden" name="csr"/>
                   <input className="challenge-input" type="hidden" name="ac" value="932278061"/>
                   <input type="hidden" name="44f0eed14d258dec6c8ddb212a202f4a2e2231d3a0ee2fa03bfe59319bae381f" value="52c03941df4f4be0bf16"/>
@@ -110,7 +110,7 @@ export const SignIn = () => {
                         <div className="flex justify-center mb10">
                           <div className="input flex items-center dib ba w-100 overflow-hidden">
                             <div className="relative dib w-100">
-                              <input id="username" name="username" type="text" autocomplete="current-username" spellcheck="false" class="" value=""/>
+                              <input id="username" name="username" type="text" autoComplete="current-username" spellCheck="false" className="" value=""/>
                               <label className="form-label f5 nowrap absolute top-0 h1 ma0" htmlFor="username">
                                 <span className="required-label">
                                   <span>Username</span>
@@ -123,7 +123,7 @@ export const SignIn = () => {
                           <div className="password-input w-100 relative">
                             <div className="input flex items-center dib ba w-100 overflow-hidden">
                               <div className="relative dib w-100">
-                                <input id="password" name="password" type="password" autocomplete="current-password" class="" value=""/>
+                                <input id="password" name="password" type="password" autoComplete="current-password" className="" value=""/>
                                 <label className="form-label f5 nowrap absolute top-0 h1 ma0" htmlFor="password">
                                   <span className="required-label">
                                     <span>Password</span>
@@ -137,7 +137,7 @@ export const SignIn = () => {
                           </div>
                         </div>
                         <div className="flex justify-center mb20">
-                          <button class="button di fw4 submit w-100 maintain-style starboard" type="submit" disabled="">
+                          <button className="button di fw4 submit w-100 maintain-style starboard" type="submit" disabled>
                             <div className="flex justify-center items-center">
                               <span className="f6x lh-solid ttu ls-1">
                                 <span>Sign In</span>
@@ -210,13 +210,13 @@ export const SignIn = () => {
                     <h3>
                       <span className="f4 self-service-description db mt10">Enter the email address and username associated with your Kraken account to receive an email with password reset instructions.</span>
                     </h3>
-                    <form className="form recover-password-form" method="POST" tabIndex="-1">
+                    <form className="form recover-password-form" method="POST" tabIndex={-1}>
                       <input type="hidden" name="csr"/>
                         <div className="flex flex-column">
                           <div className="flex justify-center flex-column">
                             <div className="input flex items-center dib ba w-100 overflow-hidden">
                               <div className="relative dib w-100">
-                                <input data-testid="email-input" name="email" type="text" autocomplete="current-email" class="" value=""/>
+                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" value=""/>
                                   <label className="form-label f5 nowrap absolute top-0 h1 ma0">
                                     <span className="required-label">
                                       <span>Email</span>
@@ -236,7 +236,7 @@ export const SignIn = () => {
                                 </div>
                               </div>
                               <div className="flex">
-                                <button data-testid="submit-button" class="button di fw4 submit maintain-style starboard" type="submit" disabled="">
+                                <button data-testid="submit-button" className="button di fw4 submit maintain-style starboard" type="submit" disabled>
                                   <div className="flex justify-center items-center">
                                     <span className="f6x lh-solid ttu ls-1">
                                       <span>Recover password</span>
@@ -266,13 +266,13 @@ export const SignIn = () => {
                     <h3>
                       <span className="f4 self-service-description db mt10">Enter the email address associated with your Kraken account to receive an email with your username.</span>
                     </h3>
-                    <form className="form recover-username-form" method="POST" tabIndex="-1">
+                    <form className="form recover-username-form" method="POST" tabIndex={-1}>
                       <input type="hidden" name="csr"/>
                         <div className="flex flex-column">
                           <div className="flex justify-center flex-column">
                             <div className="input flex items-center dib ba w-100 overflow-hidden">
                               <div className="relative dib w-100">
-                                <input data-testid="email-input" name="email" type="text" autocomplete="current-email" class="" value=""/>
+                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" value=""/>
                                   <label className="form-label f5 nowrap absolute top-0 h1 ma0">
                                     <span className="required-label">
                                       <span>Email</span>
@@ -282,7 +282,7 @@ export const SignIn = () => {
                               </div>
                             </div>
                             <div className="flex">
-                              <button data-testid="submit-button" class="button di fw4 submit maintain-style starboard" type="submit" disabled="">
+                              <button data-testid="submit-button" className="button di fw4 submit maintain-style starboard" type="submit" disabled>
                                 <div className="flex justify-center items-center">
                                   <span className="f6x lh-solid ttu ls-1">
                                     <span>Recover username</span>

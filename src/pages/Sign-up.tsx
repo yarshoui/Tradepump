@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { isUndefined } from 'lodash';
 
 ReactGA.initialize('UA-184831310-1');
 
@@ -122,8 +123,8 @@ export const SignUp = () => {
                   <div className="flex w-100 tl items-center">
                     <div className="flex-auto relative flex items-center h-100 bg-pure-white Field-module_FieldItem__2qUNO RetailField-module_FieldItem__OAxZ1">
                       <label htmlFor="password" className="text-N300 absolute Field-module_floatingLabel__12Szv">Password</label>
-                      <input tabIndex ="0" data-testid="signup-password-field" type="password" id="password" name="password" class="w-100 text-N600 h-100 Field-module_input__1PIFR w-100 body-2 text-N600 h-100 Field-module_input__1PIFR Field-module_withIconRight__2xwIp Field-module_floating__BjUHH Field-module_floating__BjUHH body-2 pl3/2 pr3/2 Field-module_FX_WWW__8FicW" value=""/>
-                      <button className="flex text-N600 Field-module_iconRight__3psFJ" tabIndex ="0" type="button" data-testid="show password button">
+                      <input tabIndex ={0} data-testid="signup-password-field" type="password" id="password" name="password" className="w-100 text-N600 h-100 Field-module_input__1PIFR w-100 body-2 text-N600 h-100 Field-module_input__1PIFR Field-module_withIconRight__2xwIp Field-module_floating__BjUHH Field-module_floating__BjUHH body-2 pl3/2 pr3/2 Field-module_FX_WWW__8FicW" value=""/>
+                      <button className="flex text-N600 Field-module_iconRight__3psFJ" tabIndex ={0} type="button" data-testid="show password button">
                         <svg width="20" height="20" className="svg-icon" viewBox="0 0 20 18" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M17.0711 0.514648L18.4853 1.92886L2.92893 17.4852L1.51472 16.071L7.2924 10.2933C7.29249 10.2935 7.29232 10.2931 7.2924 10.2933L11.293 6.29198C11.2928 6.2919 11.2931 6.29206 11.293 6.29198L17.0711 0.514648ZM9.30148 8.28424C9.29572 8.28986 9.29003 8.29555 9.28441 8.3013L9.30148 8.28424Z"></path>
                           <path d="M8.91264 12.9148C9.26655 12.97 9.62933 12.9999 10 12.9999C13.39 12.9999 16.12 10.4999 17.45 8.99992C16.8805 8.35765 16.0544 7.53204 15.0296 6.79785L16.4612 5.36625C18.6964 7.04448 20 8.99992 20 8.99992C20 8.99992 16 14.9999 10 14.9999C9.0277 14.9999 8.10791 14.8424 7.24916 14.5783L8.91264 12.9148Z"></path>
@@ -176,7 +177,7 @@ export const SignUp = () => {
             <div className="SignupForm-module_confirmationWrapper__9iamy">
               <div className="flex w-100 items-center justify-end mb4 Confirmation-module_confirmation__2jq_G">
                 <div className="Confirmation-module_buttons__371Ph">
-                  <button className="Button-module_button__wXbPI Button-module_primary__2X85A Button-module_extra-large__1Lr_s Confirmation-module_confirmButton__3ItrC" data-testid="confirm button" type="submit" disabled="">
+                  <button className="Button-module_button__wXbPI Button-module_primary__2X85A Button-module_extra-large__1Lr_s Confirmation-module_confirmButton__3ItrC" data-testid="confirm button" type="submit" disabled>
                     <div className="Button-module_focusRing__qT6o8">
                       <div className="Button-module_spacer__rMVgk">
                         <div className="Button-module_buttonInner__21spx SignupForm-module_confirmationButton__2RbmF">Create account</div>
