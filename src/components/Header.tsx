@@ -47,12 +47,12 @@ export const Header = (props: any) => {
           </NavLink>
         </li>
         <li>
-          <NavLink to="/SignUp">
+          <NavLink to="/sign-up">
             Sign-Up
           </NavLink>
         </li>
         <li>
-          <NavLink to="/SignIn">
+          <NavLink to="/sign-in">
             Sign-In
           </NavLink>
         </li>
