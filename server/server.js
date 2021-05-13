@@ -5,6 +5,7 @@ const { json, urlencoded } = require('body-parser');
 const log4js = require('log4js');
 const setupLog4js = require('./config/logging');
 const { setupPassport } = require('./config/passport');
+const { resolveErrorCodeAndMessage } = require('./helpers/errors');
 const router = require('./routers');
 
 setupLog4js();
@@ -34,8 +35,10 @@ app.use('/api', (req, res) => {
 // Fallback to index.html otherwise
 app.use((_req, res) => res.sendFile(path.resolve(__dirname, '../build/index.html')));
 // Error handling
-app.use((err, req, res, next) => {
-  res.status(err.code || err.status || 500).json({ error: err.message });
+app.use((err, _req, res, _next) => {
+  const [code, message] = resolveErrorCodeAndMessage(err);
+
+  res.status(code).json({ error: message });
 });
 
 app.listen(port, host, () => {

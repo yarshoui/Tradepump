@@ -1,6 +1,7 @@
 const passport = require('passport');
 const JwtStrategy = require('passport-jwt').Strategy;
 const getJWTKeys = require('./jwtConfig');
+const { call } = require('../helpers/database');
 
 const [jwtPrivateKey, jwtPublicKey] = getJWTKeys();
 
@@ -21,11 +22,12 @@ opts.jwtFromRequest = req => {
 };
 
 const setupPassport = () => {
-  passport.use(new JwtStrategy(opts, (jwt_payload, done) => {
-    // TODO: Implement database auth
-    if (jwt_payload.sub == 123) {
-      done(null, { id: +jwt_payload.sub, name: jwt_payload.name });
-    } else {
+  passport.use(new JwtStrategy(opts, async (jwt_payload, done) => {
+    try {
+      const data = await call('public.get_user', [jwt_payload.sub]);
+
+      done(null, data);
+    } catch (err) {
       done(null, false);
     }
   }));
