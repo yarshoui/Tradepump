@@ -83,10 +83,10 @@ export const SignUp = () => {
         <meta name="generator" content="ReactJS"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
         <link rel="stylesheet" href="style.css" />
-        <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com</title>
+        <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com | Create your account</title>
         <meta property="og:title" content="Bitcoin & Cryptocurrency Aggregator | TradePump.com" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.tradepump.com/terms" />
+        <meta property="og:url" content="https://www.tradepump.com/sign-up" />
         <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
         <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
       </Helmet>
@@ -171,8 +171,8 @@ export const SignUp = () => {
                     <input id="agreement" name="agreement" type="checkbox"/>
                   </div>
                 </div>
-                <p className="caption-2 text-N400">By continuing I agree to the  
-                  <a target="_BLANK" rel="nooopener noreferrer" className="SignupForm-module_link__17Tw2 SignupForm-module_underlineFocus__341Bu" href="https://www.tradepump.com/terms">Terms and Conditions</a> and  
+                <p className="caption-2 text-N400">By continuing I agree to the 
+                  <a target="_BLANK" rel="nooopener noreferrer" className="SignupForm-module_link__17Tw2 SignupForm-module_underlineFocus__341Bu" href="https://www.tradepump.com/terms">Terms and Conditions</a> and 
                   <a target="_BLANK" rel="nooopener noreferrer" className="SignupForm-module_link__17Tw2 SignupForm-module_underlineFocus__341Bu" href="https://www.tradepump.com/privacy">Privacy Policy</a>.
                 </p>
               </label>

@@ -90,10 +90,10 @@ export const SignIn = () => {
         <meta name="generator" content="ReactJS"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
         <link rel="stylesheet" href="style.css" />
-        <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com</title>
+        <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com | Login to your account</title>
         <meta property="og:title" content="Bitcoin & Cryptocurrency Aggregator | TradePump.com" />
         <meta property="og:type" content="website" />
-        <meta property="og:url" content="https://www.tradepump.com/terms" />
+        <meta property="og:url" content="https://www.tradepump.com/sign-in" />
         <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
         <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
       </Helmet>
