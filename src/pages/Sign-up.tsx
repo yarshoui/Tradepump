@@ -55,6 +55,8 @@ const useStyles = makeStyles((theme) => ({
   asideTopHolder: {
     paddingLeft: '20px',
   },
+
+  
 }));
 
 export const SignUp = () => {
@@ -87,9 +89,9 @@ export const SignUp = () => {
         <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
         <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
       </Helmet>
-        <div>
+        <div style={{ display: 'block' }}>
           <h2>Create your account</h2>
-          <form method="POST" action="/sign-up">
+          <form method="POST" action="/sign-up" style={{ display: 'block' }}>
             <input type="hidden" name="a488a0256d669666eb6e986577e96270faf81fe70c927903d8a801382c5404da" value="b76ebf80de8e53220584"/>
             <input type="hidden" name="a488a0256d669666eb6e986577e96270faf81fe70c927903d8a801382c5404da-time" value="11.440000031143427"/>
  {/* E-Mail input             */}

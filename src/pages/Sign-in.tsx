@@ -8,6 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 // import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { url } from 'inspector';
 
 ReactGA.initialize('UA-184831310-1');
 
@@ -58,6 +59,12 @@ const useStyles = makeStyles((theme) => ({
     textDecoration: 'none',
     color: 'blue',
   },
+  tfaLockIcon:{
+    backgroundSize: 'cover',
+    // backgroundImage: url(),
+    width: '4.5rem',
+    height: '6rem',
+  },
 }));
 
 export const SignIn = () => {
@@ -105,7 +112,7 @@ export const SignIn = () => {
                     <div className="flex flex-column">
                       <div className="" data-testid="login-basic">
                         <div className="flex justify-center mb20">
-                          <i className="tfa-lock-icon" aria-hidden="true"></i>
+                          <i className="tfaLockIcon" aria-hidden="true"></i>
                         </div>
                         <div className="flex justify-center mb10">
                           <div className="input flex items-center dib ba w-100 overflow-hidden">
