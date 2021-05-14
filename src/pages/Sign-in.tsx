@@ -65,6 +65,7 @@ const useStyles = makeStyles((theme) => ({
     width: '4.5rem',
     height: '6rem',
   },
+
 }));
 
 export const SignIn = () => {
@@ -117,7 +118,7 @@ export const SignIn = () => {
                         <div className="flex justify-center mb10">
                           <div className="input flex items-center dib ba w-100 overflow-hidden">
                             <div className="relative dib w-100">
-                              <input id="username" name="username" type="text" autoComplete="current-username" spellCheck="false" className="" value=""/>
+                              <input id="username" name="username" type="text" autoComplete="current-username" spellCheck="false" className="" /*value=""*//>
                               <label className="form-label f5 nowrap absolute top-0 h1 ma0" htmlFor="username">
                                 <span className="required-label">
                                   <span>Username</span>
@@ -130,7 +131,7 @@ export const SignIn = () => {
                           <div className="password-input w-100 relative">
                             <div className="input flex items-center dib ba w-100 overflow-hidden">
                               <div className="relative dib w-100">
-                                <input id="password" name="password" type="password" autoComplete="current-password" className="" value=""/>
+                                <input id="password" name="password" type="password" autoComplete="current-password" className="" /*value=""*//>
                                 <label className="form-label f5 nowrap absolute top-0 h1 ma0" htmlFor="password">
                                   <span className="required-label">
                                     <span>Password</span>
@@ -218,7 +219,7 @@ export const SignIn = () => {
                           <div className="flex justify-center flex-column">
                             <div className="input flex items-center dib ba w-100 overflow-hidden">
                               <div className="relative dib w-100">
-                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" value=""/>
+                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" /*value=""*//>
                                   <label className="form-label f5 nowrap absolute top-0 h1 ma0">
                                     <span className="required-label">
                                       <span>Email</span>
@@ -228,7 +229,7 @@ export const SignIn = () => {
                               </div>
                               <div className="input flex items-center dib ba w-100 overflow-hidden">
                                 <div className="relative dib w-100">
-                                  <input data-testid="username-input" name="username" type="text" className="" value=""/>
+                                  <input data-testid="username-input" name="username" type="text" className="" /*value=""*//>
                                     <label className="form-label f5 nowrap absolute top-0 h1 ma0">
                                       <span className="required-label">
                                         <span>Username</span>
@@ -275,7 +276,7 @@ export const SignIn = () => {
                           <div className="flex justify-center flex-column">
                             <div className="input flex items-center dib ba w-100 overflow-hidden">
                               <div className="relative dib w-100">
-                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" value=""/>
+                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" /*value=""*//>
                                   <label className="form-label f5 nowrap absolute top-0 h1 ma0">
                                     <span className="required-label">
                                       <span>Email</span>
