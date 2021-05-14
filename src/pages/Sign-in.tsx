@@ -112,7 +112,7 @@ export const SignIn = () => {
                     <div className="flex flex-column">
                       <div className="" data-testid="login-basic">
                         <div className="flex justify-center mb20">
-                          <i className="tfaLockIcon" aria-hidden="true"></i>
+                          <i className="tfaLockIcon" aria-hidden="true">Lock Icon is here</i>
                         </div>
                         <div className="flex justify-center mb10">
                           <div className="input flex items-center dib ba w-100 overflow-hidden">
@@ -139,7 +139,7 @@ export const SignIn = () => {
                               </div>
                             </div>
                             <button className="visibility-toggle absolute bn right-0 top-0 f5x z-1 bg-transparent" type="button">
-                              <i className="fas fa-eye"></i>
+                              <i className="fas fa-eye">Password visibility icon is here </i>
                             </button>
                           </div>
                         </div>
@@ -165,7 +165,7 @@ export const SignIn = () => {
 {/* Secure Sign-In Help to restore Username or password (like on https://www.kraken.com/sign-in) */}
               <div className="flex flex-grow-1 justify-center content-wrapper relative">
                 <button className="protect-account-close-button flex items-center justify-center absolute pointer" data-testid="protect-account-close-button">
-                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
+                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color">X</i>
                 </button>
                 <div className="content flex flex-column w-100">
                   <div className="header flex justify-center mb20 tc">
@@ -200,11 +200,12 @@ export const SignIn = () => {
 {/* Reset my password button form */}
               <div className="self-service relative" data-testid="self-service">
                 <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
-                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
+                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color">X</i>
                 </button>
                 <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-password-form">
                   <div className="illustration-container relative flex items-center justify-center mt20">
                     <img src="/bundles/87209c565877218f06b7.svg"/>
+                    <span>Some nice icon for Recover your password page</span>
                   </div>
                   <div className="action-container">
                     <span className="f5-smaller self-service-heading db">Recover your password</span>
@@ -256,11 +257,12 @@ export const SignIn = () => {
 {/* Remembering my username button form */}
               <div className="self-service relative" data-testid="self-service">
                 <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
-                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color"></i>
+                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color">X</i>
                 </button>
                 <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-username-form">
                   <div className="illustration-container relative flex items-center justify-center mt20">
                     <img src="/bundles/8a2c5e0aca9d632490bb.svg"/>
+                    <span>Some nice icon for Recover your username page</span>
                   </div>
                   <div className="action-container">
                     <span className="f5-smaller self-service-heading db">Recover your username</span>
