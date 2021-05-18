@@ -218,6 +218,7 @@ export const SignUp = () => {
     // GoogleAnalytics
     ReactGA.pageview(window.location.pathname + window.location.search); 
   });
+
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
     setValues({ ...values, [prop]: event.target.value });
   };
@@ -320,7 +321,7 @@ export const SignUp = () => {
                 </Grid>
                 <Grid item xs={12}>
                   <FormControlLabel
-                    label="Employed"
+                    label="By continuing I agree to the"
                     control={
                       <Field
                         name="employed"
