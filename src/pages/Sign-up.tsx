@@ -232,10 +232,10 @@ export const SignUp = () => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const [city, setCity] = React.useState('');
+  const [country, setCountry] = React.useState('');
 
-  const handleCityChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCity(event.target.value as string);
+  const handleCountryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+    setCountry(event.target.value as string);
   };
 
   return (
@@ -336,20 +336,66 @@ export const SignUp = () => {
                 
                 <Grid item xs={12}>
                   <FormControl required className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-required-label">City</InputLabel>
+                    <InputLabel id="demo-simple-select-required-label">Country of residence</InputLabel>
                     <Select 
                       labelId="demo-simple-select-required-label"
                       id="demo-simple-select-required"
-                      value={city}
-                      onChange={handleCityChange}
+                      value={country}
+                      onChange={handleCountryChange}
                       className={classes.selectEmpty}
                     >
                     <MenuItem value="">
                       <em>None</em>
                     </MenuItem>
-                      <MenuItem value="London">London</MenuItem>
-                      <MenuItem value="Paris">Paris</MenuItem>
-                      <MenuItem value="Budapest">A city with a very long Name</MenuItem>
+                      <MenuItem value="Afghanistan">Afghanistan</MenuItem>
+                      <MenuItem value="Aland Islands">Aland Islands</MenuItem>
+                      <MenuItem value="Albania">Albania</MenuItem>
+                      <MenuItem value="Algeria">Algeria</MenuItem>
+                      <MenuItem value="American Samoa">American Samoa</MenuItem>
+                      <MenuItem value="Andorra">Andorra</MenuItem>
+                      <MenuItem value="Angola">Angola</MenuItem>
+                      <MenuItem value="Anguilla">Anguilla</MenuItem>
+                      <MenuItem value="Antarctica">Antarctica</MenuItem>
+                      <MenuItem value="Antigua and Barbuda">Antigua and Barbuda</MenuItem>
+                      <MenuItem value="Argentina">Argentina</MenuItem>
+                      <MenuItem value="Armenia">Armenia</MenuItem>
+                      <MenuItem value="Aruba">Aruba</MenuItem>
+                      <MenuItem value="Ascension Island">Ascension Island</MenuItem>
+                      <MenuItem value="Australia">Australia</MenuItem>
+                      <MenuItem value="Austria">Austria</MenuItem>
+                      <MenuItem value="Azerbaijan">Azerbaijan</MenuItem>
+                      <MenuItem value="Bahamas">Bahamas</MenuItem>
+                      <MenuItem value="Bahrain">Bahrain</MenuItem>
+                      <MenuItem value="Bangladesh">Bangladesh</MenuItem>
+                      <MenuItem value="Barbados">Barbados</MenuItem>
+                      <MenuItem value="Belarus">Belarus</MenuItem>
+                      <MenuItem value="Belgium">Belgium</MenuItem>
+                      <MenuItem value="Belize">Belize</MenuItem>
+                      <MenuItem value="Benin">Benin</MenuItem>
+                      <MenuItem value="Bermuda">Bermuda</MenuItem>
+                      <MenuItem value="Bhutan">Bhutan</MenuItem>
+                      <MenuItem value="Bolivia">Bolivia</MenuItem>
+                      <MenuItem value="Bosnia and Herzegovina">Bosnia and Herzegovina</MenuItem>
+                      <MenuItem value="Botswana">Botswana</MenuItem>
+                      <MenuItem value="Bouvet Island">Bouvet Island</MenuItem>
+                      <MenuItem value="Brazil">Brazil</MenuItem>
+                      <MenuItem value="British Indian Ocean Territory">British Indian Ocean Territory</MenuItem>
+                      <MenuItem value="British Virgin Islands">British Virgin Islands</MenuItem>
+                      <MenuItem value="Brunei">Brunei</MenuItem>
+                      <MenuItem value="Bulgaria">Bulgaria</MenuItem>
+                      <MenuItem value="Burkina Faso">Burkina Faso</MenuItem>
+                      <MenuItem value="Burundi">Burundi</MenuItem>
+                      <MenuItem value="Cambodia">Cambodia</MenuItem>
+                      <MenuItem value="Cameroon">Cameroon</MenuItem>
+                      <MenuItem value="Canada">Canada</MenuItem>
+                      <MenuItem value="Cape Verde">Cape Verde</MenuItem>
+                      <MenuItem value="Caribbean Netherlands">Caribbean Netherlands</MenuItem>
+                      <MenuItem value="Cayman Islands">Cayman Islands</MenuItem>
+                      <MenuItem value="Central African Republic">Central African Republic</MenuItem>
+                      <MenuItem value="Chad">Chad</MenuItem>
+
+
+
                     </Select>
                     <FormHelperText>Required</FormHelperText>
                   </FormControl>
