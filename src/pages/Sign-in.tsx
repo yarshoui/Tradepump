@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 // import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-import { url } from 'inspector';
 
 ReactGA.initialize('UA-184831310-1');
 
@@ -205,7 +204,7 @@ export const SignIn = () => {
                 </button>
                 <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-password-form">
                   <div className="illustration-container relative flex items-center justify-center mt20">
-                    <img src="/bundles/87209c565877218f06b7.svg"/>
+                    <img src="/bundles/87209c565877218f06b7.svg" alt="nice icon" />
                     <span>Some nice icon for Recover your password page</span>
                   </div>
                   <div className="action-container">
@@ -262,7 +261,7 @@ export const SignIn = () => {
                 </button>
                 <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-username-form">
                   <div className="illustration-container relative flex items-center justify-center mt20">
-                    <img src="/bundles/8a2c5e0aca9d632490bb.svg"/>
+                    <img src="/bundles/8a2c5e0aca9d632490bb.svg" alt="nice icon" />
                     <span>Some nice icon for Recover your username page</span>
                   </div>
                   <div className="action-container">

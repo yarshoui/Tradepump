@@ -10,28 +10,17 @@ import ReactGA from 'react-ga';
 import { Form, Field } from 'react-final-form';
 import { Checkbox } from 'final-form-material-ui';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {
-  Typography,
   Paper,
-  Link,
   Grid,
   Button,
-  CssBaseline,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
   FormControl,
   FormControlLabel,
 } from '@material-ui/core';
