@@ -8,6 +8,53 @@ import { makeStyles } from '@material-ui/core/styles';
 // import { RadioButtonCheckedTwoTone } from '@material-ui/icons';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
+import { url } from 'inspector';
+import { Form, Field } from 'react-final-form';
+import TextField from '@material-ui/core/TextField';
+import Input from '@material-ui/core/Input';
+import InputLabel from '@material-ui/core/InputLabel';
+import InputAdornment from '@material-ui/core/InputAdornment';
+// import FormHelperText from '@material-ui/core/FormHelperText';
+import Visibility from '@material-ui/icons/Visibility';
+import VisibilityOff from '@material-ui/icons/VisibilityOff';
+import clsx from 'clsx';
+import IconButton from '@material-ui/core/IconButton';
+import {
+  Typography,
+  Paper,
+  Link,
+  Grid,
+  Button,
+  // CssBaseline,
+  // RadioGroup,
+  // FormLabel,
+  // MenuItem,
+  // FormGroup,
+  FormControl,
+} from '@material-ui/core';
+// Picker
+// import DateFnsUtils from '@date-io/date-fns';
+
+const onSubmit = async (values:any) => {
+  const sleep = (ms:any) => new Promise(resolve => setTimeout(resolve, ms));
+  await sleep(300);
+  window.alert(JSON.stringify(values));
+};
+
+const validate = (values:any) => {
+  const errors:any = {};
+ 
+  if (!values.password) {
+    errors.password = 'Required';
+  }
+  if (!values.username) {
+    errors.username = 'Required';
+  }
+  if (!values.email) {
+    errors.email = 'Required';
+  }
+  return errors;
+};
 
 ReactGA.initialize('UA-184831310-1');
 
@@ -15,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     position: 'relative',
-    minWidth: '1600px',
+    width:'50%',
     overflowX: 'auto',
     fontFamily: 'sans-serif',
     letterSpacing: 0,
@@ -24,6 +71,16 @@ const useStyles = makeStyles((theme) => ({
     fontWeight: 400,
     marginLeft: '10px',
   },
+
+  margin: {
+    margin: theme.spacing(1),
+  },
+
+  textField: {
+    width: '30ch',
+    
+  },
+
   paper: {
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -66,21 +123,49 @@ const useStyles = makeStyles((theme) => ({
   },
 
 }));
+interface State {
+  amount: string;
+  password: string;
+  weight: string;
+  weightRange: string;
+  showPassword: boolean;
+}
 
 export const SignIn = () => {
   const classes = useStyles();
+
+  const [values, setValues] = React.useState<State>({
+    amount: '',
+    password: '',
+    weight: '',
+    weightRange: '',
+    showPassword: false,
+  });
 
   useEffect( () => {
     // GoogleAnalytics
     ReactGA.pageview(window.location.pathname + window.location.search); 
   });
 
+  const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
+    setValues({ ...values, [prop]: event.target.value });
+  };
+  const handleClickShowPassword = () => {
+    setValues({ ...values, showPassword: !values.showPassword });
+  };
+
+  const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
+    event.preventDefault();
+  };
+
+  const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
+
   return (
     <div className={classes.root}>
       <Helmet>
         <meta charSet="utf-8" />          
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" href="./favicon.ico" />
+        <link rel="shortcut icon" href="favicon.ico" />
         <meta name="theme-color" content="#000000" />
         <meta name="application-name" content="TradePump" />
         <meta name="description" content="Tradepump is not just a Bitcoin and Cryptocurrency Free Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
@@ -97,213 +182,187 @@ export const SignIn = () => {
         <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
         <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
       </Helmet>
-        <div>
-          <div className="flex flex-grow-1 justify-center content-wrapper relative">
-            <div className="content flex flex-column w-100">
-              <div className="header flex justify-center mb20 tc">
-                <span>Secure Sign-In</span>
-              </div>
-              <div className="flex flex-column login-form-container">
-                <form className="form login-form login-form-2fa" method="POST" tabIndex={-1}>
-                  <input type="hidden" name="csr"/>
-                  <input className="challenge-input" type="hidden" name="ac" value="932278061"/>
-                  <input type="hidden" name="44f0eed14d258dec6c8ddb212a202f4a2e2231d3a0ee2fa03bfe59319bae381f" value="52c03941df4f4be0bf16"/>
-                  <input type="hidden" name="44f0eed14d258dec6c8ddb212a202f4a2e2231d3a0ee2fa03bfe59319bae381f-time" value="67.20499997027218"/>
-                    <div className="flex flex-column">
-                      <div className="" data-testid="login-basic">
-                        <div className="flex justify-center mb20">
-                          <i className="tfaLockIcon" aria-hidden="true">Lock Icon is here</i>
-                        </div>
-                        <div className="flex justify-center mb10">
-                          <div className="input flex items-center dib ba w-100 overflow-hidden">
-                            <div className="relative dib w-100">
-                              <input id="username" name="username" type="text" autoComplete="current-username" spellCheck="false" className="" /*value=""*//>
-                              <label className="form-label f5 nowrap absolute top-0 h1 ma0" htmlFor="username">
-                                <span className="required-label">
-                                  <span>Username</span>
-                                </span>
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className="flex justify-center mb10">
-                          <div className="password-input w-100 relative">
-                            <div className="input flex items-center dib ba w-100 overflow-hidden">
-                              <div className="relative dib w-100">
-                                <input id="password" name="password" type="password" autoComplete="current-password" className="" /*value=""*//>
-                                <label className="form-label f5 nowrap absolute top-0 h1 ma0" htmlFor="password">
-                                  <span className="required-label">
-                                    <span>Password</span>
-                                  </span>
-                                </label>
-                              </div>
-                            </div>
-                            <button className="visibility-toggle absolute bn right-0 top-0 f5x z-1 bg-transparent" type="button">
-                              <i className="fas fa-eye">Password visibility icon is here </i>
-                            </button>
-                          </div>
-                        </div>
-                        <div className="flex justify-center mb20">
-                          <button className="button di fw4 submit w-100 maintain-style starboard" type="submit" disabled>
-                            <div className="flex justify-center items-center">
-                              <span className="f6x lh-solid ttu ls-1">
-                                <span>Sign In</span>
-                              </span>
-                            </div>
-                          </button>
-                        </div>
-                        <div className="flex self-service-links justify-center">
-                          <button className="flex self-service-link brand-color underline" type="button">
-                            <span>Trouble signing in?</span>
-                          </button>
-                        </div>
-                      </div>
-                    </div>
-                </form>
-              </div>
 
-{/* Secure Sign-In Help to restore Username or password (like on https://www.kraken.com/sign-in) */}
-              <div className="flex flex-grow-1 justify-center content-wrapper relative">
-                <button className="protect-account-close-button flex items-center justify-center absolute pointer" data-testid="protect-account-close-button">
-                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color">X</i>
-                </button>
-                <div className="content flex flex-column w-100">
-                  <div className="header flex justify-center mb20 tc">
-                    <span>Secure Sign-In Help</span>
-                  </div>
-                  <div className="flex flex-column login-form-container">
-                    <div className="need-help flex flex-column justify-center items-center" data-testid="need-help">
-                      <div className="flex justify-center mb20">
-                        <i className="security-lock-icon" aria-hidden="true"></i>
-                      </div>
-                      <span className="need-help-title f5 bold">I need help with</span>
-                      <button data-testid="recover-password" className="button di fw4 need-help-button mt20 f6x w-100 starboard" type="button">
-                        <div className="flex justify-center items-center">
-                          <span className="f6x lh-solid ttu ls-1">
-                            <span className="ttn">Resetting my password</span>
-                          </span>
-                        </div>
-                      </button>
-                      <button data-testid="recover-username" className="button di fw4 need-help-button mt10 f6x w-100 starboard" type="button">
-                        <div className="flex justify-center items-center">
-                          <span className="f6x lh-solid ttu ls-1">
-                            <span className="ttn">Remembering my username</span>
-                          </span>
-                        </div>
-                      </button>
-                      
-                      <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Contact Support</a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-{/* Reset my password button form */}
-              <div className="self-service relative" data-testid="self-service">
-                <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
-                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color">X</i>
-                </button>
-                <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-password-form">
-                  <div className="illustration-container relative flex items-center justify-center mt20">
-                    <img src="/bundles/87209c565877218f06b7.svg" alt="nice icon" />
-                    <span>Some nice icon for Recover your password page</span>
-                  </div>
-                  <div className="action-container">
-                    <span className="f5-smaller self-service-heading db">Recover your password</span>
-                    <h3>
-                      <span className="f4 self-service-description db mt10">Enter the email address and username associated with your Kraken account to receive an email with password reset instructions.</span>
-                    </h3>
-                    <form className="form recover-password-form" method="POST" tabIndex={-1}>
-                      <input type="hidden" name="csr"/>
-                        <div className="flex flex-column">
-                          <div className="flex justify-center flex-column">
-                            <div className="input flex items-center dib ba w-100 overflow-hidden">
-                              <div className="relative dib w-100">
-                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" /*value=""*//>
-                                  <label className="form-label f5 nowrap absolute top-0 h1 ma0">
-                                    <span className="required-label">
-                                      <span>Email</span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                              <div className="input flex items-center dib ba w-100 overflow-hidden">
-                                <div className="relative dib w-100">
-                                  <input data-testid="username-input" name="username" type="text" className="" /*value=""*//>
-                                    <label className="form-label f5 nowrap absolute top-0 h1 ma0">
-                                      <span className="required-label">
-                                        <span>Username</span>
-                                      </span>
-                                    </label>
-                                  </div>
-                                </div>
-                              </div>
-                              <div className="flex">
-                                <button data-testid="submit-button" className="button di fw4 submit maintain-style starboard" type="submit" disabled>
-                                  <div className="flex justify-center items-center">
-                                    <span className="f6x lh-solid ttu ls-1">
-                                      <span>Recover password</span>
-                                    </span>
-                                  </div>
-                                </button>
-                              </div>
-                              <button className="flex self-service-link brand-color underline mt10" type="button">
-                                <span>Forgot username?</span>
-                              </button>
-                            </div>
-                          </form>
-                        </div>
-                      </div>
-                    </div>
-{/* Remembering my username button form */}
-              <div className="self-service relative" data-testid="self-service">
-                <button className="close-self-service-button flex items-center justify-center absolute pointer" data-testid="close-self-service-button">
-                  <i className="f5 flex items-center justify-center krakicon-close close-icon-default-height brand-color">X</i>
-                </button>
-                <div className="self-service-layout flex items-flex-start justify-center" data-testid="recover-username-form">
-                  <div className="illustration-container relative flex items-center justify-center mt20">
-                    <img src="/bundles/8a2c5e0aca9d632490bb.svg" alt="nice icon" />
-                    <span>Some nice icon for Recover your username page</span>
-                  </div>
-                  <div className="action-container">
-                    <span className="f5-smaller self-service-heading db">Recover your username</span>
-                    <h3>
-                      <span className="f4 self-service-description db mt10">Enter the email address associated with your Kraken account to receive an email with your username.</span>
-                    </h3>
-                    <form className="form recover-username-form" method="POST" tabIndex={-1}>
-                      <input type="hidden" name="csr"/>
-                        <div className="flex flex-column">
-                          <div className="flex justify-center flex-column">
-                            <div className="input flex items-center dib ba w-100 overflow-hidden">
-                              <div className="relative dib w-100">
-                                <input data-testid="email-input" name="email" type="text" autoComplete="current-email" className="" /*value=""*//>
-                                  <label className="form-label f5 nowrap absolute top-0 h1 ma0">
-                                    <span className="required-label">
-                                      <span>Email</span>
-                                    </span>
-                                  </label>
-                                </div>
-                              </div>
-                            </div>
-                            <div className="flex">
-                              <button data-testid="submit-button" className="button di fw4 submit maintain-style starboard" type="submit" disabled>
-                                <div className="flex justify-center items-center">
-                                  <span className="f6x lh-solid ttu ls-1">
-                                    <span>Recover username</span>
-                                  </span>
-                                </div>
-                              </button>
-                            <div className="flex items-center ml20 mt20">Forgot email? 
-                              <a href="mailto:support@tradepump.com" className={classes.aboutPageLinks}>Contact Support</a>
-                            </div>
-                          </div>
-                        </div>
-                      </form>
-                    </div>
-                  </div>
-                </div>
-            </div>
-          </div>
-        </div>
+
+      <Form
+        onSubmit={onSubmit}
+        initialValues={{ agreement: false }}
+        validate={validate}
+        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
+          <form onSubmit={handleSubmit} noValidate>
+            <Paper style={{ padding: 16 }}>
+              <Grid container alignItems="flex-start" spacing={2}>
+                <Grid item xs={12}>
+                <Typography variant="h4" gutterBottom>
+                Secure Sign-In
+              </Typography> 
+                </Grid>
+              
+                <Grid item xs={12}>
+                  <Field
+                    fullWidth
+                    required
+                    name="username"
+                    component={TextField}
+                    type="text"
+                    label="Username"
+                  />
+                </Grid>
+
+                <Grid item xs={12}>
+                <FormControl className={clsx(classes.margin, classes.textField)}>
+          <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
+          <Input
+            id="standard-adornment-password"
+            type={values.showPassword ? 'text' : 'password'}
+            value={values.password}
+            onChange={handleChange('password')}
+            endAdornment={
+              <InputAdornment position="end">
+                <IconButton
+                  aria-label="toggle password visibility"
+                  onClick={handleClickShowPassword}
+                  onMouseDown={handleMouseDownPassword}
+                >
+                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                </IconButton>
+              </InputAdornment>
+            }
+          />
+        </FormControl>
+                </Grid>
+                
+                <Grid item style={{ marginTop: 16 }}>
+                  <Button 
+                  variant="contained" 
+                  color="primary" 
+                  disableElevation 
+                  disabled> 
+                  {/* Enabled if 
+                  1. All fields are filled in 
+                  2. There is no such a Username in the DB*/}
+                    Sign In
+                  </Button>
+                </Grid>
+
+                <Grid item xs={12}>
+                <Link href="#" onClick={preventDefault}>Trouble signing in?</Link>
+                </Grid>
+              </Grid>
+            </Paper>
+            {/* <pre>{JSON.stringify(values)}</pre> */}
+          </form>
+        )}
+      />
+
+      <Form
+        onSubmit={onSubmit}
+        initialValues={{ agreement: false }}
+        validate={validate}
+        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
+          <form onSubmit={handleSubmit} noValidate>
+            <Paper style={{ padding: 16 }}>
+              <Grid container alignItems="flex-start" spacing={2}>
+                <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                Enter the email address and username associated with your TradePump account to receive an email with password reset instructions.
+              </Typography> 
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    name="email"
+                    fullWidth
+                    required
+                    component={TextField}
+                    type="email"
+                    label="Email"
+                  />
+                </Grid>
+              
+                <Grid item xs={12}>
+                  <Field
+                    fullWidth
+                    required
+                    name="username"
+                    component={TextField}
+                    type="text"
+                    label="Username"
+                  />
+                </Grid>
+
+                               
+                <Grid item style={{ marginTop: 16 }}>
+                  <Button 
+                  variant="contained" 
+                  color="primary" 
+                  disableElevation 
+                  disabled> 
+                  {/* Enabled if 
+                  1. All fields are filled in 
+                  2. There is no such a Username or email in the DB
+                  3. If username and email do not match}*/}
+                    Recover password
+                  </Button>
+                </Grid>
+
+                <Grid item xs={12}>
+                <Link href="#" onClick={preventDefault}>Forgot username?</Link>
+                </Grid>
+              </Grid>
+            </Paper>
+            {/* <pre>{JSON.stringify(values)}</pre> */}
+          </form>
+        )}
+      />
+      <Form
+        onSubmit={onSubmit}
+        initialValues={{ agreement: false }}
+        validate={validate}
+        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
+          <form onSubmit={handleSubmit} noValidate>
+            <Paper style={{ padding: 16 }}>
+              <Grid container alignItems="flex-start" spacing={2}>
+                <Grid item xs={12}>
+                <Typography variant="h6" gutterBottom>
+                Enter the email address and username associated with your TradePump account to receive an email with your username.
+              </Typography> 
+                </Grid>
+                <Grid item xs={12}>
+                  <Field
+                    name="email"
+                    fullWidth
+                    required
+                    component={TextField}
+                    type="email"
+                    label="Email"
+                  />
+                </Grid>
+              
+                                               
+                <Grid item style={{ marginTop: 16 }}>
+                  <Button 
+                  variant="contained" 
+                  color="primary" 
+                  disableElevation 
+                  disabled> 
+                  {/* Enabled if 
+                  1. All fields are filled in 
+                  2. There is no such a Username or email in the DB
+                  3. If username and email do not match}*/}
+                    Recover username
+                  </Button>
+                </Grid>
+
+                <Grid item xs={12}><span>Forgot email? </span>
+                <a href="mailto:support@tradepump.com" >Contact support</a>
+                </Grid>
+              </Grid>
+            </Paper>
+            {/* <pre>{JSON.stringify(values)}</pre> */}
+          </form>
+        )}
+      />
+ 
     </div>
   );
 };
