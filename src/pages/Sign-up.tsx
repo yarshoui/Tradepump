@@ -25,10 +25,10 @@ import {
   FormControlLabel,
 } from '@material-ui/core';
 // Picker
-import {
-  TimePicker,
-  DatePicker,
-} from '@material-ui/pickers';
+// import {
+//   TimePicker,
+//   DatePicker,
+// } from '@material-ui/pickers';
 import { countriesStore } from 'src/logic/countriesStore';
 import { CountriesSelect } from 'src/components/CountriesSelect';
 
