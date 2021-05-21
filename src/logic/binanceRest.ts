@@ -120,7 +120,7 @@ export const getBinanceOrdersData = () => {
       if (binanceOrdersData.dataHandler) {
         binanceOrdersData.dataHandler(data);
       }
-      console.log('binanceOrdersData', binanceOrdersDataArr);
+      console.debug('binanceOrdersData', binanceOrdersDataArr);
     });
   }
   function startPolling() {

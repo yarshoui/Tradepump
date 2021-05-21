@@ -58,7 +58,7 @@ export class AppStoreBitfinex {
     reaction(
       () => this.currentBitfinexPair,
       (pair: SelectorOptions) => {
-        console.log('pairChanged', pair);
+        // console.log('pairChanged', pair);
         subscribeToBitfinexCurrencyPair(pair);
       },
       {
@@ -72,7 +72,7 @@ export class AppStoreBitfinex {
   setOrderQuantity = debounce((input: string) => {
     //Need to rename setOrderQuantity for Bitfinex
     const quantity = parseFloat(input);
-    console.log('setOrderQuantity Bitfinex', quantity);
+    console.debug('setOrderQuantity Bitfinex', quantity);
     if (isNaN(quantity)) {
       console.warn('Wrong number', input);
       this.orderQuantity = 1;
@@ -80,7 +80,7 @@ export class AppStoreBitfinex {
     }
 
     this.orderQuantity = quantity;
-    console.log('here', this.orderQuantity);
+    console.debug('here', this.orderQuantity);
   }, 1000);
 
   setOrderQuantityHighlight = debounce((input: string) => {
@@ -110,8 +110,7 @@ export class AppStoreBitfinex {
 
     this.resetData();
 
-    console.count('onmessage');
-    console.log(newData[1]);
+    console.debug(newData[1]);
     this.bitfinexData.asks = newData.asks;
     this.bitfinexData.bids = newData.bids;
   };

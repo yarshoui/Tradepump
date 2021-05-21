@@ -1,9 +1,20 @@
 import { action, decorate, observable } from 'mobx';
 import { apiErrorGuard, fetchData } from 'src/utils/apiUtils';
 
+export interface Country {
+  country_id: number;
+  country_name: string;
+  country_iso: string;
+  country_iso3: string;
+  country_numcode: number;
+  country_phonecode: number;
+}
 export interface UserModel {
   user_id: number;
   user_name: string;
+  user_email: string;
+  country: Country;
+  user_groups: string[];
 }
 
 export const userGuard = (model: any): model is UserModel => 

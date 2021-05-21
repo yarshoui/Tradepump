@@ -16,10 +16,25 @@ CREATE TABLE public.users (
     user_id SERIAL NOT NULL PRIMARY KEY,
     user_name VARCHAR(255) NOT NULL,
     user_email public.email NOT NULL UNIQUE,
-    user_password VARCHAR NOT NULL,
+    user_password VARCHAR(72) NOT NULL,
     user_role roles DEFAULT 'user',
+    user_country INTEGER,
     user_is_active BOOLEAN DEFAULT FALSE,
     user_created TIMESTAMP WITHOUT TIME ZONE DEFAULT LOCALTIMESTAMP NOT NULL
+);
+-- User data
+CREATE TABLE public.users_data (
+  user_id INTEGER NOT NULL PRIMARY KEY,
+  user_country INTEGER
+);
+-- Regions
+CREATE TABLE public.countries (
+  country_id INTEGER NOT NULL PRIMARY KEY,
+  country_iso CHAR(2) NOT NULL UNIQUE,
+  country_name VARCHAR(80) NOT NULL,
+  country_iso3 CHAR(3) DEFAULT NULL UNIQUE,
+  country_numcode SMALLINT DEFAULT NULL,
+  country_phonecode INTEGER NOT NULL
 );
 
 ----

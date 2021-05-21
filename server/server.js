@@ -37,6 +37,9 @@ app.use((_req, res) => res.sendFile(path.resolve(__dirname, '../build/index.html
 // Error handling
 app.use((err, _req, res, _next) => {
   const [code, message] = resolveErrorCodeAndMessage(err);
+  if (code === 500 && err.stack) {
+    logger.fatal(err);
+  }
 
   res.status(code).json({ error: message });
 });

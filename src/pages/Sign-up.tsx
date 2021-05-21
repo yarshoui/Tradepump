@@ -7,91 +7,79 @@ import 'src/css/index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-// import { isUndefined } from 'lodash';
 import { Form, Field } from 'react-final-form';
 import { Checkbox } from 'final-form-material-ui';
 import TextField from '@material-ui/core/TextField';
-import Select from '@material-ui/core/Select';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
-import FilledInput from '@material-ui/core/FilledInput';
-import OutlinedInput from '@material-ui/core/OutlinedInput';
 import InputLabel from '@material-ui/core/InputLabel';
 import InputAdornment from '@material-ui/core/InputAdornment';
-import FormHelperText from '@material-ui/core/FormHelperText';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import {
-  Typography,
   Paper,
-  Link,
   Grid,
   Button,
-  CssBaseline,
-  RadioGroup,
-  FormLabel,
-  MenuItem,
-  FormGroup,
   FormControl,
   FormControlLabel,
 } from '@material-ui/core';
 // Picker
-import DateFnsUtils from '@date-io/date-fns';
-import {
-  MuiPickersUtilsProvider,
-  TimePicker,
-  DatePicker,
-} from '@material-ui/pickers';
+// import {
+//   TimePicker,
+//   DatePicker,
+// } from '@material-ui/pickers';
+import { countriesStore } from 'src/logic/countriesStore';
+import { CountriesSelect } from 'src/components/CountriesSelect';
 
-function DatePickerWrapper(props:any) {
-  const {
-    input: { name, onChange, value, ...restInput },
-    meta,
-    ...rest
-  } = props;
-  const showError =
-    ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
-    meta.touched;
+// function DatePickerWrapper(props:any) {
+//   const {
+//     input: { name, onChange, value, ...restInput },
+//     meta,
+//     ...rest
+//   } = props;
+//   const showError =
+//     ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
+//     meta.touched;
 
-  return (
-    <DatePicker
-      {...rest}
-      name={name}
-      helperText={showError ? meta.error || meta.submitError : undefined}
-      error={showError}
-      inputProps={restInput}
-      onChange={onChange}
-      value={value === '' ? null : value}
-    />
-  );
-}
+//   return (
+//     <DatePicker
+//       {...rest}
+//       name={name}
+//       helperText={showError ? meta.error || meta.submitError : undefined}
+//       error={showError}
+//       inputProps={restInput}
+//       onChange={onChange}
+//       value={value === '' ? null : value}
+//     />
+//   );
+// }
 
-function TimePickerWrapper(props:any) {
-  const {
-    input: { name, onChange, value, ...restInput },
-    meta,
-    ...rest
-  } = props;
-  const showError =
-    ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
-    meta.touched;
+// function TimePickerWrapper(props:any) {
+//   const {
+//     input: { name, onChange, value, ...restInput },
+//     meta,
+//     ...rest
+//   } = props;
+//   const showError =
+//     ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
+//     meta.touched;
 
-  return (
-    <TimePicker
-      {...rest}
-      name={name}
-      helperText={showError ? meta.error || meta.submitError : undefined}
-      error={showError}
-      inputProps={restInput}
-      onChange={onChange}
-      value={value === '' ? null : value}
-    />
-  );
-}
+//   return (
+//     <TimePicker
+//       {...rest}
+//       name={name}
+//       helperText={showError ? meta.error || meta.submitError : undefined}
+//       error={showError}
+//       inputProps={restInput}
+//       onChange={onChange}
+//       value={value === '' ? null : value}
+//     />
+//   );
+// }
 
 const onSubmit = async (values:any) => {
-  const sleep = (ms:any) => new Promise(resolve => setTimeout(resolve, ms));
+  const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
   await sleep(300);
   window.alert(JSON.stringify(values));
 };
@@ -232,10 +220,10 @@ export const SignUp = () => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const [country, setCountry] = React.useState('');
+  const [country, setCountry] = React.useState<number>();
 
   const handleCountryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCountry(event.target.value as string);
+    setCountry(parseInt(event.target.value as string));
   };
 
   return (
@@ -243,7 +231,7 @@ export const SignUp = () => {
       <Helmet>
         <meta charSet="utf-8" />          
         <meta name="viewport" content="width=device-width, initial-scale=1" />
-        <link rel="shortcut icon" href="./favicon.ico" />
+        <link rel="shortcut icon" href="/favicon.ico" />
         <meta name="theme-color" content="#000000" />
         <meta name="application-name" content="TradePump" />
         <meta name="description" content="Tradepump is not just a Bitcoin and Cryptocurrency Free Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
@@ -335,70 +323,13 @@ export const SignUp = () => {
                 </Grid>
                 
                 <Grid item xs={12}>
-                  <FormControl required className={classes.formControl}>
-                    <InputLabel id="demo-simple-select-required-label">Country of residence</InputLabel>
-                    <Select 
-                      labelId="demo-simple-select-required-label"
-                      id="demo-simple-select-required"
-                      value={country}
-                      onChange={handleCountryChange}
-                      className={classes.selectEmpty}
-                    >
-                    <MenuItem value="">
-                      <em>None</em>
-                    </MenuItem>
-                      <MenuItem value="Afghanistan">Afghanistan</MenuItem>
-                      <MenuItem value="Aland Islands">Aland Islands</MenuItem>
-                      <MenuItem value="Albania">Albania</MenuItem>
-                      <MenuItem value="Algeria">Algeria</MenuItem>
-                      <MenuItem value="American Samoa">American Samoa</MenuItem>
-                      <MenuItem value="Andorra">Andorra</MenuItem>
-                      <MenuItem value="Angola">Angola</MenuItem>
-                      <MenuItem value="Anguilla">Anguilla</MenuItem>
-                      <MenuItem value="Antarctica">Antarctica</MenuItem>
-                      <MenuItem value="Antigua and Barbuda">Antigua and Barbuda</MenuItem>
-                      <MenuItem value="Argentina">Argentina</MenuItem>
-                      <MenuItem value="Armenia">Armenia</MenuItem>
-                      <MenuItem value="Aruba">Aruba</MenuItem>
-                      <MenuItem value="Ascension Island">Ascension Island</MenuItem>
-                      <MenuItem value="Australia">Australia</MenuItem>
-                      <MenuItem value="Austria">Austria</MenuItem>
-                      <MenuItem value="Azerbaijan">Azerbaijan</MenuItem>
-                      <MenuItem value="Bahamas">Bahamas</MenuItem>
-                      <MenuItem value="Bahrain">Bahrain</MenuItem>
-                      <MenuItem value="Bangladesh">Bangladesh</MenuItem>
-                      <MenuItem value="Barbados">Barbados</MenuItem>
-                      <MenuItem value="Belarus">Belarus</MenuItem>
-                      <MenuItem value="Belgium">Belgium</MenuItem>
-                      <MenuItem value="Belize">Belize</MenuItem>
-                      <MenuItem value="Benin">Benin</MenuItem>
-                      <MenuItem value="Bermuda">Bermuda</MenuItem>
-                      <MenuItem value="Bhutan">Bhutan</MenuItem>
-                      <MenuItem value="Bolivia">Bolivia</MenuItem>
-                      <MenuItem value="Bosnia and Herzegovina">Bosnia and Herzegovina</MenuItem>
-                      <MenuItem value="Botswana">Botswana</MenuItem>
-                      <MenuItem value="Bouvet Island">Bouvet Island</MenuItem>
-                      <MenuItem value="Brazil">Brazil</MenuItem>
-                      <MenuItem value="British Indian Ocean Territory">British Indian Ocean Territory</MenuItem>
-                      <MenuItem value="British Virgin Islands">British Virgin Islands</MenuItem>
-                      <MenuItem value="Brunei">Brunei</MenuItem>
-                      <MenuItem value="Bulgaria">Bulgaria</MenuItem>
-                      <MenuItem value="Burkina Faso">Burkina Faso</MenuItem>
-                      <MenuItem value="Burundi">Burundi</MenuItem>
-                      <MenuItem value="Cambodia">Cambodia</MenuItem>
-                      <MenuItem value="Cameroon">Cameroon</MenuItem>
-                      <MenuItem value="Canada">Canada</MenuItem>
-                      <MenuItem value="Cape Verde">Cape Verde</MenuItem>
-                      <MenuItem value="Caribbean Netherlands">Caribbean Netherlands</MenuItem>
-                      <MenuItem value="Cayman Islands">Cayman Islands</MenuItem>
-                      <MenuItem value="Central African Republic">Central African Republic</MenuItem>
-                      <MenuItem value="Chad">Chad</MenuItem>
-
-
-
-                    </Select>
-                    <FormHelperText>Required</FormHelperText>
-                  </FormControl>
+                  <CountriesSelect
+                    store={countriesStore}
+                    className={classes.formControl}
+                    selectClassName={classes.selectEmpty}
+                    country={country}
+                    onChange={handleCountryChange}
+                  />
                 </Grid>
                 
                 {/* <Grid item style={{ marginTop: 16 }}>

@@ -46,6 +46,23 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
+-- Registration
+CREATE FUNCTION public.register(p_email VARCHAR, p_password VARCHAR, p_name VARCHAR, p_country INTEGER)
+RETURNS json AS $$
+DECLARE v_userid INT;
+BEGIN
+  IF EXISTS(SELECT 0 FROM public.users WHERE user_email=p_email) THEN
+    RAISE EXCEPTION 'User already exists with this email' USING ERRCODE = 'TP400';
+  END IF;
+
+  INSERT INTO public.users (user_email, user_name, user_password)
+  VALUES (p_email, p_name, crypt(p_password, gen_salt('bf', 8)))
+  RETURNING user_id INTO v_userid;
+
+  RETURN (SELECT public.get_user(v_userid));
+END;
+$$ LANGUAGE plpgsql;
+
 -- Get user by id
 CREATE FUNCTION public.get_user(p_userid INT)
 RETURNS json AS $$
@@ -56,8 +73,9 @@ RETURNS json AS $$
     user_email,
     user_is_active,
     user_role,
+    (SELECT to_json(c) FROM public.countries c WHERE country_id=user_country) country,
     user_created,
-    (SELECT array_to_json(array_agg(x)) FROM (
+    (SELECT array_to_json(array_agg(x.group_name)) FROM (
       SELECT
         group_name
       FROM access.users_groups ug
@@ -68,12 +86,12 @@ RETURNS json AS $$
 ) z)
 $$ LANGUAGE SQL;
 
--- TODO:
--- CREATE FUNCTION public.add_user()
--- RETURNS json
---     LANGUAGE plpgsql
---     AS $$
--- BEGIN
--- crypt('new password', gen_salt('md5'));
--- END;
--- $$
+-- Get Countries
+CREATE FUNCTION public.get_countries()
+RETURNS json AS $$
+(SELECT array_to_json(array_agg(to_json(z))) FROM (
+  SELECT
+    *
+  FROM public.countries
+) z)
+$$ LANGUAGE SQL;
