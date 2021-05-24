@@ -14,9 +14,9 @@ const bittrexData: BittrexData = {
 let intervalId: NodeJS.Timeout;
 
 const sendData = () => {
-  console.log('sendBittrexData');
+  console.debug('sendBittrexData');
   intervalId = setInterval(() => {
-    console.log('sendBittrexData setInterval', bittrexData);
+    console.debug('sendBittrexData setInterval', bittrexData);
     if (!bittrexData.activePayload) {
       return;
     }
@@ -27,10 +27,10 @@ const sendData = () => {
         return;
       }
 
-      console.log('here', bittrexData);
+      console.debug('here', bittrexData);
 
       try {
-        socket.send(bittrexData.activePayload);
+        socket?.send(bittrexData.activePayload);
       } catch (error) {
         console.error('Bittrex socket error :' + error);
       }
@@ -46,7 +46,7 @@ const sendData = () => {
 
 export function restoreBittrexSocket() {
   return new Promise<WebSocket>((resolve) => {
-    resolve();
+    resolve(new WebSocket('???'));
     return;
     // bittrexData.socket = new WebSocket('wss://socket-v3.bittrex.com/signalr');
 
@@ -72,7 +72,7 @@ export function restoreBittrexSocket() {
   });
 }
 
-export const getBittrexSocket = (): Promise<WebSocket> => {
+export const getBittrexSocket = (): Promise<WebSocket | undefined> => {
   if (!bittrexData.socket) {
     return restoreBittrexSocket();
   }
@@ -106,6 +106,6 @@ export const subscribeToBittrexCurrencyPair = (inputPair: string) => {
   const payload = getSubscribeBittrexPayload(inputPair);
   bittrexData.activePayload = payload;
   socketPromise.then((socket) => {
-    socket.send(payload);
+    socket?.send(payload);
   });
 };

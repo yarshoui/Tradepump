@@ -37,7 +37,7 @@ const query = (sql, values = []) => {
     .then(result => result.rows);
 };
 
-const call = async (functionName, params) => {
+const call = async (functionName, params = []) => {
   const paramIndices = params.map((_, i) => `$${i + 1}`).join(',');
   const sql = `SELECT ${functionName}(${paramIndices});`;
   const data = await query(sql, params);

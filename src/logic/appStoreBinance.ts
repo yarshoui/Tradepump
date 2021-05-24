@@ -111,8 +111,8 @@ export class AppStoreBinance {
 
     this.resetData();
 
-    console.count('onmessage');
-    console.log(newData[1]);
+    // console.count('onmessage');
+    console.debug(newData[1]);
     this.binanceData.asks = newData.asks;
     this.binanceData.bids = newData.bids;
   };

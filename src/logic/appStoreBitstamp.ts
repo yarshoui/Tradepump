@@ -88,7 +88,7 @@ export class AppStoreBitstamp {
     reaction(
       () => this.currentBitstampPair,
       (pair: SelectorOptions) => {
-        console.log('pairChanged', pair);
+        console.debug('pairChanged', pair);
         subscribeToBitstampCurrencyPair(pair);
       },
       {
@@ -100,7 +100,7 @@ export class AppStoreBitstamp {
   setOrderQuantity = debounce((input: string) => {
     //Need to rename setOrderQuantity for Bitstamp
     const quantity = parseFloat(input);
-    console.log('setOrderQuantity Bitstamp', quantity);
+    console.debug('setOrderQuantity Bitstamp', quantity);
     if (isNaN(quantity)) {
       console.warn('Wrong number', input);
       this.orderQuantity = 1;
@@ -108,7 +108,7 @@ export class AppStoreBitstamp {
     }
 
     this.orderQuantity = quantity;
-    console.log('here', this.orderQuantity);
+    console.debug('here', this.orderQuantity);
   }, 1000);
 
   setOrderQuantityHighlight = debounce((input: string) => {
@@ -138,8 +138,7 @@ export class AppStoreBitstamp {
 
     this.resetData();
 
-    console.count('onmessage');
-    console.log(newData[1]);
+    console.debug(newData[1]);
     this.bitstampData.asks = newData.asks;
     this.bitstampData.bids = newData.bids;
   };

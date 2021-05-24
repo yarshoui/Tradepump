@@ -6,6 +6,7 @@ import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
 import { Privacy } from 'src/pages/Privacy';
 import { About } from 'src/pages/About';
+import { Users } from './components/admin/users/users';
 
 function Routes() {
   return (

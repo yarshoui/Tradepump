@@ -118,7 +118,7 @@ export const Monitor = () => {
               <TopAd />
             </div>
           </div>
-          <Header />
+          <Header store={userStore} />
           
           <Switch>
             <Route path='/monitor' component={OrdersMonitor} />
@@ -128,6 +128,7 @@ export const Monitor = () => {
             <Route path='/sign-up' component={SignUp} />
             <Route path='/sign-in' component={SignIn} />
             <Route path='/tradeshistory' component={TradesHistory} />
+            <Route path='/users' component={() => <h1>Users</h1>} />
             <Redirect path='/' to='/monitor' />
           </Switch>
           <Help className={classes.introIcon} size="50" title="Intro Tour" 

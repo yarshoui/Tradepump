@@ -58,7 +58,7 @@ export class AppStoreKraken {
     reaction(
       () => this.currentKrakenPair,
       (pair: SelectorOptions) => {
-        console.log('pairChanged', pair);
+        console.debug('pairChanged', pair);
         subscribeToKrakenCurrencyPair(pair);
       },
       {
@@ -136,8 +136,7 @@ export class AppStoreKraken {
 
     this.resetData();
 
-    console.count('onmessage');
-    console.log(newData[1]);
+    console.debug(newData[1]);
     // update initial ask/bid array(1000 elements)
     this.krakenData.as = newData[1].as;
     this.krakenData.bs = newData[1].bs;

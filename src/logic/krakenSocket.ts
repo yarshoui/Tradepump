@@ -14,9 +14,9 @@ const krakenData: KrakenData = {
 let intervalId: NodeJS.Timeout;
 
 const sendData = () => {
-  console.log('sendData');
+  console.debug('sendData');
   intervalId = setInterval(() => {
-    console.log('Kraken sendData setInterval', krakenData);
+    console.debug('Kraken sendData setInterval', krakenData);
     if (!krakenData.activePayload) {
       return;
     }
@@ -27,7 +27,7 @@ const sendData = () => {
         return;
       }
 
-      console.log('here', krakenData);
+      console.debug('here', krakenData);
       try {
         // socket.send(krakenData.activePayload);
         
@@ -58,11 +58,11 @@ export function restoreSocket() {
 
     krakenData.socket.onclose = () => {
       restoreSocket();
-      console.log('[close] Kraken WebSocket is closed now.');
+      console.debug('[close] Kraken WebSocket is closed now.');
     };
 
     krakenData.socket.onopen = () => {
-      console.log('[open] Connection established to Kraken WebSocket');
+      console.debug('[open] Connection established to Kraken WebSocket');
       intervalId && clearInterval(intervalId);
       sendData();
       resolve(krakenData.socket as WebSocket);
@@ -70,7 +70,7 @@ export function restoreSocket() {
     };
 
     krakenData.socket.onerror = (error: any) => {
-      console.log(`[error] ${error.message}`);
+      console.debug(`[error] ${error.message}`);
     };
 
     krakenData.socket.onmessage = function (msg) {
