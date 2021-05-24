@@ -26,6 +26,7 @@ import { startTourAgain } from 'src/components/intro/config';
 import { AuthBlock } from './AuthBlock';
 import { userStore } from 'src/logic/userStore';
 import { SignIn } from 'src/pages/Sign-in';
+import { TradesHistory } from 'src/pages/TradesHistory';
 
 // import styled from 'styled-components';
 // import 'src/intro/intro.min.js';
@@ -126,6 +127,7 @@ export const Monitor = () => {
             <Route path='/about' component={About} />
             <Route path='/sign-up' component={SignUp} />
             <Route path='/sign-in' component={SignIn} />
+            <Route path='/tradeshistory' component={TradesHistory} />
             <Redirect path='/' to='/monitor' />
           </Switch>
           <Help className={classes.introIcon} size="50" title="Intro Tour" 

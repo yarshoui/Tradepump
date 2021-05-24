@@ -33,6 +33,7 @@ const sendData = () => {
         
           krakenData.activePayload && krakenData.activePayload.forEach((payload) => {
             socket?.send(payload);
+            console.log('payload'+payload);
           });
         
       } catch (error) {

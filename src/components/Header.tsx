@@ -42,6 +42,11 @@ export const Header = (props: any) => {
           </NavLink>
         </li>
         <li>
+          <NavLink to="/tradeshistory">
+            Trades History
+          </NavLink>
+        </li>
+        <li>
           <NavLink to="/about">
             About
           </NavLink>
