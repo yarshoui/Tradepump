@@ -1,0 +1,18 @@
+@startuml trading_stream
+skinparam actorStyle awesome
+
+title Trading data. Stream and historical
+
+' Definitions
+"tradepump.com/monitor" as (Monitor)
+"tradepump.com/historical" as (Historical)
+
+:Users: --> (Monitor)
+:Users: --> (Historical)
+(Monitor) <--> (API Server): Websocket
+(Historical) <--> (API Server): REST
+(API Server) <-right-> (MessageQueue): Orders stream
+(API Server) <-- (Database): Historical orders
+(MessageQueue) -left-> (Database): Save orders
+
+@enduml

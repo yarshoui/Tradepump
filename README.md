@@ -58,3 +58,12 @@ The structure of the project is
 |  |- storage # Folder to mount with container for pgadmin save data
 |- docker-compose.yml # Docker compose file for local development
 ```
+
+### Harvester
+
+This service goal is to connect to third party services like Kraken, Bitfinex, collect trading information, store it into the database for historical data and stream online data to website.
+
+Idea of trading stream and historical data is described in the followind diagram.
+We use RabbitMQ as a message queue service.
+
+![Trading Data](./docs/trading_stream.png)
