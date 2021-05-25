@@ -18,6 +18,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import {
   Typography,
   Paper,
@@ -119,6 +120,9 @@ const useStyles = makeStyles((theme) => ({
     // backgroundImage: url(),
     width: '4.5rem',
     height: '6rem',
+  },
+  closeButton:{
+    float: 'right',
   },
 
 }));
@@ -261,6 +265,12 @@ export const SignIn = () => {
         render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }}>
+              <div className={classes.closeButton}>
+              <IconButton >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+              </div>
+            
               <Grid container alignItems="flex-start" spacing={2}>
                 <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
@@ -320,6 +330,11 @@ export const SignIn = () => {
         render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }}>
+            <div className={classes.closeButton}>
+              <IconButton >
+                <CloseIcon fontSize="small" />
+              </IconButton>
+            </div>
               <Grid container alignItems="flex-start" spacing={2}>
                 <Grid item xs={12}>
                 <Typography variant="h6" gutterBottom>
