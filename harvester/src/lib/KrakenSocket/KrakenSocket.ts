@@ -1,20 +1,16 @@
 import WebSocket from 'ws';
 import { getLogger } from 'log4js';
-import { CurrencyPair } from '../common/CurrencyPair';
-import { KrakenOptions, KrakenStatus } from './types';
 import { BaseSocket } from '../common/BaseSocket';
+import { CurrencyPair } from '../../../../types';
+import { parseKrakenPayload } from './utils';
+import { isBookTrade, isKrakenPayload } from '../../utils/guards';
+import { DataEvent } from '../common/DataActions';
+
+type KrakenStatus = 'online' | 'maintenance' | 'cancel_only' | 'limit_only' | 'post_only';
 
 export class KrakenSocket extends BaseSocket {
-  _options: KrakenOptions;
   status: KrakenStatus = 'maintenance';
   logger = getLogger('KrakenSocket');
-
-  constructor(options?: Partial<KrakenOptions>) {
-    super();
-    this._options = Object.assign({
-      sendTimeout: 4000,
-    }, options);
-  }
 
   onMessage = async (rawData: WebSocket.Data) => {
     let payload: Record<string, unknown>;
@@ -45,15 +41,29 @@ export class KrakenSocket extends BaseSocket {
       return;
     }
     // filter out rest
-    if (
-      payload.channelID
-      || payload.connectionID
-      || !Array.isArray(payload)
-    ) {
+    if (!isKrakenPayload(payload)) {
       return;
     }
-    this.logger.debug('Got a message', payload);
-    this._options.onMessage?.(Buffer.from(JSON.stringify(payload)));
+    const krakenPayload = parseKrakenPayload(payload);
+
+    if (krakenPayload === null) {
+      this.logger.warn('Payload is incorrect');
+      this.logger.debug(payload);
+      return;
+    }
+
+    // We know that krakenPayload is not empty out of isKrakenPayload
+    if (isBookTrade(krakenPayload)) {
+      return {
+        type: DataEvent.BOOK_UPDATE,
+        payload: krakenPayload,
+      };
+    }
+
+    return {
+      type: DataEvent.TRADE_UPDATE,
+      payload: krakenPayload,
+    };
   };
 
   subscribeForTrade(pair: CurrencyPair[]) {
@@ -68,7 +78,7 @@ export class KrakenSocket extends BaseSocket {
     this.sendData(payload);
   }
 
-  subscribeToBook(pair: CurrencyPair[], depth = 1000) {
+  subscribeToBook(pair: CurrencyPair[], depth: number) {
     const payload = {
       event: 'subscribe',
       pair,

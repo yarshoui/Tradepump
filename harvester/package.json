@@ -12,6 +12,7 @@
   "author": "Soul_man",
   "license": "ISC",
   "dependencies": {
+    "@msgpack/msgpack": "^2.7.0",
     "amqplib": "^0.8.0",
     "log4js": "^6.3.0",
     "ws": "^7.4.5"
