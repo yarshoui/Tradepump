@@ -85,7 +85,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     position: 'relative',
-    width:'50%',
+    width:'60%',
     overflowX: 'auto',
     fontFamily: 'sans-serif',
     letterSpacing: 0,
@@ -96,6 +96,9 @@ const useStyles = makeStyles((theme) => ({
   },
   table: {
     width: '100%',
+  },
+  tableContainer: {
+    display: 'flex',
   },
   container: {
     maxHeight: 440,
@@ -124,6 +127,25 @@ const useStyles = makeStyles((theme) => ({
   },
   buttonGroup: {
     margin:'20px',
+  },
+  timeQtyGroup: {
+    margin:'5px',
+    minWidth:'200px'
+  },
+  
+  textFieldBought: {
+    
+    borderColor: '#009B3D',
+      
+    },
+    
+
+  
+  textFieldSold: {
+    borderColor: '#AF151A',
+    marginBottom: '10px',
+    // height: '30px !important'
+
   },
 
   
@@ -230,7 +252,7 @@ export const TradesHistory = () => {
           }}
         />
       </Paper>
-
+<div className={classes.tableContainer}>
       <Paper className={classes.table}>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
@@ -276,19 +298,19 @@ export const TradesHistory = () => {
         onChangeRowsPerPage={handleChangeRowsPerPage}
       />
     </Paper>
-    <Paper>
-      <Grid item xs={12} sm={6} spacing={2}>
+    <Paper >
+      <Grid item xs={12} sm={6} spacing={2} className={classes.timeQtyGroup}>
       <Typography variant="h6" gutterBottom>
         1 Hour
       </Typography>
-      <TextField
+      <TextField className={classes.textFieldSold}
             disabled
             id="outlined-disabled"
             label="Sold"
             defaultValue="1H Sold Qty"
             variant="outlined"
           />
-      <TextField
+      <TextField className={classes.textFieldBought}
             disabled
             id="outlined-disabled"
             label="Bought"
@@ -296,11 +318,11 @@ export const TradesHistory = () => {
             variant="outlined"
           />
       </Grid>
-      <Grid item xs={12} sm={6} spacing={2}>
+      <Grid item xs={12} sm={6} spacing={2} className={classes.timeQtyGroup}>
       <Typography variant="h6" gutterBottom>
         1 Day
       </Typography>
-      <TextField
+      <TextField className={classes.textFieldSold}
             disabled
             id="outlined-disabled"
             label="Sold"
@@ -315,11 +337,11 @@ export const TradesHistory = () => {
             variant="outlined"
           />
       </Grid>
-      <Grid item xs={12} sm={6} spacing={2}>
+      <Grid item xs={12} sm={6} spacing={2} className={classes.timeQtyGroup}>
       <Typography variant="h6" gutterBottom>
         1 Week
       </Typography>
-      <TextField
+      <TextField className={classes.textFieldSold}
             disabled
             id="outlined-disabled"
             label="Sold"
@@ -334,11 +356,11 @@ export const TradesHistory = () => {
             variant="outlined"
           />
       </Grid>
-      <Grid item xs={12} sm={6}>
+      <Grid item xs={12} sm={6} className={classes.timeQtyGroup}>
       <Typography variant="h6" gutterBottom>
         1 Month
       </Typography>
-      <TextField
+      <TextField className={classes.textFieldSold}
             disabled
             id="outlined-disabled"
             label="Sold"
@@ -354,7 +376,7 @@ export const TradesHistory = () => {
           />
       </Grid>
     </Paper>
-
+    </div>
 
       
  
