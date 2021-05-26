@@ -28,13 +28,13 @@ jobs:
       with:
         node-version: '14.x'
     - run: npm ci
-      working-directory: harvester
+      working-directory: services/harvester
     - run: npm run build
-      working-directory: harvester
+      working-directory: services/harvester
     - uses: actions/cache@v2
       id: restore-build
       with:
-        path: ./harvester/build
+        path: ./services/harvester/build
         key: ${{ github.sha }}
 
   # Run tests.
@@ -50,11 +50,11 @@ jobs:
       - uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./harvester/build
+          path: ./services/harvester/build
           key: ${{ github.sha }}
       - name: Run tests
-        run: docker build . --file Dockerfile
-        working-directory: harvester
+        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
+        working-directory: services/harvester
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -74,12 +74,17 @@ jobs:
       - uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./harvester/build
+          path: ./services/harvester/build
           key: ${{ github.sha }}
 
       - name: Build image
-        run: docker build . --file Dockerfile --tag $IMAGE_NAME
-        working-directory: harvester
+        run: |
+          docker buildx build \
+            --tag $IMAGE_NAME \
+            --file Dockerfile \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 \
+            .
+        working-directory: services/harvester
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -105,4 +110,4 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
-        working-directory: harvester
+        working-directory: services/harvester

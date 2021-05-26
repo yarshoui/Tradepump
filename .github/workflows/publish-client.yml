@@ -1,4 +1,4 @@
-name: Server
+name: Client
 
 on:
   push:
@@ -14,7 +14,7 @@ on:
   pull_request:
 
 env:
-  IMAGE_NAME: server
+  IMAGE_NAME: client
 
 jobs:
   build:
@@ -28,13 +28,13 @@ jobs:
       with:
         node-version: '14.x'
     - run: npm ci
-      working-directory: services/server
+      working-directory: services/client
     - run: npm run build
-      working-directory: services/server
+      working-directory: services/client
     - uses: actions/cache@v2
       id: restore-build
       with:
-        path: ./services/server/build
+        path: ./services/client/build
         key: ${{ github.sha }}
 
   # Run tests.
@@ -50,11 +50,11 @@ jobs:
       - uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./services/server/build
+          path: ./services/client/build
           key: ${{ github.sha }}
       - name: Run tests
         run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
-        working-directory: services/server
+        working-directory: services/client
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -74,7 +74,7 @@ jobs:
       - uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./services/server/build
+          path: ./services/client/build
           key: ${{ github.sha }}
 
       - name: Build image
@@ -84,7 +84,7 @@ jobs:
             --file Dockerfile \
             --platform linux/amd64,linux/arm/v7,linux/arm64 \
             .
-        working-directory: services/server
+        working-directory: services/client
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -110,4 +110,4 @@ jobs:
 
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
-        working-directory: services/server
+        working-directory: services/client

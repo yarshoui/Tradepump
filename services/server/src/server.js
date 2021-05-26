@@ -8,7 +8,7 @@ const { setupPassport } = require('./config/passport');
 const { resolveErrorCodeAndMessage } = require('./helpers/errors');
 const router = require('./routers');
 
-setupLog4js();
+setupLog4js(process.env.LOG_LEVEL || 'info');
 setupPassport();
 
 const requestLogger = log4js.getLogger('Server');
@@ -19,8 +19,6 @@ const port = process.env.PORT || 8080;
 
 // Connect logger for proper request logging
 app.use(log4js.connectLogger(requestLogger, { level: 'info' }));
-// React built static files
-app.use(express.static(path.resolve(__dirname, '../build')));
 // Parse Cookies
 app.use(cookieParser());
 // parse application/x-www-form-urlencoded
