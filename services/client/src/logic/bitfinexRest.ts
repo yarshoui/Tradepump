@@ -1,4 +1,3 @@
-// import { json } from 'body-parser';
 import { PAIRS, DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';

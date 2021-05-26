@@ -9,9 +9,8 @@ COPY package*.json /app/
 
 RUN npm ci --only=production
 
-COPY server /app/server
-COPY build /app/build
+COPY src /app/
 
 EXPOSE 8080
 
-ENTRYPOINT [ "node", "server/server.js" ]
+ENTRYPOINT [ "node", "server.js" ]
