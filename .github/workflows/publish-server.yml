@@ -29,13 +29,13 @@ jobs:
         node-version: '14.x'
     - run: npm ci
       working-directory: services/server
-    - run: npm run build
-      working-directory: services/server
-    - uses: actions/cache@v2
-      id: restore-build
-      with:
-        path: ./services/server/build
-        key: ${{ github.sha }}
+    # - run: npm run build
+    #   working-directory: services/server
+    # - uses: actions/cache@v2
+    #   id: restore-build
+    #   with:
+    #     path: ./services/server/build
+    #     key: ${{ github.sha }}
 
   # Run tests.
   # See also https://docs.docker.com/docker-hub/builds/automated-testing/
@@ -47,11 +47,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        id: restore-build
-        with:
-          path: ./services/server/build
-          key: ${{ github.sha }}
+      # - uses: actions/cache@v2
+      #   id: restore-build
+      #   with:
+      #     path: ./services/server/build
+      #     key: ${{ github.sha }}
       - name: Run tests
         run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
         working-directory: services/server
@@ -71,11 +71,11 @@ jobs:
 
     steps:
       - uses: actions/checkout@v2
-      - uses: actions/cache@v2
-        id: restore-build
-        with:
-          path: ./services/server/build
-          key: ${{ github.sha }}
+      # - uses: actions/cache@v2
+      #   id: restore-build
+      #   with:
+      #     path: ./services/server/build
+      #     key: ${{ github.sha }}
 
       - name: Build image
         run: |
