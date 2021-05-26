@@ -1,4 +1,4 @@
-import React, { useEffect }  from 'react';
+import React, { useEffect } from 'react';
 import 'src/css/index.css';
 // import { ChangeEvent, useState } from 'react';
 // import { GridList, Checkbox, FormControlLabel, TextField } from '@material-ui/core';
@@ -18,6 +18,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
+import CloseIcon from '@material-ui/icons/Close';
 import {
   Typography,
   Paper,
@@ -34,15 +35,15 @@ import {
 // Picker
 // import DateFnsUtils from '@date-io/date-fns';
 
-const onSubmit = async (values:any) => {
-  const sleep = (ms:any) => new Promise(resolve => setTimeout(resolve, ms));
+const onSubmit = async (values: any) => {
+  const sleep = (ms: any) => new Promise((resolve) => setTimeout(resolve, ms));
   await sleep(300);
   window.alert(JSON.stringify(values));
 };
 
-const validate = (values:any) => {
-  const errors:any = {};
- 
+const validate = (values: any) => {
+  const errors: any = {};
+
   if (!values.password) {
     errors.password = 'Required';
   }
@@ -61,7 +62,7 @@ const useStyles = makeStyles((theme) => ({
   root: {
     flexGrow: 1,
     position: 'relative',
-    width:'50%',
+    width: '50%',
     overflowX: 'auto',
     fontFamily: 'sans-serif',
     letterSpacing: 0,
@@ -77,7 +78,6 @@ const useStyles = makeStyles((theme) => ({
 
   textField: {
     width: '30ch',
-    
   },
 
   paper: {
@@ -110,17 +110,19 @@ const useStyles = makeStyles((theme) => ({
   asideTopHolder: {
     paddingLeft: '20px',
   },
-  aboutPageLinks:{
+  aboutPageLinks: {
     textDecoration: 'none',
     color: 'blue',
   },
-  tfaLockIcon:{
+  tfaLockIcon: {
     backgroundSize: 'cover',
     // backgroundImage: url(),
     width: '4.5rem',
     height: '6rem',
   },
-
+  closeButton: {
+    float: 'right',
+  },
 }));
 interface State {
   amount: string;
@@ -141,9 +143,9 @@ export const SignIn = () => {
     showPassword: false,
   });
 
-  useEffect( () => {
+  useEffect(() => {
     // GoogleAnalytics
-    ReactGA.pageview(window.location.pathname + window.location.search); 
+    ReactGA.pageview(window.location.pathname + window.location.search);
   });
 
   const handleChange = (prop: keyof State) => (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -159,209 +161,252 @@ export const SignIn = () => {
 
   const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
 
+  const [isSignIn, setSignIn] = React.useState<boolean>(true);
+  const [isRecoverPassword, setRecoverPassword] = React.useState<boolean>(false);
+  const [isRecoverUsername, setRecoverUsername] = React.useState<boolean>(false);
+
   return (
     <div className={classes.root}>
       <Helmet>
-        <meta charSet="utf-8" />          
+        <meta charSet="utf-8" />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="shortcut icon" href="favicon.ico" />
         <meta name="theme-color" content="#000000" />
         <meta name="application-name" content="TradePump" />
-        <meta name="description" content="Tradepump is not just a Bitcoin and Cryptocurrency Free Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
+        <meta
+          name="description"
+          content="Tradepump is not just a Bitcoin and Cryptocurrency Free Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history."
+        />
         <meta name="robots" content="index,follow" />
         <meta name="googlebot" content="index,follow" />
         <meta name="google" content="notranslate" />
         <meta name="generator" content="ReactJS"></meta>
         <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500" />
         <link rel="stylesheet" href="style.css" />
-        <title>Bitcoin & Cryptocurrency Free Aggregator | TradePump.com | Login to your account</title>
+        <title>
+          Bitcoin & Cryptocurrency Free Aggregator | TradePump.com | Login to your account
+        </title>
         <meta property="og:title" content="Bitcoin & Cryptocurrency Aggregator | TradePump.com" />
         <meta property="og:type" content="website" />
         <meta property="og:url" content="https://www.tradepump.com/sign-in" />
         <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
-        <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
+        <meta
+          property="og:description"
+          content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history."
+        />
       </Helmet>
 
+      {isSignIn ? (
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{ agreement: false }}
+          validate={validate}
+          render={({ handleSubmit, values /*, reset, submitting, pristine, values */ }) => (
+            <form onSubmit={handleSubmit} noValidate>
+              <Paper style={{ padding: 16 }}>
+                <Grid container alignItems="flex-start" spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h4" gutterBottom>
+                      Secure Sign-In
+                    </Typography>
+                  </Grid>
 
-      <Form
-        onSubmit={onSubmit}
-        initialValues={{ agreement: false }}
-        validate={validate}
-        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
-          <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
-              <Grid container alignItems="flex-start" spacing={2}>
-                <Grid item xs={12}>
-                <Typography variant="h4" gutterBottom>
-                Secure Sign-In
-              </Typography> 
-                </Grid>
-              
-                <Grid item xs={12}>
-                  <Field
-                    fullWidth
-                    required
-                    name="username"
-                    component={TextField}
-                    type="text"
-                    label="Username"
-                  />
-                </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      fullWidth
+                      required
+                      name="username"
+                      component={TextField}
+                      type="text"
+                      label="Username"
+                    />
+                  </Grid>
 
-                <Grid item xs={12}>
-                <FormControl className={clsx(classes.margin, classes.textField)}>
-          <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
-          <Input
-            id="standard-adornment-password"
-            type={values.showPassword ? 'text' : 'password'}
-            value={values.password}
-            onChange={handleChange('password')}
-            endAdornment={
-              <InputAdornment position="end">
-                <IconButton
-                  aria-label="toggle password visibility"
-                  onClick={handleClickShowPassword}
-                  onMouseDown={handleMouseDownPassword}
+                  <Grid item xs={12}>
+                    <FormControl className={clsx(classes.margin, classes.textField)}>
+                      <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
+                      <Input
+                        id="standard-adornment-password"
+                        type={values.showPassword ? 'text' : 'password'}
+                        value={values.password}
+                        onChange={handleChange('password')}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={handleClickShowPassword}
+                              onMouseDown={handleMouseDownPassword}
+                            >
+                              {values.showPassword ? <Visibility /> : <VisibilityOff />}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
+                    </FormControl>
+                  </Grid>
+
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button variant="contained" color="primary" disableElevation disabled>
+                      {/* Enabled if 
+              1. All fields are filled in 
+              2. There is no such a Username in the DB*/}
+                      Sign In
+                    </Button>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        setRecoverPassword(true);
+                        setSignIn(false);
+                      }}
+                    >
+                      Trouble signing in?
+                    </Link>
+                  </Grid>
+                </Grid>
+              </Paper>
+              {/* <pre>{JSON.stringify(values)}</pre> */}
+            </form>
+          )}
+        />
+      ) : null}
+
+      {isRecoverPassword ? (
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{ agreement: false }}
+          validate={validate}
+          render={({ handleSubmit, values /*, reset, submitting, pristine, values */ }) => (
+            <form onSubmit={handleSubmit} noValidate>
+              <Paper style={{ padding: 16 }}>
+                <div
+                  className={classes.closeButton}
+                  onClick={() => {
+                    setRecoverPassword(false);setSignIn(true);
+                  }}
                 >
-                  {values.showPassword ? <Visibility /> : <VisibilityOff />}
-                </IconButton>
-              </InputAdornment>
-            }
-          />
-        </FormControl>
-                </Grid>
-                
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button 
-                  variant="contained" 
-                  color="primary" 
-                  disableElevation 
-                  disabled> 
-                  {/* Enabled if 
-                  1. All fields are filled in 
-                  2. There is no such a Username in the DB*/}
-                    Sign In
-                  </Button>
-                </Grid>
+                  <IconButton>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </div>
 
-                <Grid item xs={12}>
-                <Link href="#" onClick={preventDefault}>Trouble signing in?</Link>
-                </Grid>
-              </Grid>
-            </Paper>
-            {/* <pre>{JSON.stringify(values)}</pre> */}
-          </form>
-        )}
-      />
+                <Grid container alignItems="flex-start" spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>
+                      Enter the email address and username associated with your TradePump account to
+                      receive an email with password reset instructions.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      name="email"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="email"
+                      label="Email"
+                    />
+                  </Grid>
 
-      <Form
-        onSubmit={onSubmit}
-        initialValues={{ agreement: false }}
-        validate={validate}
-        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
-          <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
-              <Grid container alignItems="flex-start" spacing={2}>
-                <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom>
-                Enter the email address and username associated with your TradePump account to receive an email with password reset instructions.
-              </Typography> 
-                </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    name="email"
-                    fullWidth
-                    required
-                    component={TextField}
-                    type="email"
-                    label="Email"
-                  />
-                </Grid>
-              
-                <Grid item xs={12}>
-                  <Field
-                    fullWidth
-                    required
-                    name="username"
-                    component={TextField}
-                    type="text"
-                    label="Username"
-                  />
-                </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      fullWidth
+                      required
+                      name="username"
+                      component={TextField}
+                      type="text"
+                      label="Username"
+                    />
+                  </Grid>
 
-                               
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button 
-                  variant="contained" 
-                  color="primary" 
-                  disableElevation 
-                  disabled> 
-                  {/* Enabled if 
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button variant="contained" color="primary" disableElevation disabled>
+                      {/* Enabled if 
                   1. All fields are filled in 
                   2. There is no such a Username or email in the DB
                   3. If username and email do not match}*/}
-                    Recover password
-                  </Button>
-                </Grid>
+                      Recover password
+                    </Button>
+                  </Grid>
 
-                <Grid item xs={12}>
-                <Link href="#" onClick={preventDefault}>Forgot username?</Link>
+                  <Grid item xs={12}>
+                    <Link
+                      href="#"
+                      onClick={() => {
+                        setRecoverUsername(true);
+                        setRecoverPassword(false);
+                      }}
+                    >
+                      Forgot username?
+                    </Link>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
-            {/* <pre>{JSON.stringify(values)}</pre> */}
-          </form>
-        )}
-      />
-      <Form
-        onSubmit={onSubmit}
-        initialValues={{ agreement: false }}
-        validate={validate}
-        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
-          <form onSubmit={handleSubmit} noValidate>
-            <Paper style={{ padding: 16 }}>
-              <Grid container alignItems="flex-start" spacing={2}>
-                <Grid item xs={12}>
-                <Typography variant="h6" gutterBottom>
-                Enter the email address and username associated with your TradePump account to receive an email with your username.
-              </Typography> 
-                </Grid>
-                <Grid item xs={12}>
-                  <Field
-                    name="email"
-                    fullWidth
-                    required
-                    component={TextField}
-                    type="email"
-                    label="Email"
-                  />
-                </Grid>
-              
-                                               
-                <Grid item style={{ marginTop: 16 }}>
-                  <Button 
-                  variant="contained" 
-                  color="primary" 
-                  disableElevation 
-                  disabled> 
-                  {/* Enabled if 
-                  1. All fields are filled in 
-                  2. There is no such a Username or email in the DB
-                  3. If username and email do not match}*/}
-                    Recover username
-                  </Button>
-                </Grid>
+              </Paper>
+              {/* <pre>{JSON.stringify(values)}</pre> */}
+            </form>
+          )}
+        />
+      ) : null}
+      {isRecoverUsername ? (
+        <Form
+          onSubmit={onSubmit}
+          initialValues={{ agreement: false }}
+          validate={validate}
+          render={({ handleSubmit, values /*, reset, submitting, pristine, values */ }) => (
+            <form onSubmit={handleSubmit} noValidate>
+              <Paper style={{ padding: 16 }}>
+                <div
+                  className={classes.closeButton}
+                  onClick={() => {
+                    setRecoverUsername(false);
+                    setSignIn(true);
+                  }}
+                >
+                  <IconButton>
+                    <CloseIcon fontSize="small" />
+                  </IconButton>
+                </div>
+                <Grid container alignItems="flex-start" spacing={2}>
+                  <Grid item xs={12}>
+                    <Typography variant="h6" gutterBottom>
+                      Enter the email address and username associated with your TradePump account to
+                      receive an email with your username.
+                    </Typography>
+                  </Grid>
+                  <Grid item xs={12}>
+                    <Field
+                      name="email"
+                      fullWidth
+                      required
+                      component={TextField}
+                      type="email"
+                      label="Email"
+                    />
+                  </Grid>
 
-                <Grid item xs={12}><span>Forgot email? </span>
-                <a href="mailto:support@tradepump.com" >Contact support</a>
+                  <Grid item style={{ marginTop: 16 }}>
+                    <Button variant="contained" color="primary" disableElevation disabled>
+                      {/* Enabled if 
+              1. All fields are filled in 
+              2. There is no such a Username or email in the DB
+              3. If username and email do not match}*/}
+                      Recover username
+                    </Button>
+                  </Grid>
+
+                  <Grid item xs={12}>
+                    <span>Forgot email? </span>
+                    <a href="mailto:support@tradepump.com">Contact support</a>
+                  </Grid>
                 </Grid>
-              </Grid>
-            </Paper>
-            {/* <pre>{JSON.stringify(values)}</pre> */}
-          </form>
-        )}
-      />
- 
+              </Paper>
+              {/* <pre>{JSON.stringify(values)}</pre> */}
+            </form>
+          )}
+        />
+      ) : null}
     </div>
   );
 };

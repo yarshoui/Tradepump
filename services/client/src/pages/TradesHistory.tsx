@@ -129,23 +129,34 @@ const useStyles = makeStyles((theme) => ({
     margin:'20px',
   },
   timeQtyGroup: {
-    margin:'5px',
+    marginLeft:'25px',
+    marginBottom:'5px',
     minWidth:'200px'
   },
   
-  textFieldBought: {
-    
-    borderColor: '#009B3D',
-      
+  
+
+    notchedOutlineBought: {
+      borderWidth: "1px",
+      borderColor: "#009B3D !important"
     },
+    notchedOutlineSold: {
+      borderWidth: "1px",
+      borderColor: "#AF151A !important"
+    },
+
     
+
 
   
   textFieldSold: {
-    borderColor: '#AF151A',
+    
     marginBottom: '10px',
     // height: '30px !important'
 
+  },
+  paperBoughtSold: {
+    marginLeft: '20px',
   },
 
   
@@ -309,13 +320,25 @@ export const TradesHistory = () => {
             label="Sold"
             defaultValue="1H Sold Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineSold
+              }
+            }}
           />
-      <TextField className={classes.textFieldBought}
+      <TextField 
+      
             disabled
             id="outlined-disabled"
             label="Bought"
             defaultValue="1H Bought Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineBought
+              }
+            }}
+            
           />
       </Grid>
       <Grid item xs={12} sm={6} spacing={2} className={classes.timeQtyGroup}>
@@ -328,6 +351,11 @@ export const TradesHistory = () => {
             label="Sold"
             defaultValue="1D Sold Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineSold
+              }
+            }}
           />
       <TextField
             disabled
@@ -335,6 +363,11 @@ export const TradesHistory = () => {
             label="Bought"
             defaultValue="1D Bought Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineBought
+              }
+            }}
           />
       </Grid>
       <Grid item xs={12} sm={6} spacing={2} className={classes.timeQtyGroup}>
@@ -347,6 +380,11 @@ export const TradesHistory = () => {
             label="Sold"
             defaultValue="1W Sold Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineSold
+              }
+            }}
           />
       <TextField
             disabled
@@ -354,6 +392,11 @@ export const TradesHistory = () => {
             label="Bought"
             defaultValue="1W Bought Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineBought
+              }
+            }}
           />
       </Grid>
       <Grid item xs={12} sm={6} className={classes.timeQtyGroup}>
@@ -366,6 +409,11 @@ export const TradesHistory = () => {
             label="Sold"
             defaultValue="1M Sold Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineSold
+              }
+            }}
           />
       <TextField
             disabled
@@ -373,6 +421,11 @@ export const TradesHistory = () => {
             label="Bought"
             defaultValue="1M Bought Qty"
             variant="outlined"
+            InputProps={{
+              classes: {
+                notchedOutline: classes.notchedOutlineBought
+              }
+            }}
           />
       </Grid>
     </Paper>
