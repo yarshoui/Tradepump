@@ -85,14 +85,6 @@ jobs:
         uses: docker/setup-qemu-action@v1
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      - name: Build image
-        run: |
-          docker buildx build \
-            --tag $IMAGE_NAME \
-            --file Dockerfile \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 \
-            .
-        working-directory: services/server
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
@@ -116,6 +108,10 @@ jobs:
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
 
-          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
-          docker push $IMAGE_ID:$VERSION
+          docker buildx build \
+            --tag $IMAGE_ID:$VERSION \
+            --file Dockerfile \
+            --platform linux/amd64,linux/arm/v7,linux/arm64 \
+            --push \
+            .
         working-directory: services/server
