@@ -86,10 +86,13 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Log into registry
-        run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
+      # - name: Log into registry
+      #   run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login docker.pkg.github.com -u ${{ github.actor }} --password-stdin
 
-      - name: Push image
+      - name: Set up containerd
+        uses: crazy-max/ghaction-setup-containerd@v1
+
+      - name: Prepare tag
         run: |
           IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
 
@@ -107,11 +110,20 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
+          echo "image_tag=$IMAGE_ID:$VERSION" >> $GITHUB_ENV
 
-          docker buildx build \
-            --tag $IMAGE_ID:$VERSION \
-            --file Dockerfile \
-            --platform linux/amd64,linux/arm/v7,linux/arm64 \
-            --push \
-            .
-        working-directory: services/server
+      - name: Build Docker image
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          file: services/${{ env.IMAGE_NAME }}/Dockerfile
+          platforms: linux/amd64,linux/arm/v7,linux/arm64
+          tags: ${{ env.image_tag }}
+          outputs: type=oci,dest=/tmp/image.tar
+
+      - name: Import image in containerd
+        run: |
+          sudo ctr i import --base-name ${{ env.image_tag }} --digests --all-platforms /tmp/image.tar
+      - name: Push image with containerd
+        run: |
+          sudo ctr --debug i push --user "${{ github.actor }}:${{ secrets.GITHUB_TOKEN }}" ${{ env.image_tag }}
