@@ -92,14 +92,14 @@ jobs:
       - name: Login to GitHub Container Registry
         uses: docker/login-action@v1 
         with:
-          registry: ghcr.io
+          registry: registry.gitlab.com
           username: soulman-is-good
-          password: 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
+          password: ygZKzHBhqdyVtZbFgn-c
 
       - name: Prepare tag
         run: |
           # IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/tradepump-$IMAGE_NAME
+          IMAGE_ID=registry.gitlab.com/tradepump/$IMAGE_NAME
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
