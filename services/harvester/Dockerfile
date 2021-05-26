@@ -7,4 +7,4 @@ RUN npm ci --only=production
 
 ADD build /app/
 
-ENTRYPOINT [ "node", "index.js" ]
+ENTRYPOINT [ "node", "harvester/src/index.js" ]
