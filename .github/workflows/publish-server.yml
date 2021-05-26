@@ -23,12 +23,12 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
-      uses: actions/setup-node@v1
-      with:
-        node-version: '14.x'
-    - run: npm ci
-      working-directory: services/server
+    # - name: Use Node.js 14.x
+    #   uses: actions/setup-node@v1
+    #   with:
+    #     node-version: '14.x'
+    # - run: npm ci
+    #   working-directory: services/server
     # - run: npm run build
     #   working-directory: services/server
     # - uses: actions/cache@v2
@@ -52,13 +52,13 @@ jobs:
       #   with:
       #     path: ./services/server/build
       #     key: ${{ github.sha }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-      - name: Run tests
-        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
-        working-directory: services/server
+      # - name: Set up QEMU
+      #   uses: docker/setup-qemu-action@v1
+      # - name: Set up Docker Buildx
+      #   uses: docker/setup-buildx-action@v1
+      # - name: Run tests
+      #   run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
+      #   working-directory: services/server
 
   # Push image to GitHub Packages.
   # See also https://docs.docker.com/docker-hub/builds/
@@ -115,7 +115,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
-          context: ${{ env.IMAGE_NAME }}
+          context: services/${{ env.IMAGE_NAME }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: ${{ env.image_tag }}
           outputs: type=oci,dest=/tmp/image.tar
