@@ -115,8 +115,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
-          context: .
-          file: services/${{ env.IMAGE_NAME }}/Dockerfile
+          context: ${{ env.IMAGE_NAME }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: ${{ env.image_tag }}
           outputs: type=oci,dest=/tmp/image.tar
