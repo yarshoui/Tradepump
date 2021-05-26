@@ -29,8 +29,8 @@ jobs:
         node-version: '14.x'
     - run: npm ci
       working-directory: services/server
-    - run: npm run build
-      working-directory: services/server
+    # - run: npm run build
+    #   working-directory: services/server
     # - uses: actions/cache@v2
     #   id: restore-build
     #   with:
