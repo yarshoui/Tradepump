@@ -52,6 +52,7 @@ jobs:
         with:
           path: ./services/client/build
           key: ${{ github.sha }}
+      - run: docker buildx create --use
       - name: Run tests
         run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
         working-directory: services/client
@@ -77,6 +78,7 @@ jobs:
           path: ./services/client/build
           key: ${{ github.sha }}
 
+      - run: docker buildx create --use
       - name: Build image
         run: |
           docker buildx build \
