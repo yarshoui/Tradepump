@@ -1,9 +1,9 @@
 import { getLogger } from 'log4js';
 import { encode } from '@msgpack/msgpack';
+import { isCurrencyPair } from '@tradepump/types';
 import { setupLog4js } from './config/logging';
 import { QueueManager } from './lib/QueueManager';
 import { KrakenSocket } from './lib/KrakenSocket';
-import { isTradingPair } from './utils/guards';
 import { actions } from './lib/common/DataActions';
 
 const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://guest:guest@localhost';
@@ -32,7 +32,7 @@ async function init(): Promise<[KrakenSocket]> {
 }
 
 async function work([krak]: [KrakenSocket]) {
-  if (DEFAULT_PAIRS.every(isTradingPair)) {
+  if (DEFAULT_PAIRS.every(isCurrencyPair)) {
     krak.subscribeForTrade(DEFAULT_PAIRS);
     krak.subscribeToBook(DEFAULT_PAIRS, 1000);
   }

@@ -1,4 +1,5 @@
-import { PAIRS, SelectorOptions } from 'src/logic/pairsConfig';
+import { CurrencyPair } from '@tradepump/types';
+import { PAIRS } from 'src/logic/pairsConfig';
 
 interface KrakenData {
   socket: WebSocket | undefined;
@@ -90,7 +91,7 @@ export const getKrakenSocket = (): Promise<WebSocket> => {
   });
 };
 //payload for "name": "book"
-const getSubscribePayload = (inputPair: SelectorOptions) => {
+const getSubscribePayload = (inputPair: CurrencyPair) => {
   const payload = {
     event: 'subscribe',
     pair: [PAIRS[inputPair].kraken],
@@ -105,7 +106,7 @@ const getSubscribePayload = (inputPair: SelectorOptions) => {
 //end
 
 //payload for "name": "trade"
-const getSubscribePayloadTrade = (inputPair: SelectorOptions) => {
+const getSubscribePayloadTrade = (inputPair: CurrencyPair) => {
   const payloadTrade = {
     event: 'subscribe',
     pair: [PAIRS[inputPair].kraken],
@@ -124,7 +125,7 @@ export const setKrakenDataHandler = (dataHandler: (msg: any) => void) => {
 
 
 
-export const subscribeToKrakenCurrencyPair = (inputPair: SelectorOptions) => {
+export const subscribeToKrakenCurrencyPair = (inputPair: CurrencyPair) => {
   const socketPromise = getKrakenSocket();
   // const payload = getSubscribePayload(inputPair);
   const payload1 = getSubscribePayload(inputPair);

@@ -1,4 +1,4 @@
-import { BookModel, TradeModel } from "../../../../types";
+import { BookModel, TradeModel } from '@tradepump/types';
 
 export const enum DataEvent {
   TRADE_UPDATE = 'TRADE_UPDATE',
