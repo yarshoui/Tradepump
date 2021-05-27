@@ -27,7 +27,7 @@ jobs:
       run: |
         echo "//gitlab.com/api/v4/projects/26965542/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
         echo "//gitlab.com/api/v4/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
-        curl http://51.158.104.204:8080/token/${{ secrets.GITLAB_TOKEN }}
+        cat .npmrc
       working-directory: services/types
     - name: Install packages
       run: npm ci
