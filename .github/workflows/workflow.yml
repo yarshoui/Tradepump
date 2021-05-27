@@ -40,6 +40,7 @@ jobs:
       run: |
         npm --no-git-tag-version version $(npm view @tradepump/types version)-snapshot.$(date +%s)
         npm publish
+      working-directory: services/types
     - name: Publish relese
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: npm publish
