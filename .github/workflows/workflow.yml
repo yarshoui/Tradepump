@@ -35,6 +35,7 @@ jobs:
       working-directory: services/types
     - name: Publish
       run: npm publish
+      working-directory: services/types
 
   build:
     needs: publish_types
