@@ -25,8 +25,9 @@ jobs:
         node-version: '14.x'
     - name: Setup npm registry
       run: |
-        npm config set @tradepump:registry https://gitlab.com/api/v4/packages/npm/
-        npm config set -- '//gitlab.com/api/v4/projects/26965542/packages/npm/:_authToken' "${{ secrets.GITLAB_TOKEN }}"
+        echo "//gitlab.com/api/v4/projects/26965542/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
+        echo "//gitlab.com/api/v4/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
+      working-directory: services/types
     - name: Install packages
       run: npm ci
       working-directory: services/types
