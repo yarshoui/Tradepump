@@ -38,8 +38,7 @@ jobs:
     - name: Snapshot version if not master
       if: github.event_name == 'pull_request'
       run: |
-        time="$(date +%s)"
-        npm --no-git-tag-version version prerelease --preid=$time --no-tag-release
+        npm --no-git-tag-version version $(npm view @tradepump/types version)-snapshot.$(date +%s)
     - name: Publish
       run: npm publish
       working-directory: services/types
