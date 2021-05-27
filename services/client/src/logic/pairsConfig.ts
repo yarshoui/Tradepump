@@ -1,4 +1,4 @@
-export type SelectorOptions = 'BTC/EUR' | 'BTC/USD' | 'BTC/USDT' | 'ETH/EUR' | 'ETH/USD' | 'ETH/USDT' | 'XRP/BTC' | 'XRP/ETH' | 'XRP/USD' | 'XRP/EUR' |'XRP/USDT' | 'ADA/BTC' | 'ADA/ETH' | 'ADA/USD' | 'ADA/EUR' |'ADA/USDT' | 'BCH/BTC' | 'BCH/ETH' | 'BCH/USD' | 'BCH/EUR' |'BCH/USDT' | 'LTC/BTC' | 'LTC/ETH' | 'LTC/USD' | 'LTC/EUR' |'LTC/USDT' | 'EOS/BTC' | 'EOS/ETH' | 'EOS/USD' | 'EOS/EUR' |'EOS/USDT' | 'DASH/BTC' | 'DASH/USD' |'DASH/EUR' | 'XLM/BTC' | 'XLM/ETH' | 'XLM/USD' | 'XLM/EUR' |'XLM/USDT' | 'LINK/BTC' | 'LINK/ETH' | 'LINK/USD' | 'LINK/EUR' |'LINK/USDT' ;
+import { CurrencyPair } from '@tradepump/types';
 export interface TradePairsConfig {
   kraken: string;
   bitfinex: string;
@@ -7,7 +7,7 @@ export interface TradePairsConfig {
   bitstamp: string;
 };
 
-export const PAIRS: Record<SelectorOptions, TradePairsConfig> = {
+export const PAIRS: Record<CurrencyPair, TradePairsConfig> = {
   'BTC/EUR': {
     kraken: 'BTC/EUR',
     bitfinex: 'btceur',
@@ -318,4 +318,4 @@ export const PAIRS: Record<SelectorOptions, TradePairsConfig> = {
   },
 };
 
-export const DEFAULT_PAIR = 'BTC/USD';
+export const DEFAULT_PAIR: CurrencyPair = 'BTC/USD';

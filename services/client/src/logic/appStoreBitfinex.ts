@@ -1,11 +1,12 @@
 import { debounce } from 'lodash';
 import { action, computed, decorate, observable, reaction } from 'mobx';
+import { CurrencyPair } from '@tradepump/types';
 import {
   subscribeToBitfinexCurrencyPair,
   setBitfinexDataHandler,
   // getBitfinexSocket,
 } from 'src/logic/bitfinexRest';
-import { DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
+import { DEFAULT_PAIR } from 'src/logic/pairsConfig';
 import { bitfinexOrdersDataArr } from 'src/logic/bitfinexRest';
 //console.log ('bit1', bitfinexOrdersDataArr);
 interface bitfinexOrdersDataArr {
@@ -14,7 +15,7 @@ interface bitfinexOrdersDataArr {
 }
 
 export class AppStoreBitfinex {
-  currentBitfinexPair: SelectorOptions = DEFAULT_PAIR;
+  currentBitfinexPair: CurrencyPair = DEFAULT_PAIR;
   orderQuantity: number = 1;
   orderQuantityHighlight: number = 1;
 
@@ -57,7 +58,7 @@ export class AppStoreBitfinex {
   constructor() {
     reaction(
       () => this.currentBitfinexPair,
-      (pair: SelectorOptions) => {
+      (pair: CurrencyPair) => {
         // console.log('pairChanged', pair);
         subscribeToBitfinexCurrencyPair(pair);
       },
@@ -95,7 +96,7 @@ export class AppStoreBitfinex {
     this.orderQuantityHighlight = quantityHighlight;
   }, 1000);
 
-  setCurrentBitfinexPair = (input: SelectorOptions) => {
+  setCurrentBitfinexPair = (input: CurrencyPair) => {
     this.resetData();
     this.currentBitfinexPair = input;
   };

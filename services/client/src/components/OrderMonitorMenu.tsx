@@ -1,8 +1,8 @@
 import React from 'react';
 import { observer } from 'mobx-react';
+import { CurrencyPair } from '@tradepump/types';
 // import { decorate, observable } from 'mobx';
 import { TradingOption } from 'src/components/TradingOption';
-import { SelectorOptions } from 'src/logic/pairsConfig';
 import { AppStore } from 'src/logic/appStore';
 
 // import 'src/intro/introjs.min.css';
@@ -41,7 +41,7 @@ export const OrderMonitorMenu = observer(
           title='Select a trading pair'
           value={store.currencyPair}
           onChange={(event) => {
-            const value = event.target.value as SelectorOptions;
+            const value = event.target.value as CurrencyPair;
             store.setCurrencyPair(value);
           }}
         >

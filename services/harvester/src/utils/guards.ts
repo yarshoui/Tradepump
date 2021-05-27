@@ -1,7 +1,7 @@
-import { BookModel, BookSide, CurrencyPair } from '../../../types';
+import { BookModel, BookSide } from '@tradepump/types';
 import { KrakenPayload } from '../lib/KrakenSocket/utils';
 
-export const isTradingPair = (pair: string): pair is CurrencyPair => CurrencyPair.includes(pair as any);
+export const isTradingPair = (str: string) => /[A-Z0-9]{3,4}\/[A-Z0-9]{3,4}/.test(str);
 export const isKrakenPayload = (payload: any): payload is KrakenPayload => (
   Array.isArray(payload)
   && payload.length === 4

@@ -1,0 +1,21 @@
+{
+  "name": "@tradepump/types",
+  "version": "1.0.2",
+  "description": "Types and models",
+  "main": "build/index.js",
+  "types": "build/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "publishConfig": {
+    "@tradepump:registry": "https://gitlab.com/api/v4/projects/26965542/packages/npm/",
+    "access": "public"
+  },
+  "keywords": [],
+  "author": "Tradepump",
+  "license": "ISC",
+  "devDependencies": {
+    "typescript": "^4.3.2"
+  }
+}

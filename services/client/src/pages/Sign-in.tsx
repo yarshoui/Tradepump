@@ -159,8 +159,6 @@ export const SignIn = () => {
     event.preventDefault();
   };
 
-  const preventDefault = (event: React.SyntheticEvent) => event.preventDefault();
-
   const [isSignIn, setSignIn] = React.useState<boolean>(true);
   const [isRecoverPassword, setRecoverPassword] = React.useState<boolean>(false);
   const [isRecoverUsername, setRecoverUsername] = React.useState<boolean>(false);

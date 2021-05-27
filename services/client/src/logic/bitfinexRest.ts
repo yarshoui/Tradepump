@@ -1,4 +1,5 @@
-import { PAIRS, DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
+import { CurrencyPair } from '@tradepump/types';
+import { PAIRS, DEFAULT_PAIR } from 'src/logic/pairsConfig';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
 
@@ -73,7 +74,7 @@ export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {
 //   const payload = getSubscribePayload(inputPair);
 //   krakenData.activePayload = payload;
 // };
-export const subscribeToBitfinexCurrencyPair = (inputPair: SelectorOptions) => {
+export const subscribeToBitfinexCurrencyPair = (inputPair: CurrencyPair) => {
   //console.log(inputPair);
   currencyPair = PAIRS[inputPair].bitfinex;
   getBitfinexOrdersData();

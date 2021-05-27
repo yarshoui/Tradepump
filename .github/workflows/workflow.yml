@@ -1,4 +1,4 @@
-name: Harvester
+name: Tradepump
 
 on:
   push:
@@ -13,12 +13,8 @@ on:
   # Run tests for any PRs.
   pull_request:
 
-env:
-  IMAGE_NAME: harvester
-
 jobs:
-  build:
-
+  publish_types:
     runs-on: ubuntu-latest
 
     steps:
@@ -27,58 +23,104 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: '14.x'
+    - name: Setup npm registry
+      run: |
+        echo "//gitlab.com/api/v4/projects/26965542/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
+        echo "//gitlab.com/api/v4/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
+        cat .npmrc
+      working-directory: services/types
+    - name: Install packages
+      run: npm ci
+      working-directory: services/types
+    - name: Build types
+      run: npm run build
+      working-directory: services/types
+    - name: Publish snapshot version
+      if: github.event_name == 'pull_request'
+      run: |
+        npm --no-git-tag-version version $(npm view @tradepump/types version)-snapshot.$(date +%s)
+        npm publish
+      working-directory: services/types
+    - name: Publish relese
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+      run: npm publish
+      working-directory: services/types
+
+  build:
+    needs: publish_types
+    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app:
+        - client
+        # - server - comment out for now, as no need to build anything
+        - harvester
+    steps:
+    - uses: actions/checkout@v2
+    - name: Use Node.js 14.x
+      uses: actions/setup-node@v1
+      with:
+        node-version: '14.x'
     - run: npm ci
-      working-directory: services/harvester
+      working-directory: services/${{ matrix.app }}
     - run: npm run build
-      working-directory: services/harvester
+      working-directory: services/${{ matrix.app }}
     - uses: actions/cache@v2
       id: restore-build
       with:
-        path: ./services/harvester/build
+        path: ./services/${{ matrix.app }}/build
         key: ${{ github.sha }}
 
   # Run tests.
-  # See also https://docs.docker.com/docker-hub/builds/automated-testing/
-  test:
-    # Ensure build job passes before testing image.
+  test_docker:
     needs: build
 
     runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        app:
+        - client
+        - server
+        - harvester
 
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./services/harvester/build
+          path: ./services/${{ matrix.app }}/build
           key: ${{ github.sha }}
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
       - name: Run tests
-        run: docker buildx build --platform linux/amd64,linux/arm/v7,linux/arm64 --file Dockerfile .
-        working-directory: services/harvester
+        run: docker build --file Dockerfile .
+        working-directory: services/${{ matrix.app }}
 
-  # Push image to GitHub Packages.
-  # See also https://docs.docker.com/docker-hub/builds/
-  push:
-    # Ensure test job passes before pushing image.
-    needs: test
+  # Push image
+  push_docker:
+    needs: test_docker
 
     runs-on: ubuntu-latest
+    # Run only on master
     if: github.ref == 'refs/heads/master' && github.event_name == 'push'
 
     permissions:
       contents: read
       packages: write
 
+    strategy:
+      matrix:
+        app:
+        - client
+        - server
+        - harvester
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/cache@v2
         id: restore-build
         with:
-          path: ./services/harvester/build
+          path: ./services/${{ matrix.app }}/build
           key: ${{ github.sha }}
 
       - name: Set up QEMU
@@ -90,13 +132,12 @@ jobs:
         uses: docker/login-action@v1 
         with:
           registry: registry.gitlab.com
-          username: soulman-is-good
+          username: tradepump_ci
           password: ${{ secrets.GITLAB_TOKEN }}
 
       - name: Prepare tag
         run: |
-          # IMAGE_ID=docker.pkg.github.com/${{ github.repository }}/$IMAGE_NAME
-          IMAGE_ID=registry.gitlab.com/tradepump/$IMAGE_NAME
+          IMAGE_ID=registry.gitlab.com/tradepump/${{ matrix.app }}
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
@@ -117,7 +158,7 @@ jobs:
       - name: Build Docker image
         uses: docker/build-push-action@v2
         with:
-          context: services/${{ env.IMAGE_NAME }}
+          context: services/${{ matrix.app }}
           platforms: linux/amd64,linux/arm/v7,linux/arm64
           tags: ${{ env.image_tag }}
           push: true
