@@ -35,11 +35,13 @@ jobs:
     - name: Build types
       run: npm run build
       working-directory: services/types
-    - name: Snapshot version if not master
+    - name: Publish snapshot version
       if: github.event_name == 'pull_request'
       run: |
         npm --no-git-tag-version version $(npm view @tradepump/types version)-snapshot.$(date +%s)
-    - name: Publish
+        npm publish
+    - name: Publish relese
+      if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: npm publish
       working-directory: services/types
 
