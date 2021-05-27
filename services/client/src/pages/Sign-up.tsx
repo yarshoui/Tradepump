@@ -24,14 +24,13 @@ import {
   Button,
   FormControl,
   FormControlLabel,
+  Typography,
 } from '@material-ui/core';
-// Picker
-// import {
-//   TimePicker,
-//   DatePicker,
-// } from '@material-ui/pickers';
+
 import { countriesStore } from 'src/logic/countriesStore';
 import { CountriesSelect } from 'src/components/CountriesSelect';
+import { makeNonEnumerable } from 'mobx/lib/internal';
+import { CallMissedSharp } from '@material-ui/icons';
 
 // function DatePickerWrapper(props:any) {
 //   const {
@@ -117,6 +116,12 @@ const useStyles = makeStyles((theme) => ({
   root: {
     display: 'flex',
     flexWrap: 'wrap',
+    width: '50%',
+    
+    fontFamily: 'sans-serif',
+    marginLeft: '10px',
+    textTransform: 'none',
+    letterSpacing: 0,
   },
   margin: {
     margin: theme.spacing(1),
@@ -125,7 +130,7 @@ const useStyles = makeStyles((theme) => ({
     marginTop: theme.spacing(3),
   },
   textField: {
-    width: '25ch',
+    width: '30ch',
   },
   formControl: {
     margin: theme.spacing(1),
@@ -163,6 +168,10 @@ const useStyles = makeStyles((theme) => ({
 
   tableHolder: {
     flexGrow: 1,
+  },
+
+  linksNoDecoration:{
+    textDecoration: 'none',
   },
   
 }));
@@ -484,35 +493,23 @@ export const SignUp = () => {
         <meta property="og:image" content="https://www.tradepump.com/android-chrome-192x192.png" />
         <meta property="og:description" content="Tradepump is not just a Bitcoin and Cryptocurrency Aggregator. Come see why our servise is the best place to know crypto exchanges orders books and trades history." />
       </Helmet>
+      
 
       <Form
         onSubmit={onSubmit}
         initialValues={{ agreement: false }}
         validate={validate}
-        render={({ handleSubmit, values /*, reset, submitting, pristine, values */}) => (
+        render={({ handleSubmit,/* values , reset, submitting, pristine, values */}) => (
           <form onSubmit={handleSubmit} noValidate>
             <Paper style={{ padding: 16 }}>
+            
               <Grid container alignItems="flex-start" spacing={2}>
-                <Grid item xs={6}>
-                  <Field
-                    fullWidth
-                    required
-                    name="firstName"
-                    component={TextField}
-                    type="text"
-                    label="First Name"
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <Field
-                    fullWidth
-                    required
-                    name="lastName"
-                    component={TextField}
-                    type="text"
-                    label="Last Name"
-                  />
-                </Grid>
+              <Grid item xs={12}>
+                    <Typography variant="h4" gutterBottom>
+                    Create your account
+                    </Typography>
+                  </Grid>
+                
                 <Grid item xs={6}>
                   <Field
                     fullWidth
@@ -546,6 +543,7 @@ export const SignUp = () => {
           />
         </FormControl>
                 </Grid>
+                
                 <Grid item xs={12}>
                   <Field
                     name="email"
@@ -589,7 +587,7 @@ export const SignUp = () => {
 
                 <Grid item xs={12}>
                   <FormControlLabel
-                    label="By continuing I agree to the"
+                    label= {['By continuing I agree to the ',<a className={classes.linksNoDecoration} href="https://tradepump.com/terms">Terms of Service</a>, ' and ', <a className={classes.linksNoDecoration} href="https://tradepump.com/privacy">Privacy Policy</a>,'.' ]}
                     control={
                       <Field
                         name="agreement"
