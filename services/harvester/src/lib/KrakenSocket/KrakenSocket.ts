@@ -1,7 +1,7 @@
 import WebSocket from 'ws';
 import { getLogger } from 'log4js';
 import { BaseSocket } from '../common/BaseSocket';
-import { CurrencyPair } from '../../../../types';
+import { CurrencyPair } from '@tradepump/types';
 import { parseKrakenPayload } from './utils';
 import { isBookTrade, isKrakenPayload } from '../../utils/guards';
 import { DataEvent } from '../common/DataActions';

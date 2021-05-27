@@ -1,10 +1,12 @@
-import { BookModel, BookSide, CurrencyPair, MarketType, OrderType, TradeModel, TradeSide } from '../../../../types';
+import { BookModel, BookSide, CurrencyPair, MarketType, OrderType, TradeModel, TradeSide } from '@tradepump/types';
 
 type PriceLevel = [string, string, string];
 type TradePayload = [string, string, string, 's' | 'b', 'm' | 'l', string];
 type BookPayload = {
-  as: PriceLevel[];
-  bs: PriceLevel[];
+  as?: PriceLevel[];
+  a?: PriceLevel[];
+  bs?: PriceLevel[];
+  b?: PriceLevel[];
 };
 type BookWithDepth = 'book' | 'book-10' | 'book-25' | 'book-25' | 'book-100' | 'book-500' | 'book-1000';
 
@@ -34,13 +36,20 @@ export const parseKrakenPayload = (payload: KrakenPayload) => {
     case 'book-500':
     case 'book-1000':
     case 'book':
-      return payload[1].as.map<BookModel>(item => ({
+      if (
+        !payload[1].as && !payload[1].a &&
+        !payload[1].bs && !payload[1].b
+      ) {
+        return null;
+      }
+
+      return (payload[1].as || payload[1].a || []).map<BookModel>(item => ({
           side: BookSide.Ask,
           price: parseFloat(item[0]),
           volume: parseFloat(item[1]),
           time: parseFloat(item[2]) * 1000,
         })).concat(
-          payload[1].bs.map<BookModel>(item => ({
+          (payload[1].bs || payload[1].b || []).map<BookModel>(item => ({
             side: BookSide.Bid,
             price: parseFloat(item[0]),
             volume: parseFloat(item[1]),

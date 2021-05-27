@@ -1,5 +1,6 @@
 import { action, decorate, observable } from 'mobx';
-import { DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
+import { CurrencyPair } from '@tradepump/types';
+import { DEFAULT_PAIR } from 'src/logic/pairsConfig';
 import { appStoreKraken } from 'src/logic/appStoreKraken';
 import { appStoreBitfinex } from 'src/logic/appStoreBitfinex';
 import { appStoreBinance } from 'src/logic/appStoreBinance';
@@ -11,7 +12,7 @@ interface KrakenData {
 }
 
 export class AppStore {
-  currencyPair: SelectorOptions = DEFAULT_PAIR;
+  currencyPair: CurrencyPair = DEFAULT_PAIR;
   orderQuantity: number = 1;
   orderQuantityHighlight: number = 1;
 
@@ -22,7 +23,7 @@ export class AppStore {
     bitstamp: appStoreBitstamp,
   };
 
-  setCurrencyPair = (input: SelectorOptions) => {
+  setCurrencyPair = (input: CurrencyPair) => {
     this.currencyPair = input;
     this.tables.kraken.setCurrentKrakenPair(input);
     this.tables.bitfinex.setCurrentBitfinexPair(input);

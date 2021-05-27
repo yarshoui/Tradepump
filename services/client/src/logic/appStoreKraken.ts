@@ -1,11 +1,12 @@
 import { debounce } from 'lodash';
 import { action, computed, decorate, observable, reaction } from 'mobx';
+import { CurrencyPair } from '@tradepump/types';
 import {
   subscribeToKrakenCurrencyPair,
   setKrakenDataHandler,
   getKrakenSocket,
 } from 'src/logic/krakenSocket';
-import { DEFAULT_PAIR, SelectorOptions } from 'src/logic/pairsConfig';
+import { DEFAULT_PAIR } from 'src/logic/pairsConfig';
 
 interface KrakenData {
   as: any[];
@@ -13,7 +14,7 @@ interface KrakenData {
 }
 
 export class AppStoreKraken {
-  currentKrakenPair: SelectorOptions = DEFAULT_PAIR;
+  currentKrakenPair: CurrencyPair = DEFAULT_PAIR;
   orderQuantity: number = 1;
   orderQuantityHighlight: number = 1;
 
@@ -57,7 +58,7 @@ export class AppStoreKraken {
   constructor() {
     reaction(
       () => this.currentKrakenPair,
-      (pair: SelectorOptions) => {
+      (pair: CurrencyPair) => {
         console.debug('pairChanged', pair);
         subscribeToKrakenCurrencyPair(pair);
       },
@@ -97,7 +98,7 @@ export class AppStoreKraken {
   }, 1000);
 
 
-  setCurrentKrakenPair = (input: SelectorOptions) => {
+  setCurrentKrakenPair = (input: CurrencyPair) => {
     this.resetData();
     this.currentKrakenPair = input;
   };

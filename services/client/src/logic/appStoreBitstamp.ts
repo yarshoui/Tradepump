@@ -1,5 +1,6 @@
 import { debounce } from 'lodash';
 import { action, computed, decorate, observable, reaction } from 'mobx';
+import { CurrencyPair } from '@tradepump/types';
 import {
   subscribeToBitstampCurrencyPair,
   setBitstampDataHandler,
@@ -7,7 +8,7 @@ import {
 } from 'src/logic/bitstampRest';
 import { bitstampOrdersDataArr } from 'src/logic/bitstampRest';
 //import { bitstampLastTradeDataArr } from 'src/logic/bitstampRest';
-import { DEFAULT_PAIR, SelectorOptions } from './pairsConfig';
+import { DEFAULT_PAIR } from './pairsConfig';
 //console.log ('bit1', bitstampOrdersDataArr);
 interface bitstampOrdersDataArr {
   // lastUpdateId: any;
@@ -28,7 +29,7 @@ interface bitstampOrdersDataArr {
 // }
 
 export class AppStoreBitstamp {
-  currentBitstampPair: SelectorOptions = DEFAULT_PAIR;
+  currentBitstampPair: CurrencyPair = DEFAULT_PAIR;
   orderQuantity: number = 1;
   orderQuantityHighlight: number = 1;
 
@@ -87,7 +88,7 @@ export class AppStoreBitstamp {
   constructor() {
     reaction(
       () => this.currentBitstampPair,
-      (pair: SelectorOptions) => {
+      (pair: CurrencyPair) => {
         console.debug('pairChanged', pair);
         subscribeToBitstampCurrencyPair(pair);
       },
@@ -123,7 +124,7 @@ export class AppStoreBitstamp {
     this.orderQuantityHighlight = quantityHighlight;
   }, 1000);
 
-  setCurrentBitstampPair = (input: SelectorOptions) => {
+  setCurrentBitstampPair = (input: CurrencyPair) => {
     this.resetData();
     this.currentBitstampPair = input;
   };

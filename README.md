@@ -11,7 +11,21 @@ Currently it consists of following `services`:
 
 ## How to contribute
 
-### Server
+All services are located under `/services` folder. Below each service is described in a separate section.
+All folders under each section are referenced against this `/services` folder.
+
+- [Client](#client)
+- [API Server](#api-server)
+- [Database](#database)
+- [Harvester](#harvester)
+
+### Client
+
+Client is written in React and located under `/client` folder.
+Use `npm start` to start developing and `http://localhost:3000` will be opened in browser.
+Please make sure API server is running. Check [API Server](#api-server) section below.
+
+### API Server
 
 API Server is located under `/server` folder.
 

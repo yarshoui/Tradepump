@@ -1,4 +1,5 @@
-import { PAIRS, SelectorOptions } from 'src/logic/pairsConfig';
+import { CurrencyPair } from '@tradepump/types';
+import { PAIRS } from 'src/logic/pairsConfig';
 
 //import {Http, Response, URLSearchParams} from '@angular/http';
 
@@ -95,7 +96,7 @@ export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
 //   bitstampLastTradeData.dataHandler = dataHandler;
 // };
 
-export const subscribeToBitstampCurrencyPair = (inputPair: SelectorOptions) => {
+export const subscribeToBitstampCurrencyPair = (inputPair: CurrencyPair) => {
   currencyPair = PAIRS[inputPair].bitstamp;
   //bitstampOrdersDataArr=[];
   getBitstampOrdersData();
