@@ -35,6 +35,10 @@ jobs:
     - name: Build types
       run: npm run build
       working-directory: services/types
+    - name: Snapshot version if not master
+      if: github.event_name == 'pull_request'
+      run: |
+        npm version prerelease --preid=$(date +%s) --no-tag-release
     - name: Publish
       run: npm publish
       working-directory: services/types
