@@ -598,26 +598,7 @@ export const SignUp = () => {
                   />
                 </Grid>
                 
-                <Grid item xs={12}>
-                  <CountriesSelect
-                    store={countriesStore}
-                    className={classes.formControl}
-                    selectClassName={classes.selectEmpty}
-                    country={country}
-                    onChange={handleCountryChange}
-                  />
-                </Grid>
-                
-                {/* <Grid item style={{ marginTop: 16 }}>
-                  <Button
-                    type="button"
-                    variant="contained"
-                    onClick={reset}
-                    disabled={submitting || pristine}
-                  >
-                    Reset
-                  </Button>
-                </Grid> */}
+              
                 <Grid item style={{ marginTop: 16 }}>
                   <Button 
                   variant="contained" 
