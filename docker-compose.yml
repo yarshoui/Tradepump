@@ -1,0 +1,73 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:11
+    networks:
+      - tradepump
+    volumes:
+      - ./services/database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: master
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: tradepump
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    networks:
+      - tradepump
+    volumes:
+      - ./services/database/pgadmin4/config:/pgadmin4/config
+      - ./services/database/pgadmin4/storage:/var/lib/pgadmin/storage
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tradepump.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/config/servers.json
+    ports:
+      - 8081:80
+
+  client:
+    build:
+      context: ./services/client
+    networks:
+      - tradepump
+    environment:
+      SERVER_URL: http://server:8080
+    ports:
+      - 3001:80
+
+  server:
+    build:
+      context: ./services/server
+    networks:
+      - tradepump
+    environment:
+      PORT: 8080
+      DATABASE_URL: postgres://master:admin@database:5432/tradepump
+      LOG_LEVEL: debug
+    ports:
+      - 8080:8080
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: traderabbit
+    networks:
+      - tradepump
+    environment:
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin
+    ports:
+      - 8082:15672
+
+  harvester:
+    build:
+      context: ./services/harvester
+    networks:
+      - tradepump
+    environment:
+      DATABASE_URL: postgres://master:admin@database:5432/tradepump
+      RABBITMQ_URL: amqp://admin:admin@rabbitmq
+      LOG_LEVEL: info
+
+networks:
+  tradepump:
