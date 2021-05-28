@@ -9,5 +9,5 @@ export const isKrakenPayload = (payload: any): payload is KrakenPayload => (
 );
 export const isBookTrade = (bookModels: any[]): bookModels is BookModel[] => bookModels.every(bookModel => (
   'side' in bookModel
-  && (bookModel.side === BookSide.Ask || bookModel.side === BookSide.Bid)
+  && (bookModel.side === BookSide.ask || bookModel.side === BookSide.bid)
 ));
