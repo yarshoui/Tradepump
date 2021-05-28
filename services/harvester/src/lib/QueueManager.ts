@@ -89,6 +89,8 @@ export class QueueManager extends EventEmitter {
     await channel.assertQueue(queue, {
       // We don't want to loose trades
       durable: true,
+      // Let's limit to 100k for now. It's over 1m after few hours
+      maxLength: 100000,
     });
     logger.trace(`Sending message (${data.byteLength} bytes)...`);
 
