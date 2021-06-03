@@ -8,7 +8,7 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 import { Form, Field } from 'react-final-form';
-import { Checkbox } from 'final-form-material-ui';
+// import { Checkbox } from 'final-form-material-ui';
 import TextField from '@material-ui/core/TextField';
 import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
@@ -18,6 +18,7 @@ import InputAdornment from '@material-ui/core/InputAdornment';
 import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Autocomplete from '@material-ui/lab/Autocomplete';
+import Checkbox from '@material-ui/core/Checkbox';
 import {
   Paper,
   Grid,
@@ -29,7 +30,7 @@ import {
 
 import { countriesStore } from 'src/logic/countriesStore';
 import { CountriesSelect } from 'src/components/CountriesSelect';
-import { makeNonEnumerable } from 'mobx/lib/internal';
+import { isSpyEnabled, makeNonEnumerable } from 'mobx/lib/internal';
 import { CallMissedSharp } from '@material-ui/icons';
 
 // function DatePickerWrapper(props:any) {
@@ -123,15 +124,15 @@ const useStyles = makeStyles((theme) => ({
     textTransform: 'none',
     letterSpacing: 0,
   },
-  margin: {
-    margin: theme.spacing(1),
-  },
+  // margin: {
+  //   margin: theme.spacing(1),
+  // },
   withoutLabel: {
     marginTop: theme.spacing(3),
   },
-  textField: {
-    width: '30ch',
-  },
+  // textField: {
+  //   width: '30ch',
+  // },
   formControl: {
     margin: theme.spacing(1),
     minWidth: 240,
@@ -470,6 +471,21 @@ export const SignUp = () => {
   const handleCountryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
     setCountry(parseInt(event.target.value as string));
   };
+  // const [isAgreed, setIsAgreed] = React.useState(false);
+
+
+  const [formValue, setFormValue] = React.useState( {isAgreed: false, username : '', password: '', email:''});
+  // const isEnabled=()=>{
+  //   let disable=true;
+  //   function enableDisable(agree:any){
+  //     const checkbox = document.getElementById("agree");
+  //     if (checkbox.===true) {disable = false;}
+  //     else return;
+  //   };
+
+    
+  //   return disable;
+  // };
 
   return (
     <div className={classes.root}>
@@ -511,24 +527,28 @@ export const SignUp = () => {
                   </Grid>
                 
                 <Grid item xs={6}>
-                  <Field
-                    fullWidth
-                    required
-                    name="username"
-                    component={TextField}
-                    type="text"
-                    label="Username"
-                  />
+                  <TextField 
+                  required 
+                  fullWidth
+                  id="standard-required" 
+                  label="Username" 
+                  
+                  name="username"
+                  onChange={(event) => { setFormValue({...formValue, username: event.target.value})}}
+                   />
+                  
                 </Grid>
 
                 <Grid item xs={6}>
-                <FormControl className={clsx(classes.margin, classes.textField)}>
+                <FormControl  fullWidth>
           <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
           <Input
+            
             id="standard-adornment-password"
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
             onChange={handleChange('password')}
+            // onChange={(event) => { setFormValue({...formValue, password: event.target.value})}}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -545,14 +565,15 @@ export const SignUp = () => {
                 </Grid>
                 
                 <Grid item xs={12}>
-                  <Field
-                    name="email"
-                    fullWidth
-                    required
-                    component={TextField}
-                    type="email"
-                    label="Email"
-                  />
+                <TextField 
+                  required 
+                  fullWidth
+                  id="standard-required" 
+                  label="Email" 
+                  
+                  name="email"
+                  onChange={(event) => { setFormValue({...formValue, email: event.target.value})}}
+                   />
                 </Grid>
 
                 <Grid item xs={12}>
@@ -589,11 +610,16 @@ export const SignUp = () => {
                   <FormControlLabel
                     label= {['By continuing I agree to the ',<a className={classes.linksNoDecoration} href="https://tradepump.com/terms">Terms of Service</a>, ' and ', <a className={classes.linksNoDecoration} href="https://tradepump.com/privacy">Privacy Policy</a>,'.' ]}
                     control={
-                      <Field
-                        name="agreement"
-                        component={Checkbox}
-                        type="checkbox"
+                      <Checkbox 
+                      // checked={}
+                      name="agreement" 
+                      value={formValue.isAgreed}  
+                      onChange={(event) => { setFormValue({...formValue, isAgreed: event.target.checked})}}
+                      onClick={(event) => { setFormValue({...formValue, isAgreed: !formValue.isAgreed})}}
+                      // onClick= {() => {console.log(formValue) }}
+                      
                       />
+                      
                     }
                   />
                 </Grid>
@@ -601,19 +627,21 @@ export const SignUp = () => {
               
                 <Grid item style={{ marginTop: 16 }}>
                   <Button 
+                  id="submitButton"
                   variant="contained" 
                   color="primary" 
                   disableElevation 
-                  disabled> 
+                  // onClick= {() => {console.log(formValue) }}
+                  disabled={!formValue.isAgreed}> 
                   {/* Enabled if 
                   1. All fields are filled in 
-                  2. There is no such a Username or Email in the DB*/}
+                  2. Checkbox is enabled*/}
                     Submit
                   </Button>
                 </Grid>
               </Grid>
             </Paper>
-            {/* <pre>{JSON.stringify(values)}</pre> */}
+            
           </form>
         )}
       />

@@ -72,9 +72,9 @@ const useStyles = makeStyles((theme) => ({
     marginLeft: '10px',
   },
 
-  margin: {
-    margin: theme.spacing(1),
-  },
+  // margin: {
+  //   margin: theme.spacing(1),
+  // },
 
   textField: {
     width: '30ch',
@@ -221,7 +221,7 @@ export const SignIn = () => {
                   </Grid>
 
                   <Grid item xs={12}>
-                    <FormControl className={clsx(classes.margin, classes.textField)}>
+                    <FormControl className={clsx(classes.textField)}>
                       <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
                       <Input
                         id="standard-adornment-password"
