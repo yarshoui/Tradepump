@@ -1,11 +1,14 @@
 {
   "name": "@tradepump/types",
-  "version": "1.0.2",
+  "version": "2.0.2",
   "description": "Types and models",
   "main": "build/index.js",
   "types": "build/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "npm run build:proto && npm run build:ts",
+    "build:proto": "node scripts/buildProto.js",
+    "build:ts": "tsc",
+    "update-version": "npm --no-git-tag-version version",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "publishConfig": {
@@ -16,6 +19,7 @@
   "author": "Tradepump",
   "license": "ISC",
   "devDependencies": {
-    "typescript": "^4.3.2"
+    "typescript": "^4.3.2",
+    "pbjs": "0.0.14"
   }
 }

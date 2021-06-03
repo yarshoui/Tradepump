@@ -38,12 +38,22 @@ jobs:
     - name: Publish snapshot version
       if: github.event_name == 'pull_request'
       run: |
-        npm --no-git-tag-version version $(npm view @tradepump/types version)-snapshot.$(date +%s)
+        version=$(node -e "console.log(require('./package.json').version)")
+        npm --no-git-tag-version version ${version}-snapshot.$(date +%s)
         npm publish
       working-directory: services/types
     - name: Publish relese
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
-      run: npm publish
+      run: |
+        currentVersion=$(node -e "console.log(require('./package.json').version)")
+        npm view @tradepump/types versions > tmp.json
+        latestSolid=$(node -e "console.log(require('./tmp.json').filter(v => v.indexOf('snapshot') === -1).pop())")
+        rm tmp.json
+        if [[ "$currentVersion" != "$latestSolid" ]]; then
+          npm publish
+        else
+          echo "Same version is published, skipping..."
+        fi
       working-directory: services/types
 
   build:
