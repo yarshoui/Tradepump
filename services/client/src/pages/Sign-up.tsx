@@ -632,7 +632,7 @@ export const SignUp = () => {
                   color="primary" 
                   disableElevation 
                   // onClick= {() => {console.log(formValue) }}
-                  disabled={!formValue.isAgreed}> 
+                  disabled={(!formValue.isAgreed )&&(formValue.email.length>0)&&(formValue.username.length>0)&&(formValue.password.length>0)}> 
                   {/* Enabled if 
                   1. All fields are filled in 
                   2. Checkbox is enabled*/}
