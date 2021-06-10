@@ -46,7 +46,7 @@ jobs:
       if: github.ref == 'refs/heads/master' && github.event_name == 'push'
       run: |
         currentVersion=$(node -e "console.log(require('./package.json').version)")
-        npm view @tradepump/types versions > tmp.json
+        npm view @tradepump/types versions --json > tmp.json
         latestSolid=$(node -e "console.log(require('./tmp.json').filter(v => v.indexOf('snapshot') === -1).pop())")
         rm tmp.json
         if [[ "$currentVersion" != "$latestSolid" ]]; then
