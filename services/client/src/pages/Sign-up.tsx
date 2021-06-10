@@ -19,6 +19,8 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Checkbox from '@material-ui/core/Checkbox';
+import DoneIcon from '@material-ui/icons/Done';
+import CheckIcon from '@material-ui/icons/Check';
 import {
   Paper,
   Grid,
@@ -30,8 +32,10 @@ import {
 
 import { countriesStore } from 'src/logic/countriesStore';
 import { CountriesSelect } from 'src/components/CountriesSelect';
-import { isSpyEnabled, makeNonEnumerable } from 'mobx/lib/internal';
 import { CallMissedSharp } from '@material-ui/icons';
+import { Chip } from '@material-ui/core';
+import { Tooltip } from '@material-ui/core';
+import  ArrowRightIcon  from '@material-ui/icons/ArrowRight'
 
 // function DatePickerWrapper(props:any) {
 //   const {
@@ -475,17 +479,30 @@ export const SignUp = () => {
 
 
   const [formValue, setFormValue] = React.useState( {isAgreed: false, username : '', password: '', email:''});
-  // const isEnabled=()=>{
-  //   let disable=true;
-  //   function enableDisable(agree:any){
-  //     const checkbox = document.getElementById("agree");
-  //     if (checkbox.===true) {disable = false;}
-  //     else return;
-  //   };
 
-    
-  //   return disable;
-  // };
+
+  function emailIsValid (email:string) {
+    if(/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+    {
+      return (false);
+    }
+    else{
+      return (true);
+    }
+  }
+
+  const register = () => {
+    // console.log("checkbox", !formValue.isAgreed);
+    // console.log("email", emailIsValid(formValue.email));
+    // console.log(formValue.isAgreed && emailIsValid(formValue.email));
+    console.log ("Register request sent");
+  }
+
+  const handleDelete = () => {
+    console.info('You clicked the delete icon.');
+  };
+
+  
 
   return (
     <div className={classes.root}>
@@ -542,6 +559,14 @@ export const SignUp = () => {
                 <Grid item xs={6}>
                 <FormControl  fullWidth>
           <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
+          <Tooltip title={<div>
+            { values.password.length >= 8 ? <CheckIcon /> : <ArrowRightIcon />} 8 characters<br /> 
+            { /[a-zA-Z]/.test(values.password) ? <CheckIcon /> : <ArrowRightIcon />} 1 letter<br /> 
+            { /\W/.test(values.password) ? <CheckIcon /> : <ArrowRightIcon />} 1 special symbol<br /> 
+            { /\d/.test(values.password) ? <CheckIcon /> : <ArrowRightIcon />} 1 number
+             </div>} arrow>
+  
+
           <Input
             
             id="standard-adornment-password"
@@ -561,6 +586,7 @@ export const SignUp = () => {
               </InputAdornment>
             }
           />
+          </Tooltip>
         </FormControl>
                 </Grid>
                 
@@ -631,8 +657,9 @@ export const SignUp = () => {
                   variant="contained" 
                   color="primary" 
                   disableElevation 
-                  // onClick= {() => {console.log(formValue) }}
-                  disabled={(!formValue.isAgreed )&&(formValue.email.length>0)&&(formValue.username.length>0)&&(formValue.password.length>0)}> 
+                  onClick= {register}
+                  
+                  disabled={!formValue.isAgreed || emailIsValid(formValue.email)}> 
                   {/* Enabled if 
                   1. All fields are filled in 
                   2. Checkbox is enabled*/}
