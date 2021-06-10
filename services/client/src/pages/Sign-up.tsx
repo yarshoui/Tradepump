@@ -7,10 +7,9 @@ import 'src/css/index.css';
 import { makeStyles } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
-import { Form, Field } from 'react-final-form';
+import { Form } from 'react-final-form';
 // import { Checkbox } from 'final-form-material-ui';
 import TextField from '@material-ui/core/TextField';
-import clsx from 'clsx';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
@@ -28,10 +27,10 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { countriesStore } from 'src/logic/countriesStore';
-import { CountriesSelect } from 'src/components/CountriesSelect';
-import { isSpyEnabled, makeNonEnumerable } from 'mobx/lib/internal';
-import { CallMissedSharp } from '@material-ui/icons';
+// import { countriesStore } from 'src/logic/countriesStore';
+// import { CountriesSelect } from 'src/components/CountriesSelect';
+// import { isSpyEnabled, makeNonEnumerable } from 'mobx/lib/internal';
+// import { CallMissedSharp } from '@material-ui/icons';
 
 // function DatePickerWrapper(props:any) {
 //   const {
@@ -466,11 +465,11 @@ export const SignUp = () => {
   const handleMouseDownPassword = (event: React.MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();
   };
-  const [country, setCountry] = React.useState<number>();
+  // const [country, setCountry] = React.useState<number>();
 
-  const handleCountryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
-    setCountry(parseInt(event.target.value as string));
-  };
+  // const handleCountryChange = (event: React.ChangeEvent<{ value: unknown }>) => {
+  //   setCountry(parseInt(event.target.value as string));
+  // };
   // const [isAgreed, setIsAgreed] = React.useState(false);
 
 
