@@ -181,6 +181,13 @@ const useStyles = makeStyles((theme) => ({
   linksNoDecoration:{
     textDecoration: 'none',
   },
+  greenCheck: {
+    color:'white',
+  },
+  tooltipText: {
+    fontSize: 12,
+    
+  },
   
 }));
 interface State {
@@ -494,10 +501,21 @@ export const SignUp = () => {
     }
   }
 
+  function passwordIsValid (password:string) {
+    if(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,}$/.test(password))
+    {
+      return (false);
+    }
+    else{
+      return (true);
+    }
+  }
+
   const register = () => {
     // console.log("checkbox", !formValue.isAgreed);
     // console.log("email", emailIsValid(formValue.email));
     // console.log(formValue.isAgreed && emailIsValid(formValue.email));
+    console.log("password", passwordIsValid(formValue.password));
     console.log ("Register request sent");
   }
 
@@ -563,11 +581,11 @@ export const SignUp = () => {
                 <FormControl  fullWidth>
           <InputLabel htmlFor="standard-adornment-password">Password *</InputLabel>
           <Tooltip title={<div>
-            { values.password.length >= 8 ? <CheckIcon /> : <ArrowRightIcon />} 8 characters<br /> 
-            { /[a-zA-Z]/.test(values.password) ? <CheckIcon /> : <ArrowRightIcon />} 1 letter<br /> 
-            { /\W/.test(values.password) ? <CheckIcon /> : <ArrowRightIcon />} 1 special symbol<br /> 
-            { /\d/.test(values.password) ? <CheckIcon /> : <ArrowRightIcon />} 1 number
-             </div>} arrow>
+            { values.password.length >= 8 ? <CheckIcon className= {classes.greenCheck}/> : <ArrowRightIcon />}<span className= {classes.tooltipText}>8 characters</span> <br /> 
+            { /[a-zA-Z]/.test(values.password) ? <CheckIcon className= {classes.greenCheck}/> : <ArrowRightIcon />} <span className= {classes.tooltipText}>1 letter</span><br /> 
+            { /\W/.test(values.password) ? <CheckIcon className= {classes.greenCheck}/> : <ArrowRightIcon />} <span className= {classes.tooltipText}>1 special symbol</span><br /> 
+            { /\d/.test(values.password) ? <CheckIcon className= {classes.greenCheck}/> : <ArrowRightIcon />} <span className= {classes.tooltipText}>1 number</span> 
+             </div>} arrow >
   
 
           <Input
@@ -576,7 +594,7 @@ export const SignUp = () => {
             type={values.showPassword ? 'text' : 'password'}
             value={values.password}
             onChange={handleChange('password')}
-            // onChange={(event) => { setFormValue({...formValue, password: event.target.value})}}
+            // onChange={(event) => {setFormValue({...formValue, password: event.target.value});}}
             endAdornment={
               <InputAdornment position="end">
                 <IconButton
@@ -662,7 +680,7 @@ export const SignUp = () => {
                   disableElevation 
                   onClick= {register}
                   
-                  disabled={!formValue.isAgreed || emailIsValid(formValue.email)}> 
+                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password)}> 
                   {/* Enabled if 
                   1. All fields are filled in 
                   2. Checkbox is enabled*/}
