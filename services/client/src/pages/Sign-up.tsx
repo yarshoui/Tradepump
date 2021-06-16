@@ -488,7 +488,7 @@ export const SignUp = () => {
   // const [isAgreed, setIsAgreed] = React.useState(false);
 
 
-  const [formValue, setFormValue] = React.useState( {isAgreed: false, username : '', password: '', email:''});
+  const [formValue, setFormValue] = React.useState( {isAgreed: false, username : '', password: '', email:'', country:''});
 
 
   function emailIsValid (email:string) {
@@ -625,6 +625,9 @@ export const SignUp = () => {
 
                 <Grid item xs={12}>
                 <Autocomplete
+                  onInputChange={(_, value) => {
+                    setFormValue({...formValue, country: value})}
+                  }
                   id="country-select-demo"
                   style={{ width: 400, marginTop:20 }}
                   options={countries as CountryType[]}
@@ -641,6 +644,7 @@ export const SignUp = () => {
                   )}
                   renderInput={(params) => (
                     <TextField
+                      
                       {...params}
                       label="Country of residence *"
                       variant="standard"
@@ -648,8 +652,10 @@ export const SignUp = () => {
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
                       }}
+                      
                     />
                   )}
+                  
                 />
                 </Grid>
 
@@ -680,7 +686,7 @@ export const SignUp = () => {
                   disableElevation 
                   onClick= {register}
                   
-                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password)}> 
+                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password) || formValue.country===""}> 
                   {/* Enabled if 
                   1. All fields are filled in 
                   2. Checkbox is enabled*/}
