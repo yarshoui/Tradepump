@@ -8,7 +8,6 @@ import { makeStyles } from '@material-ui/core/styles';
 import { Helmet } from 'react-helmet';
 import ReactGA from 'react-ga';
 import { Form } from 'react-final-form';
-// import { Checkbox } from 'final-form-material-ui';
 import TextField from '@material-ui/core/TextField';
 import IconButton from '@material-ui/core/IconButton';
 import Input from '@material-ui/core/Input';
@@ -35,56 +34,7 @@ import { CallMissedSharp } from '@material-ui/icons';
 import { Chip } from '@material-ui/core';
 import { Tooltip } from '@material-ui/core';
 import  ArrowRightIcon  from '@material-ui/icons/ArrowRight'
-// import { countriesStore } from 'src/logic/countriesStore';
-// import { CountriesSelect } from 'src/components/CountriesSelect';
-// import { isSpyEnabled, makeNonEnumerable } from 'mobx/lib/internal';
-// import { CallMissedSharp } from '@material-ui/icons';
 
-// function DatePickerWrapper(props:any) {
-//   const {
-//     input: { name, onChange, value, ...restInput },
-//     meta,
-//     ...rest
-//   } = props;
-//   const showError =
-//     ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
-//     meta.touched;
-
-//   return (
-//     <DatePicker
-//       {...rest}
-//       name={name}
-//       helperText={showError ? meta.error || meta.submitError : undefined}
-//       error={showError}
-//       inputProps={restInput}
-//       onChange={onChange}
-//       value={value === '' ? null : value}
-//     />
-//   );
-// }
-
-// function TimePickerWrapper(props:any) {
-//   const {
-//     input: { name, onChange, value, ...restInput },
-//     meta,
-//     ...rest
-//   } = props;
-//   const showError =
-//     ((meta.submitError && !meta.dirtySinceLastSubmit) || meta.error) &&
-//     meta.touched;
-
-//   return (
-//     <TimePicker
-//       {...rest}
-//       name={name}
-//       helperText={showError ? meta.error || meta.submitError : undefined}
-//       error={showError}
-//       inputProps={restInput}
-//       onChange={onChange}
-//       value={value === '' ? null : value}
-//     />
-//   );
-// }
 
 const onSubmit = async (values:any) => {
   const sleep = (ms: number) => new Promise(resolve => setTimeout(resolve, ms));
@@ -682,10 +632,7 @@ export const SignUp = () => {
                   disableElevation 
                   onClick= {register}
                   
-                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password)}> 
-                  {/* Enabled if 
-                  1. All fields are filled in 
-                  2. Checkbox is enabled*/}
+                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password) || formValue.country===""}> 
                     Submit
                   </Button>
                 </Grid>
