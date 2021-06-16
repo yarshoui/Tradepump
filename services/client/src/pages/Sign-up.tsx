@@ -510,15 +510,6 @@ export const SignUp = () => {
       return (true);
     }
   }
-  function countryIsNotEmpty (country:string) {
-    if(/^\S+$/.test(country))
-    {
-      return (false);
-    }
-    else{
-      return (true);
-    }
-  }
 
   const register = () => {
     // console.log("checkbox", !formValue.isAgreed);
@@ -658,7 +649,7 @@ export const SignUp = () => {
                         autoComplete: 'new-password', // disable autocomplete and autofill
                         
                       }}
-                      onChange={(event) => { setFormValue({...formValue, country: event.target.value})}}
+                      
                     />
                   )}
                 />
@@ -691,7 +682,7 @@ export const SignUp = () => {
                   disableElevation 
                   onClick= {register}
                   
-                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password) || countryIsNotEmpty(formValue.country)}> 
+                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password)}> 
                   {/* Enabled if 
                   1. All fields are filled in 
                   2. Checkbox is enabled*/}
