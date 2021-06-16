@@ -488,7 +488,7 @@ export const SignUp = () => {
   // const [isAgreed, setIsAgreed] = React.useState(false);
 
 
-  const [formValue, setFormValue] = React.useState( {isAgreed: false, username : '', password: '', email:''});
+  const [formValue, setFormValue] = React.useState( {isAgreed: false, username : '', password: '', email:'', country:''});
 
 
   function emailIsValid (email:string) {
@@ -503,6 +503,15 @@ export const SignUp = () => {
 
   function passwordIsValid (password:string) {
     if(/^(?=.*[a-zA-Z])(?=.*\d)(?=.*\W).{8,}$/.test(password))
+    {
+      return (false);
+    }
+    else{
+      return (true);
+    }
+  }
+  function countryIsNotEmpty (country:string) {
+    if(/^\S+$/.test(country))
     {
       return (false);
     }
@@ -647,7 +656,9 @@ export const SignUp = () => {
                       inputProps={{
                         ...params.inputProps,
                         autoComplete: 'new-password', // disable autocomplete and autofill
+                        
                       }}
+                      onChange={(event) => { setFormValue({...formValue, country: event.target.value})}}
                     />
                   )}
                 />
@@ -680,7 +691,7 @@ export const SignUp = () => {
                   disableElevation 
                   onClick= {register}
                   
-                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password)}> 
+                  disabled={!formValue.isAgreed || emailIsValid(formValue.email) || formValue.username.length===0 || passwordIsValid(values.password) || countryIsNotEmpty(formValue.country)}> 
                   {/* Enabled if 
                   1. All fields are filled in 
                   2. Checkbox is enabled*/}
