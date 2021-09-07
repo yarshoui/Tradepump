@@ -17,7 +17,7 @@ import Visibility from '@material-ui/icons/Visibility';
 import VisibilityOff from '@material-ui/icons/VisibilityOff';
 import Autocomplete from '@material-ui/lab/Autocomplete';
 import Checkbox from '@material-ui/core/Checkbox';
-import DoneIcon from '@material-ui/icons/Done';
+// import DoneIcon from '@material-ui/icons/Done';
 import CheckIcon from '@material-ui/icons/Check';
 import {
   Paper,
@@ -28,10 +28,10 @@ import {
   Typography,
 } from '@material-ui/core';
 
-import { countriesStore } from 'src/logic/countriesStore';
-import { CountriesSelect } from 'src/components/CountriesSelect';
-import { CallMissedSharp } from '@material-ui/icons';
-import { Chip } from '@material-ui/core';
+// import { countriesStore } from 'src/logic/countriesStore';
+// import { CountriesSelect } from 'src/components/CountriesSelect';
+// import { CallMissedSharp } from '@material-ui/icons';
+// import { Chip } from '@material-ui/core';
 import { Tooltip } from '@material-ui/core';
 import  ArrowRightIcon  from '@material-ui/icons/ArrowRight'
 
@@ -469,9 +469,9 @@ export const SignUp = () => {
     console.log ("Register request sent");
   }
 
-  const handleDelete = () => {
-    console.info('You clicked the delete icon.');
-  };
+  // const handleDelete = () => {
+  //   console.info('You clicked the delete icon.');
+  // };
 
   
 

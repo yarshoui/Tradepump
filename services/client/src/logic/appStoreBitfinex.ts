@@ -112,8 +112,8 @@ export class AppStoreBitfinex {
     this.resetData();
 
     console.debug(newData[1]);
-    this.bitfinexData.asks = newData.asks;
-    this.bitfinexData.bids = newData.bids;
+    this.bitfinexData.asks = newData.asks || [];
+    this.bitfinexData.bids = newData.bids || [];
   };
 
   resetData = () => {
