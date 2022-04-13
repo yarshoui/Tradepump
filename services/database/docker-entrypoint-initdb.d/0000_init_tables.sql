@@ -13,19 +13,13 @@ CREATE DOMAIN public.email AS public.citext
 
 -- Users table
 CREATE TABLE public.users (
-    user_id SERIAL NOT NULL PRIMARY KEY,
-    user_name VARCHAR(255) NOT NULL,
-    user_email public.email NOT NULL UNIQUE,
-    user_password VARCHAR(72) NOT NULL,
-    user_role roles DEFAULT 'user',
-    user_country INTEGER,
-    user_is_active BOOLEAN DEFAULT FALSE,
-    user_created TIMESTAMP WITHOUT TIME ZONE DEFAULT LOCALTIMESTAMP NOT NULL
-);
--- User data
-CREATE TABLE public.users_data (
-  user_id INTEGER NOT NULL PRIMARY KEY,
-  user_country INTEGER
+  user_id SERIAL NOT NULL PRIMARY KEY,
+  user_email public.email NOT NULL UNIQUE,
+  user_password VARCHAR(72) NOT NULL,
+  user_role roles DEFAULT 'user',
+  user_is_active BOOLEAN DEFAULT FALSE,
+  user_activated TIMESTAMP WITHOUT TIME ZONE,
+  user_created TIMESTAMP WITHOUT TIME ZONE DEFAULT LOCALTIMESTAMP NOT NULL
 );
 -- Regions
 CREATE TABLE public.countries (
@@ -35,6 +29,54 @@ CREATE TABLE public.countries (
   country_iso3 CHAR(3) DEFAULT NULL UNIQUE,
   country_numcode SMALLINT DEFAULT NULL,
   country_phonecode INTEGER NOT NULL
+);
+
+----
+-- Private data
+----
+CREATE SCHEMA private;
+
+-- User data
+CREATE TABLE private.users_data (
+  user_id INTEGER NOT NULL PRIMARY KEY,
+  user_country INTEGER,
+  user_name VARCHAR(255)
+);
+
+-- User tokens
+CREATE TABLE private.users_tokens (
+  user_id INTEGER NOT NULL,
+  token VARCHAR(64) NOT NULL UNIQUE,
+  token_expires TIMESTAMP WITHOUT TIME ZONE,
+  token_used TIMESTAMP WITHOUT TIME ZONE,
+  token_created TIMESTAMP WITHOUT TIME ZONE DEFAULT LOCALTIMESTAMP NOT NULL,
+
+  PRIMARY KEY users_tokens_pkey (user_id, token)
+);
+COMMENT ON TABLE private.users_tokens IS '
+  Token factory. For account activation or password restore.
+  General store, just need to have a check against user_id+token
+';
+
+----
+-- System level data
+----
+CREATE SCHEMA system;
+
+-- TODO: functions: create_task, pull_task - update task_pulled, finish_task(delete)
+CREATE TABLE system.tasks (
+  task_id BIGSERIAL NOT NULL PRIMARY KEY,
+  task_handler INTEGER NOT NULL,
+  task_data TEXT,
+  task_pulled TIMESTAMP WITHOUT TIME ZONE, -- last time task pulled by worker
+  task_timeout INTERVAL DEFAULT '5 minute'::INTERVAL NOT NULL,
+  task_created TIMESTAMP WITHOUT TIME ZONE DEFAULT LOCALTIMESTAMP NOT NULL
+);
+
+CREATE TABLE system.tasks_handlers (
+  handler_id SERIAL NOT NULL PRIMARY KEY,
+  handler_name VARCHAR(255),
+  handler_description TEXT
 );
 
 ----

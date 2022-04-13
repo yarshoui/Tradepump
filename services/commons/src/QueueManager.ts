@@ -1,10 +1,10 @@
 import { EventEmitter } from 'events';
 import amqp from 'amqplib';
 import { getLogger } from 'log4js';
-import { wait } from '../utils/commonUtils';
+import { wait } from './utils/commonUtils';
 
 const logger = getLogger('QueueManager');
-export type Queues = 'trading_queue';
+export type Queues = 'trading_queue' | 'email_queue';
 export type ConnecitonState = 'disconnected' | 'connecting' | 'connected';
 
 export class QueueManager extends EventEmitter {
@@ -21,7 +21,7 @@ export class QueueManager extends EventEmitter {
     this.state = 'disconnected';
   }
 
-  static async init(url = process.env.RABBITMQ_URL) {
+  static init(url = process.env.RABBITMQ_URL) {
     if (!this._instance) {
       this._instance = new QueueManager(url);
     }
@@ -63,7 +63,7 @@ export class QueueManager extends EventEmitter {
         this.state = 'connected';
         logger.info(`Connected to ${this._url}`);
       } catch (err) {
-        logger.error(`Error connecting to ${this._url}. ${err.message}. Reconnecting...`);
+        logger.error(`Error connecting to ${this._url}. ${err}. Reconnecting...`);
         logger.debug(err);
         delete this._connection;
         await wait(3000);
@@ -85,7 +85,7 @@ export class QueueManager extends EventEmitter {
     await mq._connect();
 
     const channel = mq._channel!;
-  
+
     await channel.assertQueue(queue, {
       // We don't want to loose trades
       durable: true,

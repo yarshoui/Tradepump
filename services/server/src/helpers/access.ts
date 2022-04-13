@@ -1,9 +1,9 @@
-const passport = require('passport');
-const { call } = require('./database');
+import passport from 'passport';
+import { call } from './database';
 
-const jwtAuth = () => passport.authenticate('jwt', { session: false, failWithError: true });
+export const jwtAuth = () => passport.authenticate('jwt', { session: false, failWithError: true });
 
-const isAllowed = (defaultOperationName) => (req, res, next) =>
+export const isAllowed = (defaultOperationName?: string) => (req, res, next) =>
   passport.authenticate('jwt', { session: false, failWithError: true })(req, res, err => {
     if (err) return next(err);
     const operationName = defaultOperationName ||
@@ -17,5 +17,3 @@ const isAllowed = (defaultOperationName) => (req, res, next) =>
       .then(() => next())
       .catch(next);
   });
-
-module.exports = { isAllowed, jwtAuth };

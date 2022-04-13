@@ -1,0 +1,17 @@
+{
+  "name": "@tradepump/commons",
+  "version": "1.0.0",
+  "description": "",
+  "keywords": [],
+  "author": "Soul_man",
+  "license": "ISC",
+  "dependencies": {
+    "amqplib": "^0.8.0",
+    "log4js": "^6.3.0"
+  },
+  "devDependencies": {
+    "@types/amqplib": "^0.5.17",
+    "@types/node": "^15.6.0",
+    "typescript": "^4.2.4"
+  }
+}

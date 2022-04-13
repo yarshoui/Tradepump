@@ -1,7 +1,7 @@
 import { getLogger } from 'log4js';
 import { isCurrencyPair, encodeBookMessage, encodeTradeMessage, BookModel, TradeModel } from '@tradepump/types';
 import { setupLog4js } from './config/logging';
-import { QueueManager } from './lib/QueueManager';
+import { QueueManager } from '../../commons/src/QueueManager';
 import { KrakenSocket } from './lib/KrakenSocket';
 import { actions, DataEvent } from './lib/common/DataActions';
 
@@ -18,7 +18,7 @@ const logger = getLogger('Producer');
  */
 async function init(): Promise<[KrakenSocket]> {
   logger.info(`Initializing QueueManager...`);
-  await QueueManager.init(RABBITMQ_URL);
+  QueueManager.init(RABBITMQ_URL);
   const sendToTradingQueue = (action: actions) => {
     const uintArr = action.type === DataEvent.BOOK_UPDATE
       ? encodeBookMessage({ models: action.payload as BookModel[] })

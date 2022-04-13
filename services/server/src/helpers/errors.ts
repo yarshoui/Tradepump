@@ -1,4 +1,4 @@
-const resolveErrorCodeAndMessage = err => {
+export const resolveErrorCodeAndMessage = err => {
   let code = 500;
   const message = err.message || 'Internal Server Error';
 
@@ -14,6 +14,3 @@ const resolveErrorCodeAndMessage = err => {
 
   return [code, message];
 };
-
-
-module.exports = { resolveErrorCodeAndMessage };
