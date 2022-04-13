@@ -1,6 +1,6 @@
 const log4js = require('log4js');
 
-const setupLog4js = (level = 'info') => {
+export const setupLog4js = (level = 'info') => {
   log4js.configure({
     appenders: {
       console: { type: 'console' },
@@ -10,5 +10,3 @@ const setupLog4js = (level = 'info') => {
     }
   });
 }
-
-module.exports = setupLog4js;

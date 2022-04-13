@@ -1,9 +1,9 @@
-const { Pool } = require('pg');
+import { Pool } from 'pg';
 
 const adminPassword = process.env.ADMIN_PASSWORD || '1234qwert=';
-let pool;
+let pool: Pool;
 
-const configurePgPool = async () => {
+export const configurePgPool = async () => {
   if (!pool) {
     pool = new Pool({
       connectionString: process.env.DATABASE_URL || 'postgres://master:1234qwert=@localhost:5432/tradepump',
@@ -24,7 +24,7 @@ const configurePgPool = async () => {
   return pool;
 };
 
-const query = (sql, values = []) => {
+export const query = (sql: string, values: any[] = []) => {
   configurePgPool();
 
   return pool.connect()
@@ -37,7 +37,7 @@ const query = (sql, values = []) => {
     .then(result => result.rows);
 };
 
-const call = async (functionName, params = []) => {
+export const call = async (functionName: string, params: any[] = []) => {
   const paramIndices = params.map((_, i) => `$${i + 1}`).join(',');
   const sql = `SELECT ${functionName}(${paramIndices});`;
   const data = await query(sql, params);
@@ -46,12 +46,6 @@ const call = async (functionName, params = []) => {
     console.error(data);
     throw new Error('Malformed result in database');
   }
-  
-  return data[0][functionName.split('.').pop()];
-};
 
-module.exports = {
-  configurePgPool,
-  query,
-  call,
+  return data[0][functionName.split('.').pop()!];
 };
