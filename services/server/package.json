@@ -6,10 +6,19 @@
   "main": "server.js",
   "license": "MIT",
   "scripts": {
-    "start": "nodemon src/server.js"
+    "start": "nodemon src/server.ts",
+    "build": "rm -rf build && esbuild src/server.ts --sourcemap=inline --platform=node --bundle --outfile=build/server.js"
   },
   "devDependencies": {
+    "@types/body-parser": "^1.19.2",
+    "@types/cookie-parser": "^1.4.3",
+    "@types/express": "^4.17.17",
+    "@types/passport": "^1.0.12",
+    "@types/passport-jwt": "^3.0.9",
+    "@types/pg": "^8.10.2",
+    "@types/ws": "^8.5.5",
     "body-parser": "^1.19.0",
+    "esbuild": "^0.18.13",
     "nodemon": "^2.0.7"
   },
   "private": true,
@@ -24,12 +33,17 @@
     "url": "https://github.com/yarshoui/Tradepump/issues"
   },
   "dependencies": {
+    "@tradepump/monitoring": "file:../monitoring",
+    "@tradepump/types": "file:../types",
     "cookie-parser": "^1.4.5",
     "express": "^4.17.1",
     "jsonwebtoken": "^8.5.1",
+    "kafkajs": "^2.2.4",
     "log4js": "^6.3.0",
-    "passport": "^0.4.1",
+    "passport": "^0.6.0",
     "passport-jwt": "^4.0.0",
-    "pg": "^8.6.0"
+    "pg": "^8.6.0",
+    "typescript": "^5.1.6",
+    "ws": "^8.13.0"
   }
 }

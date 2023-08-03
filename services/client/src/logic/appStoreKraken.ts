@@ -161,6 +161,6 @@ decorate(AppStoreKraken, {
 
 const appStoreKraken = new AppStoreKraken();
 setKrakenDataHandler(appStoreKraken.setKrakenData);
-getKrakenSocket();
+// getKrakenSocket();
 
 export { appStoreKraken };

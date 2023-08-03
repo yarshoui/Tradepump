@@ -41,8 +41,8 @@ let pollingInterval: NodeJS.Timeout;
 export const getBitstampOrdersData = () => {
 
   async function loadJson(urlBitstamp: RequestInfo) {
-    const proxy = 'https://infinite-tundra-40619.herokuapp.com/'; //my proxy
-    let responseBitstamp = await fetch(proxy + urlBitstamp);
+    // const proxy = 'https://infinite-tundra-40619.herokuapp.com/'; //my proxy
+    let responseBitstamp = await fetch(urlBitstamp);
     let bitstampData = responseBitstamp.json();
     return bitstampData;
   }
@@ -86,7 +86,7 @@ export const getBitstampOrdersData = () => {
   }
 
   doRequest();
-  startPolling();
+  // startPolling();
 };
 
 export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {

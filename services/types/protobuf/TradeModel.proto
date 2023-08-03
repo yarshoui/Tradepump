@@ -1,6 +1,8 @@
 syntax = "proto3";
 package types;
 
+import "./types.proto";
+
 enum TradeSide {
   buy = 0;
   sell = 1;
@@ -9,11 +11,6 @@ enum TradeSide {
 enum OrderType {
   market = 0;
   limit = 1;
-}
-
-enum MarketType {
-  kraken = 0;
-  bitfinex = 1;
 }
 
 message TradeModel {

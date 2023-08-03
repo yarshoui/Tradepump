@@ -1,3 +1,14 @@
-export { CurrencyPair, isCurrencyPair } from './CurrencyPair';
-export { TradeModel, OrderType, TradeSide, MarketType, TradeMessage, encodeTradeMessage, decodeTradeMessage } from './TradeModel';
-export { BookModel, BookSide, BookMessage, encodeBookMessage, decodeBookMessage } from './BookModel';
+export * from './CurrencyPair';
+export * from "./types";
+export * from './TradeModel';
+export * from './BookModel';
+import { BookSide, BookModel } from "./BookModel";
+
+export enum QueueName {
+    TradingQueue = "trading_queue",
+}
+
+export const isBookTrade = (bookModels: any[]): bookModels is BookModel[] => bookModels.every(bookModel => (
+    'side' in bookModel
+    && (bookModel.side === BookSide.ask || bookModel.side === BookSide.bid)
+));

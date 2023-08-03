@@ -32,32 +32,50 @@ services:
     networks:
       - tradepump
     environment:
-      SERVER_URL: http://server:8080
+      SERVER_URL: http://apiserver:8080
     ports:
       - 3001:80
 
-  server:
+  apiserver:
     build:
       context: ./services/server
     networks:
       - tradepump
     environment:
-      PORT: 8080
+      IP: "0.0.0.0"
+      PORT: "8080"
       DATABASE_URL: postgres://master:admin@database:5432/tradepump
+      KAFKA_URL: kafka:9092
       LOG_LEVEL: debug
     ports:
+      - "19092:19092"
       - 8080:8080
 
-  rabbitmq:
-    image: rabbitmq:3-management
-    hostname: traderabbit
+  kafka:
+    image: bitnami/kafka:latest
     networks:
       - tradepump
     environment:
-      RABBITMQ_DEFAULT_USER: admin
-      RABBITMQ_DEFAULT_PASS: admin
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ENABLE_KRAFT=yes
+    healthcheck:
+      test: ["CMD", "curl", "kafka:9092"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
     ports:
-      - 8082:15672
+      - "9092:9092"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    networks:
+      - tradepump
+    environment:
+      - DYNAMIC_CONFIG_ENABLED=true
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    ports:
+      - "8088:8080"
 
   harvester:
     build:
@@ -66,8 +84,14 @@ services:
       - tradepump
     environment:
       DATABASE_URL: postgres://master:admin@database:5432/tradepump
-      RABBITMQ_URL: amqp://admin:admin@rabbitmq
-      LOG_LEVEL: info
+      MESSAGE_QUEUE_URL: kafka:9092
+      GRAFANA_URL: http://grafana:8089
+      LOG_LEVEL: INFO
+    ports:
+      - "19091:19091"
+    depends_on:
+      - kafka
 
 networks:
   tradepump:
+    name: tradepump

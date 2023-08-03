@@ -63,7 +63,7 @@ export class AppStoreBinance {
       () => this.currentBinancePair,
       (pair: CurrencyPair) => {
         // console.log('pairChanged', pair);
-        subscribeToBinanceCurrencyPair(pair);
+        // subscribeToBinanceCurrencyPair(pair);
       },
       {
         fireImmediately: true,

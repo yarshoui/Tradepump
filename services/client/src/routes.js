@@ -6,7 +6,9 @@ import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
 import { Privacy } from 'src/pages/Privacy';
 import { About } from 'src/pages/About';
-import { Users } from './components/admin/users/users';
+// import { Users } from './components/admin/users/users';
+
+import {routes} from "./routemap";
 
 function Routes() {
   return (
@@ -15,10 +17,10 @@ function Routes() {
       
         
         <Switch>
-          <Route path='/monitor' component={OrdersMonitor} />
-          <Route path='/terms' component={Terms} />
-          <Route path='/privacy' component={Privacy} />
-          <Route path='/about' component={About} />
+          <Route path={routes.OrdersMonitor} component={OrdersMonitor} />
+          <Route path={routes.Terms} component={Terms} />
+          <Route path={routes.Privacy} component={Privacy} />
+          <Route path={routes.About} component={About} />
           <Redirect path='/' to='/monitor' />
         </Switch>
         

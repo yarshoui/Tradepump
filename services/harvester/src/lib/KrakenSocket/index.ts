@@ -1,1 +1,0 @@
-export { KrakenSocket } from './KrakenSocket';

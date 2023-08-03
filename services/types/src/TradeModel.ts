@@ -1,4 +1,6 @@
-export const enum TradeSide {
+import { MarketType, encodeMarketType, decodeMarketType } from "./types";
+
+export enum TradeSide {
   buy = "buy",
   sell = "sell",
 }
@@ -13,7 +15,7 @@ export const decodeTradeSide: { [key: number]: TradeSide } = {
   1: TradeSide.sell,
 };
 
-export const enum OrderType {
+export enum OrderType {
   market = "market",
   limit = "limit",
 }
@@ -26,21 +28,6 @@ export const encodeOrderType: { [key: string]: number } = {
 export const decodeOrderType: { [key: number]: OrderType } = {
   0: OrderType.market,
   1: OrderType.limit,
-};
-
-export const enum MarketType {
-  kraken = "kraken",
-  bitfinex = "bitfinex",
-}
-
-export const encodeMarketType: { [key: string]: number } = {
-  kraken: 0,
-  bitfinex: 1,
-};
-
-export const decodeMarketType: { [key: number]: MarketType } = {
-  0: MarketType.kraken,
-  1: MarketType.bitfinex,
 };
 
 export interface TradeModel {
@@ -230,7 +217,7 @@ function _decodeTradeMessage(bb: ByteBuffer): TradeMessage {
   return message;
 }
 
-export interface Long {
+interface Long {
   low: number;
   high: number;
   unsigned: boolean;

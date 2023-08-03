@@ -1,16 +1,12 @@
-FROM node:14
+FROM node:18
 
 ENV IP=0.0.0.0
 ENV PORT=8080
 ENV JWT_KEYS_FOLDER=/app/keys
 
 WORKDIR /app
-COPY package*.json /app/
-COPY .npmrc /app/
 
-RUN npm ci --only=production
-
-COPY src /app/
+COPY build /app
 
 EXPOSE 8080
 

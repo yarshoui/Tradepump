@@ -1,45 +1,54 @@
+import { MetricsAgent } from '@tradepump/monitoring';
+import { BookModel, QueueName, TradeModel, encodeBookMessage, encodeTradeMessage, isCurrencyPair } from '@tradepump/types';
 import { getLogger } from 'log4js';
-import { isCurrencyPair, encodeBookMessage, encodeTradeMessage, BookModel, TradeModel } from '@tradepump/types';
 import { setupLog4js } from './config/logging';
-import { QueueManager } from './lib/QueueManager';
-import { KrakenSocket } from './lib/KrakenSocket';
-import { actions, DataEvent } from './lib/common/DataActions';
+import { DataEvent, actions } from './lib/common/DataActions';
+import { KafkaManager } from './lib/kafka-manager';
+import { RabbitMQManager } from './lib/rabbitmq-manager';
+import { BinanceSocket, BitfinexSocket, KrakenSocket } from './lib/sockets';
+import { BaseSocket } from './lib/sockets/base-socket';
 
-const RABBITMQ_URL = process.env.RABBITMQ_URL || 'amqp://guest:guest@localhost';
-const DEFAULT_PAIRS = (process.env.TRADING_PAIRS || 'BTC/EUR,BTC/USD,BTC/USDT')
+const shouldUseRabbitMQ = process.env.MESSAGE_STREAM === "rabbitmq";
+const queueUrl = process.env.MESSAGE_QUEUE_URL;
+const defaultPairs = (process.env.TRADING_PAIRS ?? 'BTC/EUR,BTC/USD,BTC/USDT')
   .split(',')
   .map(s => s.trim().toUpperCase());
 
-setupLog4js(process.env.LOG_LEVEL || 'info');
+setupLog4js(process.env.LOG_LEVEL);
 const logger = getLogger('Producer');
 
 /**
  * Initialize everything needed
  */
-async function init(): Promise<[KrakenSocket]> {
-  logger.info(`Initializing QueueManager...`);
-  await QueueManager.init(RABBITMQ_URL);
+async function init(): Promise<BaseSocket[]> {
+  MetricsAgent.start({ port: 19091 });
+  logger.info(`Initializing Queue Manager...`);
+  if (!queueUrl) {
+    throw new Error("MESSAGE_QUEUE_URL is not set");
+  }
+  if (!defaultPairs.every(isCurrencyPair)) {
+    throw new Error(`Error in TRADING_PAIRS specified: '${defaultPairs}'`);
+  }
+  const manager = shouldUseRabbitMQ ? RabbitMQManager : KafkaManager;
+  await manager.init(queueUrl);
+  await manager.ensureTopic(QueueName.TradingQueue);
   const sendToTradingQueue = (action: actions) => {
     const uintArr = action.type === DataEvent.BOOK_UPDATE
       ? encodeBookMessage({ models: action.payload as BookModel[] })
       : encodeTradeMessage({ models: action.payload as TradeModel[] });
+    const model = Buffer.from([action.type === DataEvent.BOOK_UPDATE ? 1 : 2]);
 
-    QueueManager.sendToQueue('trading_queue', Buffer.from(uintArr.buffer, uintArr.byteOffset, uintArr.byteLength));
+    logger.debug(`Received action: ${action.type}, ${JSON.stringify(action.payload).substring(0, 32)}...`);
+    manager.sendToQueue(QueueName.TradingQueue, Buffer.concat([model, Buffer.from(uintArr.buffer, uintArr.byteOffset, uintArr.byteLength)]));
   };
 
   // Initialize sockets
   return [
-    new KrakenSocket(sendToTradingQueue),
+    new KrakenSocket(sendToTradingQueue, defaultPairs),
+    new BitfinexSocket(sendToTradingQueue, defaultPairs),
+    new BinanceSocket(sendToTradingQueue, defaultPairs),
   ];
 }
 
-async function work([krak]: [KrakenSocket]) {
-  if (DEFAULT_PAIRS.every(isCurrencyPair)) {
-    krak.subscribeForTrade(DEFAULT_PAIRS);
-    krak.subscribeToBook(DEFAULT_PAIRS, 1000);
-  }
-}
-
 init()
-  .then(work)
   .catch(err => logger.fatal(err));

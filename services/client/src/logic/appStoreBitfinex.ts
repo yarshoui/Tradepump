@@ -60,7 +60,7 @@ export class AppStoreBitfinex {
       () => this.currentBitfinexPair,
       (pair: CurrencyPair) => {
         // console.log('pairChanged', pair);
-        subscribeToBitfinexCurrencyPair(pair);
+        // subscribeToBitfinexCurrencyPair(pair);
       },
       {
         fireImmediately: true,

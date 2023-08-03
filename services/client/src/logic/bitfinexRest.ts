@@ -28,10 +28,10 @@ export const getBitfinexOrdersData = () => {
   //console.log('###', currencyPair);
 
   async function loadJson(urlBitfinex: RequestInfo) {
-    const proxy = 'https://infinite-tundra-40619.herokuapp.com/'; //my proxy
+    // const proxy = 'https://infinite-tundra-40619.herokuapp.com/'; //my proxy
     // const proxy = 'https://cors-anywhere.herokuapp.com/';
     //console.log('###', currencyPair, urlBitfinex);
-    let responseBitfinex = await fetch(proxy + urlBitfinex); 
+    let responseBitfinex = await fetch(urlBitfinex); 
     let bitData = await responseBitfinex.json();
     //console.log('bitData', bitData);
     return bitData;
@@ -63,7 +63,7 @@ export const getBitfinexOrdersData = () => {
   }
 
   doRequestBitfinex();
-  startPollingBitfinex();
+  // startPollingBitfinex();
 };
 
 export const setBitfinexDataHandler = (dataHandler: (msg: any) => void) => {

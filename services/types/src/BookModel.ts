@@ -1,4 +1,6 @@
-export const enum BookSide {
+import { MarketType, encodeMarketType, decodeMarketType } from "./types";
+
+export enum BookSide {
   bid = "bid",
   ask = "ask",
 }
@@ -18,6 +20,8 @@ export interface BookModel {
   price: number;
   volume: number;
   time: number;
+  market: MarketType;
+  pair: string;
 }
 
 export function encodeBookModel(message: BookModel): Uint8Array {
@@ -53,6 +57,20 @@ function _encodeBookModel(message: BookModel, bb: ByteBuffer): void {
   if ($time !== undefined) {
     writeVarint32(bb, 37);
     writeFloat(bb, $time);
+  }
+
+  // required MarketType market = 5;
+  let $market = message.market;
+  if ($market !== undefined) {
+    writeVarint32(bb, 40);
+    writeVarint32(bb, encodeMarketType[$market]);
+  }
+
+  // required string pair = 6;
+  let $pair = message.pair;
+  if ($pair !== undefined) {
+    writeVarint32(bb, 50);
+    writeString(bb, $pair);
   }
 }
 
@@ -94,6 +112,18 @@ function _decodeBookModel(bb: ByteBuffer): BookModel {
         break;
       }
 
+      // required MarketType market = 5;
+      case 5: {
+        message.market = decodeMarketType[readVarint32(bb)];
+        break;
+      }
+
+      // required string pair = 6;
+      case 6: {
+        message.pair = readString(bb, readVarint32(bb));
+        break;
+      }
+
       default:
         skipUnknownField(bb, tag & 7);
     }
@@ -110,6 +140,12 @@ function _decodeBookModel(bb: ByteBuffer): BookModel {
 
   if (message.time === undefined)
     throw new Error("Missing required field: time");
+
+  if (message.market === undefined)
+    throw new Error("Missing required field: market");
+
+  if (message.pair === undefined)
+    throw new Error("Missing required field: pair");
 
   return message;
 }
@@ -170,7 +206,7 @@ function _decodeBookMessage(bb: ByteBuffer): BookMessage {
   return message;
 }
 
-export interface Long {
+interface Long {
   low: number;
   high: number;
   unsigned: boolean;

@@ -1,0 +1,30 @@
+{
+  "name": "@tradepump/monitoring",
+  "version": "1.0.0",
+  "description": "",
+  "main": "build/index.js",
+  "types": "build/index.d.js",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yarshoui/Tradepump.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/yarshoui/Tradepump/issues"
+  },
+  "homepage": "https://github.com/yarshoui/Tradepump#readme",
+  "dependencies": {
+    "log4js": "^6.9.1",
+    "prom-client": "^14.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.4.5",
+    "typescript": "^5.1.6"
+  }
+}

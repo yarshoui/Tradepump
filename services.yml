@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  database:
+    image: postgres:11
+    networks:
+      - tradepump
+    volumes:
+      - ./services/database/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+    environment:
+      POSTGRES_USER: master
+      POSTGRES_PASSWORD: admin
+      POSTGRES_DB: tradepump
+
+  pgadmin4:
+    image: dpage/pgadmin4
+    networks:
+      - tradepump
+    volumes:
+      - ./services/database/pgadmin4/config:/pgadmin4/config
+      - ./services/database/pgadmin4/storage:/var/lib/pgadmin/storage
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@tradepump.com
+      PGADMIN_DEFAULT_PASSWORD: admin
+      PGADMIN_SERVER_JSON_FILE: /pgadmin4/config/servers.json
+    ports:
+      - 8081:80
+
+  kafka:
+    image: bitnami/kafka:latest
+    networks:
+      - tradepump
+    environment:
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ENABLE_KRAFT=yes
+    healthcheck:
+      test: ["CMD", "curl", "kafka:9092"]
+      interval: 1m30s
+      timeout: 30s
+      retries: 5
+      start_period: 30s
+    ports:
+      - "9092:9092"
+
+  kafka-ui:
+    image: provectuslabs/kafka-ui
+    networks:
+      - tradepump
+    environment:
+      - DYNAMIC_CONFIG_ENABLED=true
+      - KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=kafka:9092
+    ports:
+      - "8088:8080"
+
+  harvester:
+    build:
+      context: ./services/harvester
+    networks:
+      - tradepump
+    environment:
+      DATABASE_URL: postgres://master:admin@database:5432/tradepump
+      MESSAGE_QUEUE_URL: kafka:9092
+      LOG_LEVEL: INFO
+    depends_on:
+      - kafka
+
+networks:
+  tradepump:

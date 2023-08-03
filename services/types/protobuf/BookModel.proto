@@ -1,6 +1,8 @@
 syntax = "proto3";
 package types;
 
+import "./types.proto";
+
 enum BookSide {
   bid = 0;
   ask = 1;
@@ -11,6 +13,8 @@ message BookModel {
   required float price = 2;
   required float volume = 3;
   required float time = 4;
+  required MarketType market = 5;
+  required string pair = 6;
 }
 
 message BookMessage {

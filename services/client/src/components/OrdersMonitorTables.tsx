@@ -27,6 +27,8 @@ import { BitstampOrdersTable } from 'src/components/BitstampOrdersTable';
 // import { BittrexOrdersTable } from './BittrexOrdersTable';
 import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
+import { APIOrdersTable } from './APIOrdersTable';
+import { MarketType } from '@tradepump/types';
 // import Paper from '@material-ui/core/Paper';
 // import { Footer } from './Footer';
 // import { RightAd } from './RightAd';
@@ -76,29 +78,27 @@ interface MonitorProps {
 }
 
 export const OrdersMonitorTables = observer(
-  ({
-    store,
-  }: MonitorProps): JSX.Element => {
+  ({ store }: MonitorProps): JSX.Element => {
     const classes = useStyles();
 
     return (
-          <div className={classes.tableHolder}>
-            <Grid container justify="flex-start" spacing={1}>
-              <Grid item xs={3}>
-                <KrakenOrdersTable store={store.tables.kraken} />
-              </Grid>
-              <Grid item xs={3}>
-                <BitfinexOrdersTable storeBitfinex={store.tables.bitfinex} />
-              </Grid>
-              <Grid item xs={3}>
-                <BinanceOrdersTable storeBinance={store.tables.binance} />
-              </Grid>
-              {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
-              <Grid item xs={3}>
-                <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} />
-              </Grid>
-            </Grid>
-          </div>          
+      <div className={classes.tableHolder}>
+        <Grid container justifyContent="flex-start" spacing={1}>
+          <Grid item xs={3}>
+            <APIOrdersTable market={MarketType.kraken} store={store.tables.api} />
+          </Grid>
+          <Grid item xs={3}>
+            <APIOrdersTable market={MarketType.bitfinex} store={store.tables.api} />
+          </Grid>
+          <Grid item xs={3}>
+            <APIOrdersTable market={MarketType.binance} store={store.tables.api} />
+          </Grid>
+          {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
+          <Grid item xs={3}>
+            <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} />
+          </Grid>
+        </Grid>
+      </div>
     );
   },
 );

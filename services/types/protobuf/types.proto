@@ -1,0 +1,8 @@
+syntax = "proto3";
+package types;
+
+enum MarketType {
+  kraken = 0;
+  bitfinex = 1;
+  binance = 2;
+}
