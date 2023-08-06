@@ -22,6 +22,7 @@ export class AppStore {
 
   setCurrencyPair = (input: CurrencyPair) => {
     this.currencyPair = input;
+    this.tables.api.setCurrentAPIPair(input);
     // this.tables.kraken.setCurrentKrakenPair(input);
     // this.tables.bitfinex.setCurrentBitfinexPair(input);
     // this.tables.binance.setCurrentBinancePair(input);
@@ -29,7 +30,14 @@ export class AppStore {
   };
 
   setOrderQuantity = (input: string) => {
-    // this.orderQuantity = input;
+    const quantity = parseInt(input);
+
+    if (isNaN(quantity)) {
+      console.log("Quantity is not int:", input);
+      return;
+    }
+    this.orderQuantity = quantity;
+    this.tables.api.setOrderQuantity(input);
     // this.tables.kraken.setOrderQuantity(input);
     // this.tables.bitfinex.setOrderQuantity(input);
     // this.tables.binance.setOrderQuantity(input);

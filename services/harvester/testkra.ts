@@ -1,6 +1,6 @@
 import { getLogger } from 'log4js';
 import { setupLog4js } from './src/config/logging';
-import { BitfinexSocket, KrakenSocket, BinanceSocket } from "./src/lib/sockets";
+import { BitfinexSocket, KrakenSocket, BinanceSocket, BitstampSocket } from "./src/lib/sockets";
 import { Mutex } from './src/lib/common/mutex';
 
 setupLog4js("DEBUG");
@@ -14,8 +14,8 @@ async function main() {
     // new BinanceSocket((ac) => {
     //     logger.info("Got action", ac.type, ac.payload.map(a => a.pair).join(","));
     // }, defaultPairs as any);
-    new KrakenSocket((ac) => {
-        // logger.info("Got action", ac.type, ac.payload.map(a => a.pair).join(","));
+    new BitstampSocket((ac) => {
+        logger.info("Got action", ac.type, ac.payload.map(a => a.pair).join(","));
     }, defaultPairs as any);
 }
 
