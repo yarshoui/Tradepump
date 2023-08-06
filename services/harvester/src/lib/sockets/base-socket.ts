@@ -96,13 +96,18 @@ export abstract class BaseSocket extends EventEmitter {
       this.logger.error(`No processMessage function provided, nothing to process`);
       return;
     }
-    const action = await this.processMessage(data);
-
-    if (!action) {
-      return;
+    try {
+      const action = await this.processMessage(data);
+  
+      if (!action) {
+        return;
+      }
+      Metrics.emit(`${this.constructor.name}OutgoingMessage`, 1, "Count");
+      this._messageCallback(action);
+    } catch (err) {
+      this.logger.error(`Failed to parse message: '${data.toString()}'`, err);
+      Metrics.emit(`${this.constructor.name}MessageParseError`, 1, "Count");
     }
-    Metrics.emit(`${this.constructor.name}OutgoingMessage`, 1, "Count");
-    this._messageCallback(action);
   };
 
   private _onSocketError = (err: Error) => {

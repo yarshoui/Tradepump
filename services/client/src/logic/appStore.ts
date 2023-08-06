@@ -17,7 +17,7 @@ export class AppStore {
     // kraken: appStoreKraken,
     // bitfinex: appStoreBitfinex,
     // binance: appStoreBinance,
-    bitstamp: appStoreBitstamp,
+    // bitstamp: appStoreBitstamp,
   };
 
   setCurrencyPair = (input: CurrencyPair) => {
@@ -25,7 +25,7 @@ export class AppStore {
     // this.tables.kraken.setCurrentKrakenPair(input);
     // this.tables.bitfinex.setCurrentBitfinexPair(input);
     // this.tables.binance.setCurrentBinancePair(input);
-    this.tables.bitstamp.setCurrentBitstampPair(input);
+    // this.tables.bitstamp.setCurrentBitstampPair(input);
   };
 
   setOrderQuantity = (input: string) => {
@@ -33,7 +33,7 @@ export class AppStore {
     // this.tables.kraken.setOrderQuantity(input);
     // this.tables.bitfinex.setOrderQuantity(input);
     // this.tables.binance.setOrderQuantity(input);
-    this.tables.bitstamp.setOrderQuantity(input);
+    // this.tables.bitstamp.setOrderQuantity(input);
   };
 
   setOrderQuantityHighlight = (input: string) => {
@@ -41,7 +41,7 @@ export class AppStore {
     // this.tables.kraken.setOrderQuantityHighlight(input);
     // this.tables.bitfinex.setOrderQuantityHighlight(input);
     // this.tables.binance.setOrderQuantityHighlight(input);
-    this.tables.bitstamp.setOrderQuantityHighlight(input);
+    // this.tables.bitstamp.setOrderQuantityHighlight(input);
   };
 
 }

@@ -47,6 +47,8 @@ function getBooksFromStoreByMarket(store: AppStoreAPI, market: MarketType): {ask
       return store.askBidTableBitfinex;
     case MarketType.binance:
       return store.askBidTableBinance;
+    case MarketType.bitstamp:
+      return store.askBidTableBitstamp;
     default:
       throw new Error(`Unknown market type: '${market}'`);
   }

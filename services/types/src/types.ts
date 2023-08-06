@@ -2,18 +2,21 @@ export enum MarketType {
   kraken = "kraken",
   bitfinex = "bitfinex",
   binance = "binance",
+  bitstamp = "bitstamp",
 }
 
 export const encodeMarketType: { [key: string]: number } = {
   kraken: 0,
   bitfinex: 1,
   binance: 2,
+  bitstamp: 3,
 };
 
 export const decodeMarketType: { [key: number]: MarketType } = {
   0: MarketType.kraken,
   1: MarketType.bitfinex,
   2: MarketType.binance,
+  3: MarketType.bitstamp,
 };
 
 interface Long {

@@ -5,4 +5,5 @@ enum MarketType {
   kraken = 0;
   bitfinex = 1;
   binance = 2;
+  bitstamp = 3;
 }

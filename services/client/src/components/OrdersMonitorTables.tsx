@@ -95,7 +95,8 @@ export const OrdersMonitorTables = observer(
           </Grid>
           {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
           <Grid item xs={3}>
-            <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} />
+            <APIOrdersTable market={MarketType.bitstamp} store={store.tables.api} />
+            {/* <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} /> */}
           </Grid>
         </Grid>
       </div>

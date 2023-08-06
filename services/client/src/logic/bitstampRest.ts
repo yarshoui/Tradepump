@@ -99,7 +99,7 @@ export const setBitstampDataHandler = (dataHandler: (msg: any) => void) => {
 export const subscribeToBitstampCurrencyPair = (inputPair: CurrencyPair) => {
   currencyPair = PAIRS[inputPair].bitstamp;
   //bitstampOrdersDataArr=[];
-  getBitstampOrdersData();
+  // getBitstampOrdersData();
   };
 
 

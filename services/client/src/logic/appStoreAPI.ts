@@ -46,11 +46,13 @@ export class AppStoreAPI {
       [MarketType.binance]: [],
       [MarketType.kraken]: [],
       [MarketType.bitfinex]: [],
+      [MarketType.bitstamp]: [],
     },
     books: {
       [MarketType.binance]: [],
       [MarketType.kraken]: [],
       [MarketType.bitfinex]: [],
+      [MarketType.bitstamp]: [],
     },
   };
 
@@ -88,6 +90,22 @@ export class AppStoreAPI {
 
   get askBidTableBinance() {
     const interestingBooks = this.data.books.binance
+      .filter(book => book.volume >= this.orderQuantity);
+    const asks = interestingBooks
+      .filter(book => book.side === BookSide.ask)
+      .slice(0, 30);
+    const bids = interestingBooks
+      .filter(book => book.side === BookSide.bid)
+      .slice(0, 30);
+
+    return {
+      asks,
+      bids,
+    };
+  }
+
+  get askBidTableBitstamp() {
+    const interestingBooks = this.data.books.bitstamp
       .filter(book => book.volume >= this.orderQuantity);
     const asks = interestingBooks
       .filter(book => book.side === BookSide.ask)
@@ -197,6 +215,7 @@ decorate(AppStoreAPI, {
   askBidTableKraken: computed,
   askBidTableBitfinex: computed,
   askBidTableBinance: computed,
+  askBidTableBitstamp: computed,
 });
 
 const appStoreAPI = new AppStoreAPI();
