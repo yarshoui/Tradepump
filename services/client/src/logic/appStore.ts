@@ -45,7 +45,14 @@ export class AppStore {
   };
 
   setOrderQuantityHighlight = (input: string) => {
-    // this.orderQuantity = input;
+    const quantity = parseInt(input);
+
+    if (isNaN(quantity)) {
+      console.log("Quantity is not int:", input);
+      return;
+    }
+    this.orderQuantityHighlight = quantity;
+    this.tables.api.setOrderQuantityHighlight(input);
     // this.tables.kraken.setOrderQuantityHighlight(input);
     // this.tables.bitfinex.setOrderQuantityHighlight(input);
     // this.tables.binance.setOrderQuantityHighlight(input);

@@ -5,7 +5,7 @@ import { setupLog4js } from './config/logging';
 import { DataEvent, actions } from './lib/common/DataActions';
 import { KafkaManager } from './lib/kafka-manager';
 import { RabbitMQManager } from './lib/rabbitmq-manager';
-import { BinanceSocket, BitfinexSocket, KrakenSocket } from './lib/sockets';
+import { BinanceSocket, BitfinexSocket, BitstampSocket, KrakenSocket } from './lib/sockets';
 import { BaseSocket } from './lib/sockets/base-socket';
 
 const shouldUseRabbitMQ = process.env.MESSAGE_STREAM === "rabbitmq";
@@ -47,6 +47,7 @@ async function init(): Promise<BaseSocket[]> {
     new KrakenSocket(sendToTradingQueue, defaultPairs),
     new BitfinexSocket(sendToTradingQueue, defaultPairs),
     new BinanceSocket(sendToTradingQueue, defaultPairs),
+    new BitstampSocket(sendToTradingQueue, defaultPairs),
   ];
 }
 
