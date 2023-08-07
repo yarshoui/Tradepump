@@ -1,10 +1,10 @@
-interface KrakenData {
+interface SocketData {
   socket: WebSocket | undefined;
   activePayload: string [] | undefined;
-  dataHandler?: (msg: ArrayBuffer) => void;
+  dataHandler?: (msg: string) => void;
 }
 
-const apiData: KrakenData = {
+const apiData: SocketData = {
   socket: undefined,
   activePayload: undefined,
 };
@@ -23,7 +23,6 @@ export function restoreSocket() {
     const proto = window.location.protocol === "https" ? "wss" : "ws";
     const socket = new WebSocket(process.env.API_WEBSOCKET_HOST ?? `${proto}://${hostname}:8080/`);
     
-    socket.binaryType = "arraybuffer";
     socket.addEventListener("close", () => {
       const timeout = backoffConfig.timeout;
       backoffConfig.timeout = backoffConfig.timeout < backoffConfig.maxTimeout
@@ -46,7 +45,7 @@ export function restoreSocket() {
       console.debug(`[error] ${error.message}`);
     });
 
-    socket.addEventListener("message", (msg: MessageEvent<ArrayBuffer>) => {
+    socket.addEventListener("message", (msg: MessageEvent<string>) => {
       apiData.dataHandler && apiData.dataHandler(msg.data);
     });
 
@@ -62,6 +61,6 @@ export const getAPISocket = async (): Promise<WebSocket> => {
   return apiData.socket;
 };
 
-export const setDataHandler = (dataHandler: KrakenData["dataHandler"]) => {
+export const setDataHandler = (dataHandler: SocketData["dataHandler"]) => {
   apiData.dataHandler = dataHandler;
 };

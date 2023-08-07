@@ -37,12 +37,12 @@ export class KafkaManager extends EventEmitter {
       connectionTimeout: 1000,
       ssl: false,
       logLevel: getKafkaLogLevel(),
-      // retry: {
-      //   initialRetryTime: 1000,
-      //   maxRetryTime: 120000,
-      //   multiplier: 3000,
-      //   retries: 5,
-      // }
+      retry: {
+        initialRetryTime: 1000,
+        maxRetryTime: 15000,
+        multiplier: 3,
+        retries: 1000,
+      },
     });
   }
 

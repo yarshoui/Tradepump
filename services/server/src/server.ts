@@ -1,5 +1,5 @@
 import { Metrics, MetricsAgent } from "@tradepump/monitoring";
-import { QueueName } from "@tradepump/types";
+import { QueueName, decodeBookMessage, decodeTradeMessage, isCurrencyPair } from "@tradepump/types";
 import { json, urlencoded } from "body-parser";
 import cookieParser from "cookie-parser";
 import express, { NextFunction, Request, Response } from "express";
@@ -38,15 +38,33 @@ async function main() {
 
   kafka.on("message", message => {
     Metrics.emit("KafkaMessageReceived", 1, "Count");
-    kfkmgr.sendMessage(message);
+    // 1 - Book, 2 - Trade - see Harvester service for more info
+    const mode = message[0];
+    const buffer = message.slice(1);
+    const payload = mode === 1 ? decodeBookMessage(buffer) : decodeTradeMessage(buffer);
+
+    kfkmgr.sendMessage(mode, payload);
   });
 
   wsServer.on("connection", (socket) => {
     Metrics.inc("WebSocketConnection");
-    logger.debug("New connection established", socket.url);
-    // Ignore client 2 server messages for now. No use cases.
-    // socket.on("message", (message) => console.log(message));
-    kfkmgr.addSocket(socket);
+    logger.debug("New websocket connection");
+
+    socket.on("message", (message) => {
+      const data = (Array.isArray(message) ? Buffer.concat(message) : Buffer.from(message)).toString();
+
+      try {
+        const payload = JSON.parse(data);
+
+        if (payload.pair && isCurrencyPair(payload.pair)) {
+          kfkmgr.addSocket(socket, payload.pair);
+          logger.info(`Websocket connection is listening for ${payload.pair}`);
+        }
+      } catch (err) {
+        Metrics.emit("APIServerSocketMessageError", 1, "Count");
+        logger.error(err);
+      }
+    });
     socket.on("close", () => {
       Metrics.dec("WebSocketConnection");
       logger.debug("Connection released");

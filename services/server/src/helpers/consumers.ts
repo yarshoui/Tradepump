@@ -1,7 +1,8 @@
-import { WebSocket } from "ws";
+import { BookMessage, CurrencyPair, TradeMessage } from "@tradepump/types";
 import { EventEmitter } from 'events';
-import { Kafka, Consumer } from 'kafkajs';
+import { Consumer, Kafka } from 'kafkajs';
 import { getLogger } from 'log4js';
+import { WebSocket } from "ws";
 import { wait } from "./common";
 
 const logger = getLogger('KafkaConsumer');
@@ -97,21 +98,28 @@ export class KafkaConsumer extends EventEmitter {
     }
 }
 
-
 export class ConsumerManager {
-    private consumers: Set<WebSocket> = new Set();
+    private consumers: Map<WebSocket, CurrencyPair> = new Map();
 
-    addSocket(socket: WebSocket) {
-        this.consumers.add(socket)
+    addSocket(socket: WebSocket, pair: CurrencyPair) {
+        this.consumers.set(socket, pair);
     }
 
     removeConsumer(socket: WebSocket) {
         this.consumers.delete(socket);
     }
 
-    async sendMessage(message: Buffer) {
-        for (const socket of this.consumers) {
-            socket.send(message);
+    async sendMessage(type: number, message: BookMessage | TradeMessage) {
+        for (const [socket, pair] of this.consumers.entries()) {
+            const models = (message.models as { pair: CurrencyPair }[])?.filter(item => item.pair === pair);
+            if (!models || !models.length) {
+                continue;
+            }
+
+            socket.send(JSON.stringify({
+                type,
+                models,
+            }));
         }
     }
 }

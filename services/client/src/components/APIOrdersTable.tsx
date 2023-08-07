@@ -59,6 +59,9 @@ export const APIOrdersTable = observer(
     const { asks, bids } = getBooksFromStoreByMarket(store, market);
     const currentCcyPair = store.currentPair;
     const classes = useStyles();
+    const maxAskVol = asks?.[0]?.volume ?? 100;
+    const maxBidVol = bids?.[0]?.volume ?? 100;
+    const maxVol = Math.max(maxAskVol, maxBidVol);
 
     return (
       <table style={{ display: 'inline-block' }}>
@@ -77,12 +80,12 @@ export const APIOrdersTable = observer(
                   </TableHead>
                   <TableBody className={classes.table}>
                     {asks.length ? (
-                      asks.map((ask) => {
+                      asks.map((ask, i) => {
                         const rowClassName = store.shouldHighlight(ask)
                           ? classes.highlight
                           : classes.base;
                         return (
-                          <TableRow key={ask.time} className={rowClassName}>
+                          <TableRow key={`${market}-ask-${i}`} className={rowClassName} style={{background: `linear-gradient(to left, #ffcccc ${Math.round(100 * ask.volume/maxVol)}%, white 0%)`}}>
                             <TableCell component="th" scope="row">
                               {formatPrice(currentCcyPair, ask.price)}
                             </TableCell>
@@ -112,12 +115,12 @@ export const APIOrdersTable = observer(
                   </TableHead>
                   <TableBody>
                     {bids.length ? (
-                      bids.map((bid) => {
+                      bids.map((bid, i) => {
                         const rowClassName = store.shouldHighlight(bid)
                           ? classes.highlight
                           : classes.base;
                         return (
-                          <TableRow key={bid.time} className={rowClassName}>
+                          <TableRow key={`${market}-bid-${i}`} className={rowClassName} style={{background: `linear-gradient(to right, #ccffcc ${Math.round(100 * bid.volume/maxVol)}%, white 0%)`}}>
                             <TableCell component="th" scope="row">
                               {formatPrice(currentCcyPair, bid.price)}
                             </TableCell>
