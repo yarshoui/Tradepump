@@ -55,7 +55,7 @@ export class BitstampSocket extends BaseSocket {
             time: timestamp,
           };
         });
-        const bids: BookModel[] = data.data.asks.map<BookModel>(([priceStr, amountStr]) => {
+        const bids: BookModel[] = data.data.bids.map<BookModel>(([priceStr, amountStr]) => {
           const price = parseFloat(priceStr);
           const volume = parseFloat(amountStr);
 

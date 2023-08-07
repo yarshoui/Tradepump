@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { Kafka, Producer, logLevel } from 'kafkajs';
+import { Admin, Kafka, Producer, logLevel } from 'kafkajs';
 import { getLogger } from 'log4js';
 import { wait } from '../utils/commonUtils';
 import assert from 'assert';
@@ -111,6 +111,21 @@ export class KafkaManager extends EventEmitter {
     return this._channel;
   }
 
+  private async admin(): Promise<Admin> {
+    try {
+      const admin = this._kafka.admin();
+      await admin.connect();
+      logger.info(`Admin connected`);
+      return admin;
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : err;
+      logger.error(`Error connecting to admin. ${msg}. Reconnecting...`);
+      logger.debug(err);
+      await wait(3000);
+      return this.admin();
+    }
+  }
+
   static async ensureTopic(name: QueueName): Promise<void> {
     if (!this._instance) {
       throw new Error('First init the queue manager');
@@ -122,9 +137,8 @@ export class KafkaManager extends EventEmitter {
       return;
     }
     logger.info(`Topic '${name}' not found in cache, getting list in kafka`);
-    const admin = kafka._kafka.admin();
+    const admin = await kafka.admin();
 
-    await admin.connect();
     // Cache all topics on a first run
     if (kafka._topics.size === 0) {
       const topics = await admin.listTopics();

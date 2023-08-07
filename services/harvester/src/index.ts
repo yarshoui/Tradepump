@@ -52,4 +52,7 @@ async function init(): Promise<BaseSocket[]> {
 }
 
 init()
-  .catch(err => logger.fatal(err));
+  .catch(err => {
+    logger.fatal(err);
+    process.exit(1);
+  });
