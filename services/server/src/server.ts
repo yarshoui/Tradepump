@@ -14,6 +14,7 @@ import { resolveErrorCodeAndMessage } from "./helpers/errors";
 import router from "./routers";
 
 setupLog4js(process.env.LOG_LEVEL || "INFO");
+// TODO: Fix JWT or use Auth0 as IdProvider
 setupPassport();
 
 const requestLogger = log4js.getLogger("Server");

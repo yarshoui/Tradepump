@@ -32,12 +32,13 @@ export class UserStore {
   }
 
   async checkAuth() {
-    const data = await fetchData<UserModel>('/api/v1/user/login');
+    // TODO: Fix server JWT
+    // const data = await fetchData<UserModel>('/api/v1/user/login');
 
     this.initializing = false;
-    if (userGuard(data)) {
-      this.user = data;
-    }
+    // if (userGuard(data)) {
+    //   this.user = data;
+    // }
   }
 
   async signIn(login: string, password: string) {
