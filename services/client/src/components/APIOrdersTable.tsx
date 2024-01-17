@@ -53,6 +53,12 @@ function getBooksFromStoreByMarket(store: AppStoreAPI, market: MarketType): {ask
       throw new Error(`Unknown market type: '${market}'`);
   }
 }
+let marketLastUpdated: Record<MarketType, number> = {
+    [MarketType.kraken]: 0,
+    [MarketType.binance]: 0,
+    [MarketType.bitfinex]: 0,
+    [MarketType.bitstamp]: 0,
+};
 
 export const APIOrdersTable = observer(
   ({ store, market }: MonitorProps): JSX.Element => {
@@ -62,6 +68,14 @@ export const APIOrdersTable = observer(
     const maxAskVol = asks?.[0]?.volume ?? 100;
     const maxBidVol = bids?.[0]?.volume ?? 100;
     const maxVol = Math.max(maxAskVol, maxBidVol);
+
+    if (Date.now() - marketLastUpdated[market] > 5000) {
+      // TODO: Debug why numbers are not aligned
+      // console.log(market, "ASKS:", asks.length);
+      // console.log(market, "BIDS:", bids.length);
+      // console.log("==================");
+      marketLastUpdated[market] = Date.now();
+    }
 
     return (
       <table style={{ display: 'inline-block' }}>
