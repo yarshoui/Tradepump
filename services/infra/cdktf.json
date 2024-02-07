@@ -1,0 +1,12 @@
+{
+  "language": "typescript",
+  "app": "npx ts-node main.ts",
+  "projectId": "a1c57302-e4bb-4c41-9d6e-8bcf29465268",
+  "sendCrashReports": "false",
+  "terraformProviders": [
+    "grafana/grafana@~> 2.8",
+    "vercel/vercel@~> 1.0"
+  ],
+  "terraformModules": [],
+  "context": {}
+}

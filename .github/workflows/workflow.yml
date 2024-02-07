@@ -19,10 +19,10 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v1
       with:
-        node-version: '14.x'
+        node-version: '20.x'
     - name: Setup npm registry
       run: |
         echo "//gitlab.com/api/v4/projects/26965542/packages/npm/:_authToken=${{ secrets.GITLAB_TOKEN }}" >> .npmrc
@@ -68,10 +68,10 @@ jobs:
         - harvester
     steps:
     - uses: actions/checkout@v2
-    - name: Use Node.js 14.x
+    - name: Use Node.js 20.x
       uses: actions/setup-node@v1
       with:
-        node-version: '14.x'
+        node-version: '20.x'
     - run: npm ci
       working-directory: services/${{ matrix.app }}
     - run: npm run build

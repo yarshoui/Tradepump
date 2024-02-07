@@ -6,7 +6,8 @@
     "services/types",
     "services/harvester",
     "services/server",
-    "services/client"
+    "services/client",
+    "services/infra"
   ],
   "version": "1.0.0",
   "directories": {
