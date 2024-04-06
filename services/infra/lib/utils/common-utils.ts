@@ -1,3 +1,5 @@
+import { createHash } from "crypto";
+import { readFileSync } from "fs";
 import { Stage } from "../config/stages";
 
 export const getEnvVarOrDie = (key: string): string => {
@@ -27,3 +29,9 @@ export const assertStage = (stage: string): Stage => {
 
 export const nstg = (name: string, stage: Stage): string =>
   `${name}-${stage}`.toLowerCase();
+
+export const shaString = (str: string): string =>
+  createHash("sha256").update(str).digest("hex");
+
+export const shaFile = (filename: string): string =>
+  shaString(readFileSync(filename, "utf8"));

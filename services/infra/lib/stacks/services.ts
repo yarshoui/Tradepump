@@ -1,31 +1,35 @@
 import { Network } from "@cdktf/provider-docker/lib/network";
 import { DockerProvider } from "@cdktf/provider-docker/lib/provider";
 import { SensitiveFile } from "@cdktf/provider-local/lib/sensitive-file";
-import { Container } from "@cdktf/provider-docker/lib/container";
 import { TerraformStack } from "cdktf";
 import { Construct } from "constructs";
+import { DockerContainer } from "../components/docker-container";
+import { ServiceImage } from "../components/service-image";
 import { StackBaseProps } from "../types/stacks";
 import { getEnvVarOrDie, nstg } from "../utils/common-utils";
-import { ServiceImage } from "../components/service-image";
 
 interface ServicesStackProps extends StackBaseProps {
-  sshKey: SensitiveFile;
+  sshPrivateKey: SensitiveFile;
   dockerNetwork: Network;
   kafkaHost: string;
   databaseUrl: string;
+  logUrl?: string;
 }
 
+/**
+ * This stack deploys Tradepump related services such as:
+ * harvester, server, client
+ */
 export class ServicesStack extends TerraformStack {
   constructor(scope: Construct, props: ServicesStackProps) {
     super(scope, nstg("services", props.stage));
+    const isDev = props.stage === "Dev";
 
     new DockerProvider(this, "docker", {
-      host:
-        props.stage === "Dev"
-          ? undefined
-          : `ssh://${props.config.user}@${props.config.host}`,
-      sshOpts:
-        props.stage === "Dev" ? undefined : [`-i "${props.sshKey.filename}"`],
+      host: isDev
+        ? undefined
+        : `ssh://${props.config.user}@${props.config.host}`,
+      sshOpts: isDev ? undefined : ["-i", props.sshPrivateKey.filename],
       registryAuth: [
         {
           address: "registry.gitlab.com",
@@ -39,7 +43,11 @@ export class ServicesStack extends TerraformStack {
     this.setupClient(props);
   }
 
-  setupHarvester({ dockerNetwork: network, stage }: ServicesStackProps) {
+  setupHarvester({
+    dockerNetwork: network,
+    stage,
+    logUrl,
+  }: ServicesStackProps) {
     // Defined in the streaming stack. Assuming containers are running under the same network
     const kafkaHost = nstg("kafka", stage);
     const harvesterImage = new ServiceImage(this, "harvester-image", {
@@ -47,19 +55,17 @@ export class ServicesStack extends TerraformStack {
       stage,
     });
 
-    new Container(this, "harvester", {
+    new DockerContainer(this, "harvester", {
+      stage,
+      network,
+      logUrl,
       image: harvesterImage.image.imageId,
       name: nstg("harvester", stage),
       env: [`MESSAGE_QUEUE_URL=${kafkaHost}:9092`, "LOG_LEVEL=INFO"],
-      networksAdvanced: [
-        {
-          name: network.name,
-        },
-      ],
     });
   }
 
-  setupServer({ dockerNetwork: network, stage }: ServicesStackProps) {
+  setupServer({ dockerNetwork: network, stage, logUrl }: ServicesStackProps) {
     // Defined in the streaming stack. Assuming containers are running under the same network
     const kafkaHost = nstg("kafka", stage);
     const serverImage = new ServiceImage(this, "server-image", {
@@ -67,7 +73,10 @@ export class ServicesStack extends TerraformStack {
       stage,
     });
 
-    new Container(this, "server", {
+    new DockerContainer(this, "server", {
+      stage,
+      network,
+      logUrl,
       image: serverImage.image.imageId,
       name: nstg("server", stage),
       env: [
@@ -80,15 +89,10 @@ export class ServicesStack extends TerraformStack {
         `KAFKA_URL=${kafkaHost}:9092`,
         "LOG_LEVEL=debug",
       ],
-      networksAdvanced: [
-        {
-          name: network.name,
-        },
-      ],
     });
   }
 
-  setupClient({ dockerNetwork: network, stage }: ServicesStackProps) {
+  setupClient({ dockerNetwork: network, stage, logUrl }: ServicesStackProps) {
     // Defined in the streaming stack. Assuming containers are running under the same network
     const serverHost = nstg("server", stage);
     const serverImage = new ServiceImage(this, "client-image", {
@@ -96,17 +100,13 @@ export class ServicesStack extends TerraformStack {
       stage,
     });
 
-    new Container(this, "client", {
+    new DockerContainer(this, "client", {
+      stage,
+      network,
+      logUrl,
       image: serverImage.image.imageId,
       name: nstg("client", stage),
-      env: [
-        `SERVER_URL: http://${serverHost}:8080`,
-      ],
-      networksAdvanced: [
-        {
-          name: network.name,
-        },
-      ],
+      env: [`SERVER_URL: http://${serverHost}:8080`],
     });
   }
 }

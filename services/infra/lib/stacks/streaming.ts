@@ -1,18 +1,23 @@
-import { TerraformStack } from "cdktf";
-import { Construct } from "constructs";
-import { DockerProvider } from "@cdktf/provider-docker/lib/provider";
 import { Image } from "@cdktf/provider-docker/lib/image";
 import { Network } from "@cdktf/provider-docker/lib/network";
-import { Container } from "@cdktf/provider-docker/lib/container";
+import { DockerProvider } from "@cdktf/provider-docker/lib/provider";
 import { SensitiveFile } from "@cdktf/provider-local/lib/sensitive-file";
+import { TerraformStack } from "cdktf";
+import { Construct } from "constructs";
+import { DockerContainer } from "../components/docker-container";
 import { StackBaseProps } from "../types/stacks";
 import { nstg } from "../utils/common-utils";
 
 interface StreamingStackProps extends StackBaseProps {
-  sshKey: SensitiveFile;
+  sshPrivateKey: SensitiveFile;
   dockerNetwork: Network;
+  logUrl?: string;
 }
 
+/**
+ * This stack deploys message streamin services such as Kafka.
+ * Kafka will help deliver messages from the trade markets in resilient and efficient way.
+ */
 export class StreamingStack extends TerraformStack {
   kafkaHost: string;
   kafkaPort = 9092;
@@ -20,21 +25,20 @@ export class StreamingStack extends TerraformStack {
 
   constructor(scope: Construct, props: StreamingStackProps) {
     super(scope, nstg("streaming", props.stage));
+    const isDev = props.stage === "Dev";
 
     new DockerProvider(this, "docker", {
-      host:
-        props.stage === "Dev"
-          ? undefined
-          : `ssh://${props.config.user}@${props.config.host}`,
-      sshOpts:
-        props.stage === "Dev" ? undefined : [`-i "${props.sshKey.filename}"`],
+      host: isDev
+        ? undefined
+        : `ssh://${props.config.user}@${props.config.host}`,
+      sshOpts: isDev ? undefined : ["-i", props.sshPrivateKey.filename],
     });
 
     this.kafkaHost = this.setupKafka(props);
     this.kafkaUI = this.setupKafkaUI(props);
   }
 
-  setupKafka({ dockerNetwork: network, stage }: StreamingStackProps) {
+  setupKafka({ dockerNetwork: network, stage, logUrl }: StreamingStackProps) {
     const hostname = "kafka-server";
     const env = [
       "KAFKA_ENABLE_KRAFT=yes",
@@ -54,7 +58,10 @@ export class StreamingStack extends TerraformStack {
     const image = new Image(this, "kafka-image", {
       name: "bitnami/kafka:latest",
     });
-    const dockerContainer = new Container(this, "kafka", {
+    const dockerContainer = new DockerContainer(this, "kafka", {
+      stage,
+      network,
+      logUrl,
       image: image.imageId,
       name: nstg("kafka", stage),
       hostname,
@@ -65,21 +72,19 @@ export class StreamingStack extends TerraformStack {
         },
       ],
       env,
-      networksAdvanced: [
-        {
-          name: network.name,
-        },
-      ],
     });
 
     return dockerContainer.networkData.get(0).ipAddress;
   }
 
-  setupKafkaUI({ dockerNetwork: network, stage }: StreamingStackProps) {
+  setupKafkaUI({ dockerNetwork: network, stage, logUrl }: StreamingStackProps) {
     const image = new Image(this, "kafkaui-image", {
       name: "provectuslabs/kafka-ui",
     });
-    const dockerContainer = new Container(this, "kafka-ui", {
+    const dockerContainer = new DockerContainer(this, "kafka-ui", {
+      stage,
+      network,
+      logUrl,
       image: image.imageId,
       name: nstg("kafka-ui", stage),
       env: [
@@ -87,11 +92,6 @@ export class StreamingStack extends TerraformStack {
         `KAFKA_CLUSTERS_0_BOOTSTRAPSERVERS=${nstg("kafka", stage)}:${
           this.kafkaPort
         }`,
-      ],
-      networksAdvanced: [
-        {
-          name: network.name,
-        },
       ],
     });
 
