@@ -84,19 +84,19 @@ export const OrdersMonitorTables = observer(
     return (
           <div className={classes.tableHolder}>
             <Grid container justify="flex-start" spacing={1}>
-              <Grid item xs={3}>
+              {/* <Grid item xs={3}>
                 <KrakenOrdersTable store={store.tables.kraken} />
               </Grid>
               <Grid item xs={3}>
                 <BitfinexOrdersTable storeBitfinex={store.tables.bitfinex} />
-              </Grid>
+              </Grid> */}
               <Grid item xs={3}>
                 <BinanceOrdersTable storeBinance={store.tables.binance} />
               </Grid>
               {/*<BittrexOrdersTable storeBittrex={storeBittrex} />*/}
-              <Grid item xs={3}>
+              {/* <Grid item xs={3}>
                 <BitstampOrdersTable storeBitstamp={store.tables.bitstamp} />
-              </Grid>
+              </Grid> */}
             </Grid>
           </div>          
     );

@@ -1,6 +1,7 @@
 const HtmlWebPackPlugin = require( 'html-webpack-plugin' );
 const path = require( 'path' );
 module.exports = {
+	
 	context: __dirname,
 	entry: './src/index.tsx',
 	output: {
@@ -9,7 +10,9 @@ module.exports = {
 		publicPath: '/',
 	},
 	devServer: {
+		client: {overlay: false},
 		historyApiFallback: true
+		
 	},
 	module: {
 		rules: [
