@@ -6,6 +6,10 @@ import {
   setBinanceDataHandler,
   // getBinanceSocket,
 } from 'src/logic/binanceRest';
+// import { subscribeToBybitPairsList } from 'src/logic/bybitSymbolsSpot';
+import {
+  subscribeToBybitPairsList
+} from 'src/logic/bybitSymbolsSpot';
 import { DEFAULT_PAIR } from 'src/logic/pairsConfig';
 //import { getBinanceOrdersData } from 'src/logic/binanceRest';
 import { binanceOrdersDataArr } from 'src/logic/binanceRest';
@@ -64,6 +68,8 @@ export class AppStoreBinance {
       (pair: CurrencyPair) => {
         // console.log('pairChanged', pair);
         subscribeToBinanceCurrencyPair(pair);
+        subscribeToBybitPairsList();
+
       },
       {
         fireImmediately: true,
