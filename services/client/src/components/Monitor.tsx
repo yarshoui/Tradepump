@@ -125,10 +125,10 @@ export const Monitor = () => {
             <Route path='/terms' component={Terms} />
             <Route path='/privacy' component={Privacy} />
             <Route path='/about' component={About} />
-            <Route path='/sign-up' component={SignUp} />
+            {/* <Route path='/sign-up' component={SignUp} />
             <Route path='/sign-in' component={SignIn} />
             <Route path='/tradeshistory' component={TradesHistory} />
-            <Route path='/users' component={() => <h1>Users</h1>} />
+            <Route path='/users' component={() => <h1>Users</h1>} /> */}
             <Redirect path='/' to='/monitor' />
           </Switch>
           <Help className={classes.introIcon} size="50" title="Intro Tour" 

@@ -10,8 +10,14 @@ module.exports = {
 		publicPath: '/',
 	},
 	devServer: {
+		headers: {
+			"Access-Control-Allow-Origin": "*",
+			"Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+			"Access-Control-Allow-Headers": "X-Requested-With, content-type, Authorization"
+		  },
+		allowedHosts: 'auto',
 		client: {overlay: false},
-		historyApiFallback: true
+		historyApiFallback: true,
 		
 	},
 	module: {
@@ -30,6 +36,7 @@ module.exports = {
 			}
 		]
 	},
+	
 	plugins: [
 		new HtmlWebPackPlugin({
 			template: path.resolve( __dirname, 'public/index.html' ),

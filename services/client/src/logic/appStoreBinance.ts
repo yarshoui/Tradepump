@@ -7,9 +7,9 @@ import {
   // getBinanceSocket,
 } from 'src/logic/binanceRest';
 // import { subscribeToBybitPairsList } from 'src/logic/bybitSymbolsSpot';
-import {
-  subscribeToBybitPairsList
-} from 'src/logic/bybitSymbolsSpot';
+import { subscribeToBybitPairsList } from 'src/logic/bybitSymbolsSpot';
+import { subscribeToBybitFuturesPairsList } from 'src/logic/bybitSymbolsFutures';
+import { subscribeToMexcSpotPairsList } from 'src/logic/mexcSymbolsSpot';
 import { DEFAULT_PAIR } from 'src/logic/pairsConfig';
 //import { getBinanceOrdersData } from 'src/logic/binanceRest';
 import { binanceOrdersDataArr } from 'src/logic/binanceRest';
@@ -69,6 +69,9 @@ export class AppStoreBinance {
         // console.log('pairChanged', pair);
         subscribeToBinanceCurrencyPair(pair);
         subscribeToBybitPairsList();
+        subscribeToBybitFuturesPairsList();
+        subscribeToMexcSpotPairsList();
+        
 
       },
       {

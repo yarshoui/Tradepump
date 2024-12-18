@@ -9,7 +9,7 @@
   
 // };
 
-export type SecondResponseListEntrySpot = {
+export type FuturesSecondResponseListEntry = {
   ask1Price: string;
   ask1Size: string;
   bid1Price: string;
@@ -25,15 +25,15 @@ export type SecondResponseListEntrySpot = {
 
 };
 
-export type SecondResponseSpot = {
+export type FuturesSecondResponse = {
   category: string;
-  list: SecondResponseListEntrySpot[];
+  list: FuturesSecondResponseListEntry[];
 }
 
-export let bybitPairsDataArr: any;
+export let bybitFuturesPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
 
-export const getBybitPairsData = () => {
+export const getBybitFuturesPairsData = () => {
  
   async function loadJson(urlBybitPairs: RequestInfo) {
     let responseBybit = await fetch(urlBybitPairs);
@@ -42,11 +42,11 @@ export const getBybitPairsData = () => {
   }
 
   function doRequest() {
-    const urlBybitPairs = `https://api.bybit.com/v5/market/tickers?category=spot`; //Should be limited by 10-20 requests per sec
-    loadJson(urlBybitPairs).then((data) => {
+    const urlBybitFuturesPairs = `https://api.bybit.com/v5/market/tickers?category=linear`; //Should be limited by 10-20 requests per sec
+    loadJson(urlBybitFuturesPairs).then((data) => {
       const category = data.result.category;
       const list=data.result.list;
-      const filteredList = list.map(( value:SecondResponseListEntrySpot ) => {
+      const filteredList = list.map(( value:FuturesSecondResponseListEntry ) => {
         return {
           exchange: 'bybit', 
           symbol: value.symbol,
@@ -55,11 +55,11 @@ export const getBybitPairsData = () => {
           category,
         };
       });
-      //debugger;
+     // debugger;
 
-      bybitPairsDataArr = data;
+      bybitFuturesPairsDataArr = data;
 
-      console.debug('bybitPairsData', bybitPairsDataArr);
+      console.debug('bybitFuturesPairsData', bybitFuturesPairsDataArr);
     });
   }
   function startPolling() {
@@ -76,9 +76,9 @@ export const getBybitPairsData = () => {
 //   bybitPairsData.dataHandler = dataHandler;
 // };
 
-export const subscribeToBybitPairsList = () => {
+export const subscribeToBybitFuturesPairsList = () => {
   
-  getBybitPairsData();
+  getBybitFuturesPairsData();
   };
 
 

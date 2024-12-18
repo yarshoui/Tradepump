@@ -6,9 +6,6 @@ import { PAIRS } from 'src/logic/pairsConfig';
 interface BinanceOrdersData {
   asks: string | undefined;
   bids: string | undefined;
-  //lastUpdateId: number | undefined;
-  // socket: WebSocket | undefined;
-  // activePayload: string | undefined;
   Response?: any | undefined;
   dataHandler?: (msg: any) => void;
 }
