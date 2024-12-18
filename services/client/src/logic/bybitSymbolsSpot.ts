@@ -24,6 +24,13 @@ export type SecondResponseListEntrySpot = {
   volume24h: string;
 
 };
+export type ProcessedSymbolBybitSpot = {
+  base: string;
+  quote: string;
+  bidPrice: string;
+  askPrice: string;
+  
+};
 
 export type SecondResponseSpot = {
   category: string;
@@ -60,6 +67,28 @@ export const getBybitPairsData = () => {
       bybitPairsDataArr = data;
 
       console.debug('bybitPairsData', bybitPairsDataArr);
+
+      function processSymbols(symbols: SecondResponseListEntrySpot[]): ProcessedSymbolBybitSpot[] {
+              return symbols
+                  .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
+                  .map(data => {
+                      const match = data.symbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
+                      if (match) {
+                          return {
+                              base: match[1],
+                              quote: match[2],
+                              bidPrice: data.bid1Price,
+                              askPrice: data.ask1Price,                        
+                          };
+                      }
+                      return null;
+                  })
+                  .filter(item => item !== null) as ProcessedSymbolBybitSpot[]; // Remove null entries
+            }
+            const processedSymbols = processSymbols(bybitPairsDataArr);
+            console.log("Final data for Bybit Spot:", processedSymbols);      
+
+
     });
   }
   function startPolling() {

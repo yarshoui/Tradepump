@@ -17,7 +17,7 @@ export type MexcSpotData = {
   category: string;
 };
 
-export type ProcessedSymbol = {
+export type ProcessedSymbolMexcSpot = {
   base: string;
   quote: string;
   bidPrice: string;
@@ -54,7 +54,7 @@ export const getMexcPairsData = () => {
       mexcPairsDataArr = data;
       console.debug('mexcPairsData', mexcPairsDataArr);
 
-      function processSymbols(symbols: MexcSpotData[]): ProcessedSymbol[] {
+      function processSymbols(symbols: MexcSpotData[]): ProcessedSymbolMexcSpot[] {
         return symbols
             .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
             .map(data => {
@@ -69,10 +69,10 @@ export const getMexcPairsData = () => {
                 }
                 return null;
             })
-            .filter(item => item !== null) as ProcessedSymbol[]; // Remove null entries
+            .filter(item => item !== null) as ProcessedSymbolMexcSpot[]; // Remove null entries
       }
       const processedSymbols = processSymbols(mexcPairsDataArr);
-      console.log("Final data:", processedSymbols);      
+      console.log("Final data for Mexc Spot:", processedSymbols);      
     });
   }
   function startPolling() {
