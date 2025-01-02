@@ -95,11 +95,15 @@ class HeaderComp extends React.PureComponent<Props> {
             <NavLink to="/monitor">Orders Monitor</NavLink>
           </li>
           <li>
+            <NavLink to="/arbitrage">Arbitrage</NavLink>
+          </li>
+          <li>
             <NavLink to="/tradeshistory">Trades History</NavLink>
           </li>
           <li>
             <NavLink to="/about">About</NavLink>
           </li>
+         
           {this.renderAuthMenu()}
           {/* <li>
             <NavLink className="nonActive" to="/monitor" onClick={() => startTourAgain()}>

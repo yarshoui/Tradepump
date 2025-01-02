@@ -5,6 +5,13 @@ export type MexcFuturesData = {
   category: string;
 };
 
+export type ProcessedSymbolMexcFutures = {
+  base: string;
+  quote: string;
+  bidPrice: string;
+  askPrice: string;
+  
+};
 
 
 export let mexcFuturesPairsDataArr: any;
@@ -35,8 +42,36 @@ export const getMexcFuturesPairsData = () => {
       debugger;
 
       mexcFuturesPairsDataArr = data;
-
       console.debug('mexcFuturesPairsData', mexcFuturesPairsDataArr);
+
+
+      function processSymbols(symbols: MexcFuturesData[]): ProcessedSymbolMexcFutures[] {
+        return symbols
+            .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
+            .map(data => {
+                // Remove "_" from the symbol if present
+                const sanitizedSymbol = data.symbol.replace(/_/g, "");
+                const match = sanitizedSymbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
+                if (match) {
+                    return {
+                        base: match[1],
+                        quote: match[2],
+                        bidPrice: data.bid1,
+                        askPrice: data.ask1,
+                        
+                    };
+                }
+                return null;
+            })
+            .filter(item => item !== null) as ProcessedSymbolMexcFutures[]; // Remove null entries
+      }
+      const processedSymbols = processSymbols(mexcFuturesPairsDataArr);
+      console.log("Final data for Mexc Futures:", processedSymbols);
+
+
+
+
+
     });
   }
   function startPolling() {

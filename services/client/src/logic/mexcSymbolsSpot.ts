@@ -71,7 +71,7 @@ export const getMexcPairsData = () => {
             })
             .filter(item => item !== null) as ProcessedSymbolMexcSpot[]; // Remove null entries
       }
-      const processedSymbols = processSymbols(mexcPairsDataArr);
+      const processedSymbols = processSymbols(mexcPairsDataArr); //??? Do I need to export this ?
       console.log("Final data for Mexc Spot:", processedSymbols);      
     });
   }

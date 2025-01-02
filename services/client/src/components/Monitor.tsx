@@ -14,6 +14,7 @@ import { TopAd } from 'src/components/TopAd';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
 import { Terms } from 'src/pages/Terms';
 import { OrdersMonitor } from 'src/components/OrdersMonitor';
+import { Arbitrage } from 'src/pages/Arbitrage';
 import { Privacy } from 'src/pages/Privacy';
 import { About } from 'src/pages/About';
 import { SignUp } from 'src/pages/Sign-up';
@@ -112,7 +113,7 @@ export const Monitor = () => {
           <div className={classes.topHolder}>
             <div className={classes.logoHolder}>
               <TopLogoPanel />
-              <AuthBlock store={userStore} />
+              {/* <AuthBlock store={userStore} /> */}
             </div>
             <div className={classes.asideTopHolder}>
               <TopAd />
@@ -125,6 +126,7 @@ export const Monitor = () => {
             <Route path='/terms' component={Terms} />
             <Route path='/privacy' component={Privacy} />
             <Route path='/about' component={About} />
+            <Route path='/arbitrage' component={Arbitrage} />
             {/* <Route path='/sign-up' component={SignUp} />
             <Route path='/sign-in' component={SignIn} />
             <Route path='/tradeshistory' component={TradesHistory} />

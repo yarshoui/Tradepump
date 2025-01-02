@@ -30,6 +30,15 @@ export type FuturesSecondResponse = {
   list: FuturesSecondResponseListEntry[];
 }
 
+export type ProcessedSymbolBybitFutures = {
+  base: string;
+  quote: string;
+  bidPrice: string;
+  askPrice: string;
+  //bidQty: string;
+  multiplier?: string;
+};
+
 export let bybitFuturesPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
 
@@ -60,8 +69,52 @@ export const getBybitFuturesPairsData = () => {
       bybitFuturesPairsDataArr = data;
 
       console.debug('bybitFuturesPairsData', bybitFuturesPairsDataArr);
+
     });
+
+    function processSymbols(symbols: FuturesSecondResponseListEntry[]): ProcessedSymbolBybitFutures[] {
+      return symbols
+        .filter(data => data.symbol.includes("USD")) // Filter symbols containing "USD"
+        .map(data => {
+            const match = data.symbol.match(/^(\d+)?(.*?)(USD.*)$/);
+           // const match = data.symbol.match(/^(?\d+)?(.*?)(USD.*)$/); // Extract optional digits, parts before and after "USD"
+            if (match) {
+                const [, multiplier, base, quote] = match;
+                let bidPrice = parseFloat(data.bid1Price);
+                let askPrice = parseFloat(data.ask1Price);
+
+                // If multiplier exists, multiply prices by it
+                if (multiplier) {
+                    const multiplierValue = parseFloat(multiplier);
+                    bidPrice *= multiplierValue;
+                    askPrice *= multiplierValue;
+
+                    return {
+                        base,
+                        quote,
+                        bidPrice: bidPrice.toString(),
+                        askPrice: askPrice.toString(),
+                        //bidQty: data.bidQty,
+                        multiplier
+                    };
+                } else {
+                    return {
+                        base,
+                        quote,
+                        bidPrice: bidPrice.toString(),
+                        askPrice: askPrice.toString(),
+                        //bidQty: data.bidQty
+                    };
+                }
+            }
+            return null;
+        })
+        .filter(item => item !== null) as ProcessedSymbolBybitFutures[]; // Remove null entries
+    }
+    const processedSymbols = processSymbols(bybitFuturesPairsDataArr);
+    console.log("Final data for Bybit Futures:", processedSymbols);
   }
+  
   function startPolling() {
     if (pollingInterval) {
       clearInterval(pollingInterval);
