@@ -1,15 +1,18 @@
-import { subscribeToMexcSpotPairsList } from "./mexcSymbolsSpot";
-import { subscribeToMexcFuturesPairsList } from "./mexcSymbolsFutures";
-import { subscribeToBybitPairsList } from "./bybitSymbolsSpot";
-import { subscribeToBybitFuturesPairsList } from "./bybitSymbolsFutures";
-import type {MexcSpotData} from "./mexcSymbolsSpot";
-import type {MexcFuturesData} from "./mexcSymbolsFutures";
-import type {FuturesSecondResponseListEntry} from "./bybitSymbolsFutures";
-import type {FuturesSecondResponse} from "./bybitSymbolsFutures";
-import type {SecondResponseListEntrySpot} from "./bybitSymbolsSpot";
-import type {SecondResponseSpot} from "./bybitSymbolsSpot";
+import { subscribeToMexcSpotPairsList } from './mexcSymbolsSpot';
+import { subscribeToMexcFuturesPairsList } from './mexcSymbolsFutures';
+import { subscribeToBybitPairsList } from './bybitSymbolsSpot';
+import { subscribeToBybitFuturesPairsList } from './bybitSymbolsFutures';
+import type { MexcSpotData, ProcessedSymbolMexcSpot } from './mexcSymbolsSpot';
+import type { MexcFuturesData } from './mexcSymbolsFutures';
+import type {
+  FuturesSecondResponseListEntry,
+  ProcessedSymbolBybitFutures,
+} from './bybitSymbolsFutures';
+import type { FuturesSecondResponse } from './bybitSymbolsFutures';
+import type { SecondResponseListEntrySpot } from './bybitSymbolsSpot';
+import type { SecondResponseSpot } from './bybitSymbolsSpot';
 
-async function comparePrices() {
+/* async function comparePrices() {
     // Fetch data from APIs
     const [mexcSpot, mexcFutures, bybitSpot, bybitFutures] = await Promise.all([
       subscribeToMexcSpotPairsList(),
@@ -58,5 +61,33 @@ async function comparePrices() {
     }
   }
   
-  comparePrices().catch(console.error);
-  
+  comparePrices().catch(console.error); */
+
+export let bybitFeaturesData: ProcessedSymbolBybitFutures[] = [];
+export let mexcSymbolsSpotData: ProcessedSymbolMexcSpot[] = [];
+
+export function setBybitFeaturesData(data: ProcessedSymbolBybitFutures[]) {
+  bybitFeaturesData = data;
+}
+export function setMexcSymbolsSpotData(data: ProcessedSymbolMexcSpot[]) {
+  mexcSymbolsSpotData = data;
+}
+
+let compareOutput: [] = []; //compare results are goes here
+export function comparePrices() {
+  // call function coparing bybit to mex
+  // call function coparing bybit to bitget
+  compareBybitToMex();
+}
+
+function compareBybitToMex() {
+  if (bybitFeaturesData.length && mexcSymbolsSpotData.length) {
+    console.log(
+      '@@@ file arbitrageStoreLogicForAllExchanges.ts line 85',
+      bybitFeaturesData,
+      mexcSymbolsSpotData,
+    );
+  }
+}
+
+export default { bybitFeaturesData };

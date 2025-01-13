@@ -1,5 +1,6 @@
+import { comparePrices, setMexcSymbolsSpotData } from './arbitrageStoreLogicForAllExchanges';
+
 export type MexcSpotData = {
-  
   symbol: string;
   priceChange: string;
   priceChangePercent: string;
@@ -22,16 +23,16 @@ export type ProcessedSymbolMexcSpot = {
   quote: string;
   bidPrice: string;
   askPrice: string;
-  
+  category: string;
+  exchange: string;
 };
 
 export let mexcPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
 
 export const getMexcPairsData = () => {
- 
   async function loadJson(urlMexcPairs: RequestInfo) {
-    let responseMexc = await fetch(urlMexcPairs, {mode:'cors'});
+    let responseMexc = await fetch(urlMexcPairs, { mode: 'cors' });
     let binData = await responseMexc.json();
     return binData;
   }
@@ -39,40 +40,39 @@ export const getMexcPairsData = () => {
   function doRequest() {
     const urlMexcPairs = `http://localhost:3001/api`; //Should be limited by 10-20 requests per sec
     loadJson(urlMexcPairs).then((data) => {
-      const category = data.result.category;
-      const list=data.result.list;
-      const filteredList = list.map(( value:MexcSpotData ) => {
+      const filteredList = data.map((value: MexcSpotData) => {
         return {
-          exchange: 'mexc', 
           symbol: value.symbol,
           askPrice: value.askPrice,
           bidPrice: value.bidPrice,
-          category: 'spot',
         };
       });
-      //debugger;
+      // debugger;
       mexcPairsDataArr = data;
-      console.debug('mexcPairsData', mexcPairsDataArr);
+      const processedSymbolsData: ProcessedSymbolMexcSpot[] = processSymbols(filteredList);
+
+      setMexcSymbolsSpotData(processedSymbolsData);
+      comparePrices();
 
       function processSymbols(symbols: MexcSpotData[]): ProcessedSymbolMexcSpot[] {
         return symbols
-            .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
-            .map(data => {
-                const match = data.symbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
-                if (match) {
-                    return {
-                        base: match[1],
-                        quote: match[2],
-                        bidPrice: data.bidPrice,
-                        askPrice: data.askPrice,                        
-                    };
-                }
-                return null;
-            })
-            .filter(item => item !== null) as ProcessedSymbolMexcSpot[]; // Remove null entries
+          .filter((data) => data.symbol.includes('USDT')) // Filter symbols containing "USDT"
+          .map((data) => {
+            const match = data.symbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
+            if (match) {
+              return {
+                base: match[1],
+                quote: match[2],
+                bidPrice: data.bidPrice,
+                askPrice: data.askPrice,
+                exchange: 'mexc',
+                category: 'spot',
+              };
+            }
+            return null;
+          })
+          .filter((item) => item !== null) as ProcessedSymbolMexcSpot[]; // Remove null entries
       }
-      const processedSymbols = processSymbols(mexcPairsDataArr); //??? Do I need to export this ?
-      console.log("Final data for Mexc Spot:", processedSymbols);      
     });
   }
   function startPolling() {
@@ -85,11 +85,10 @@ export const getMexcPairsData = () => {
   startPolling();
 };
 
-export const subscribeToMexcSpotPairsList = () => {  
+export const subscribeToMexcSpotPairsList = () => {
   getMexcPairsData();
-  };
+};
 
-  
 // Example usage
 // const apiResponse: SymbolData[] = [
 //     { symbol: "METAL_USDT", bidPrice: "0.9", askPrice: "0.95", bidQty: "2046.5" },
@@ -97,10 +96,8 @@ export const subscribeToMexcSpotPairsList = () => {
 //     { symbol: "BTCETH", bidPrice: "1.0", askPrice: "1.1", bidQty: "1500" },
 // ];
 
-
 // Output:
 // [
 //   { base: "METAL", quote: "USDT", bidPrice: "0.9", askPrice: "0.95" },
 //   { base: "RARI", quote: "USDT", bidPrice: "0.9", askPrice: "0.95" }
 // ]
-
