@@ -1,3 +1,5 @@
+import { comparePrices, setMexcSymbolsFuturesData } from './arbitrageStoreLogicForAllExchanges';
+
 export type MexcFuturesData = {
   symbol: string;
   bid1: string;
@@ -28,9 +30,11 @@ export const getMexcFuturesPairsData = () => {
   function doRequest() {
     const urlMexcFuturesPairs = `http://localhost:3002/mexcapifutures`; //Should be limited by 10-20 requests per sec
     loadJson(urlMexcFuturesPairs).then((data) => {
-      const category = data.result.category;
-      const list=data.result.list;
-      const filteredList = list.map(( value:MexcFuturesData ) => {
+      //debugger;
+      //const category = data.result.category;
+      //const list=data.result.list;
+      
+      const filteredList = data.map(( value:MexcFuturesData ) => {
         return {
           exchange: 'mexc', 
           symbol: value.symbol,
@@ -39,11 +43,12 @@ export const getMexcFuturesPairsData = () => {
           category: 'futures',
         };
       });
-      debugger;
-
+     
       mexcFuturesPairsDataArr = data;
-      console.debug('mexcFuturesPairsData', mexcFuturesPairsDataArr);
-
+      const processedSymbolsData: ProcessedSymbolMexcFutures[] = processSymbols(filteredList);
+      setMexcSymbolsFuturesData(processedSymbolsData);
+      comparePrices();
+      //console.log('@@@mexcFuturesPairsData', mexcFuturesPairsDataArr);
 
       function processSymbols(symbols: MexcFuturesData[]): ProcessedSymbolMexcFutures[] {
         return symbols
@@ -57,21 +62,15 @@ export const getMexcFuturesPairsData = () => {
                         base: match[1],
                         quote: match[2],
                         bidPrice: data.bid1,
-                        askPrice: data.ask1,
-                        
+                        askPrice: data.ask1,                        
                     };
                 }
                 return null;
             })
-            .filter(item => item !== null) as ProcessedSymbolMexcFutures[]; // Remove null entries
+            .filter((item) => item !== null) as ProcessedSymbolMexcFutures[]; // Remove null entries
       }
-      const processedSymbols = processSymbols(mexcFuturesPairsDataArr);
-      console.log("Final data for Mexc Futures:", processedSymbols);
-
-
-
-
-
+      // const processedSymbols = processSymbols(mexcFuturesPairsDataArr);
+      // console.log("Final data for Mexc Futures:", processedSymbols);
     });
   }
   function startPolling() {

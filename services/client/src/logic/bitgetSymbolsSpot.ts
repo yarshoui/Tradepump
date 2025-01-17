@@ -1,3 +1,4 @@
+import { comparePrices, setBitgetSymbolsSpotData } from './arbitrageStoreLogicForAllExchanges';
 export type BitgetSpotData = {
   
   symbol: string;
@@ -31,9 +32,9 @@ export const getBitgetPairsData = () => {
   function doRequest() {
     const urlBitgetPairs = `http://localhost:3003/bitgetapi`; //Should be limited by 10-20 requests per sec
     loadJson(urlBitgetPairs).then((data) => {
-      const category = data.result.category;
+      //const category = data.result.category;
       const list=data.result.list;
-      const filteredList = list.map(( value:BitgetSpotData ) => {
+      const filteredList = data.map(( value:BitgetSpotData ) => {
         return {
           exchange: 'bitget', 
           symbol: value.symbol,
@@ -44,8 +45,12 @@ export const getBitgetPairsData = () => {
       });
       //debugger;
       bitgetPairsDataArr = data;
-      console.debug('bitgetPairsData', bitgetPairsDataArr);            
-    });
+      const processedSymbolsData: ProcessedSymbolBitgetSpot[] = processSymbols(filteredList);
+
+      setBitgetSymbolsSpotData(processedSymbolsData);
+      comparePrices();
+      //console.debug('bitgetPairsData', bitgetPairsDataArr);            
+    
 
     function processSymbols(symbols: BitgetSpotData[]): ProcessedSymbolBitgetSpot[] {
       return symbols
@@ -57,16 +62,18 @@ export const getBitgetPairsData = () => {
                       base: match[1],
                       quote: match[2],
                       bidPrice: data.bidPr,
-                      askPrice: data.askPr,                        
+                      askPrice: data.askPr,  
+                      exchange: 'bitget',
+                      category: 'spot',                      
                   };
               }
               return null;
           })
-          .filter(item => item !== null) as ProcessedSymbolBitgetSpot[]; // Remove null entries
+          .filter((item) => item !== null) as ProcessedSymbolBitgetSpot[]; // Remove null entries
     }
-    const processedSymbols = processSymbols(bitgetPairsDataArr);
-    console.log("Final data for Bitget Spot:", processedSymbols);
-    
+    // const processedSymbols = processSymbols(bitgetPairsDataArr);
+    // console.log("Final data for Bitget Spot:", processedSymbols);
+  });
   }
   function startPolling() {
     if (pollingInterval) {

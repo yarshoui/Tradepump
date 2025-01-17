@@ -1,13 +1,5 @@
+import { comparePrices, setBybitSpotData } from './arbitrageStoreLogicForAllExchanges';
 
-// interface BybitPairsData {
-//   Response?: any | undefined;
-//   dataHandler?: (msg: any) => void;
-// }
-
-// const bybitPairsData: BybitPairsData = {
-//   Response: undefined,
-  
-// };
 
 export type SecondResponseListEntrySpot = {
   ask1Price: string;
@@ -22,6 +14,7 @@ export type SecondResponseListEntrySpot = {
   symbol: string;
   turnover24h: string;
   volume24h: string;
+  category:'spot';
 
 };
 export type ProcessedSymbolBybitSpot = {
@@ -39,6 +32,7 @@ export type SecondResponseSpot = {
 
 export let bybitPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
+let processedSymbolsData: ProcessedSymbolBybitSpot[];
 
 export const getBybitPairsData = () => {
  
@@ -59,12 +53,16 @@ export const getBybitPairsData = () => {
           symbol: value.symbol,
           askPrice: value.ask1Price,
           bidPrice: value.bid1Price,
-          category,
+          category: 'spot',
         };
       });
       //debugger;
 
       bybitPairsDataArr = data;
+      processedSymbolsData = processSymbols(filteredList);
+      
+      setBybitSpotData(processedSymbolsData);
+      comparePrices();
 
       console.debug('bybitPairsData', bybitPairsDataArr);
 
@@ -78,7 +76,8 @@ export const getBybitPairsData = () => {
                               base: match[1],
                               quote: match[2],
                               bidPrice: data.bid1Price,
-                              askPrice: data.ask1Price,                        
+                              askPrice: data.ask1Price,    
+                              ...data,                    
                           };
                       }
                       return null;

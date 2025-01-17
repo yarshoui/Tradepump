@@ -4,9 +4,9 @@
 // }
 
 import {
-  bybitFeaturesData,
+  bybitFuturesData,
   comparePrices,
-  setBybitFeaturesData,
+  setBybitFuturesData,
 } from './arbitrageStoreLogicForAllExchanges';
 
 // const bybitPairsData: BybitPairsData = {
@@ -27,6 +27,7 @@ export type FuturesSecondResponseListEntry = {
   symbol: string;
   turnover24h: string;
   volume24h: string;
+  category:'futures';
 };
 
 export type FuturesSecondResponse = {
@@ -65,7 +66,7 @@ export const getBybitFuturesPairsData = () => {
           symbol: value.symbol,
           askPrice: value.ask1Price,
           bidPrice: value.bid1Price,
-          category: 'features',
+          category: 'futures',
         };
       });
       // debugger;
@@ -73,7 +74,7 @@ export const getBybitFuturesPairsData = () => {
       bybitFuturesPairsDataArr = data;
       processedSymbolsData = processSymbols(filteredList);
 
-      setBybitFeaturesData(processedSymbolsData);
+      setBybitFuturesData(processedSymbolsData);
       comparePrices();
     });
 

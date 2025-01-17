@@ -1,3 +1,4 @@
+import { comparePrices, setBitgetSymbolsFuturesData } from './arbitrageStoreLogicForAllExchanges';
 export type BitgetFuturesData = {
   symbol: string;
   bidPr: string;
@@ -27,9 +28,9 @@ export const getBitgetFuturesPairsData = () => {
   function doRequest() {
     const urlBitgetFuturesPairs = `http://localhost:3004/bitgetapifutures`; //Should be limited by 10-20 requests per sec
     loadJson(urlBitgetFuturesPairs).then((data) => {
-      const category = data.result.category;
-      const list=data.result.list;
-      const filteredList = list.map(( value:BitgetFuturesData ) => {
+      // const category = data.result.category;
+      // const list=data.result.list;
+      const filteredList = data.map(( value:BitgetFuturesData ) => {
         return {
           exchange: 'bitget', 
           symbol: value.symbol,
@@ -42,10 +43,15 @@ export const getBitgetFuturesPairsData = () => {
 
       bitgetFuturesPairsDataArr = data;
 
-      console.debug('bitgetFuturesPairsData', bitgetFuturesPairsDataArr);
-    });
+      const processedSymbolsData: ProcessedSymbolBitgetFutures[] = processSymbols(filteredList);
+      
+      setBitgetSymbolsFuturesData(processedSymbolsData);
+      comparePrices();
 
-    function processSymbols(symbols: BitgetFuturesData[]): ProcessedSymbolBitgetFutures[] {
+      console.debug('bitgetFuturesPairsData', bitgetFuturesPairsDataArr);
+    
+
+       function processSymbols(symbols: BitgetFuturesData[]): ProcessedSymbolBitgetFutures[] {
             return symbols
                 .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
                 .map(data => {
@@ -55,15 +61,18 @@ export const getBitgetFuturesPairsData = () => {
                             base: match[1],
                             quote: match[2],
                             bidPrice: data.bidPr,
-                            askPrice: data.askPr,                        
+                            askPrice: data.askPr,  
+                            exchange: 'bitget', 
+                            category: 'futures',                     
                         };
                     }
                     return null;
                 })
-                .filter(item => item !== null) as ProcessedSymbolBitgetFutures[]; // Remove null entries
+                .filter((item) => item !== null) as ProcessedSymbolBitgetFutures[]; // Remove null entries
           }
           const processedSymbols = processSymbols(bitgetFuturesPairsDataArr);
           console.log("Final data for Bitget Spot:", processedSymbols);
+    });
   }
   function startPolling() {
     if (pollingInterval) {
