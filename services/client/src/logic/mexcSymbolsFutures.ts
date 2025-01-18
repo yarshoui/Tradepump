@@ -12,7 +12,18 @@ export type ProcessedSymbolMexcFutures = {
   quote: string;
   bidPrice: string;
   askPrice: string;
-  
+  exchange: 'mexc';
+  category: 'futures';
+};
+
+type ProcessedMerxFuture = {
+    exchange: 'mexc';
+    symbol: MexcFuturesData['symbol'];
+    askPrice:MexcFuturesData['ask1'];
+    bidPrice: MexcFuturesData['bid1'];
+    category: 'futures';
+    base: ProcessedSymbolMexcFutures['base'];
+    quote: ProcessedSymbolMexcFutures['quote'];
 };
 
 
@@ -29,12 +40,15 @@ export const getMexcFuturesPairsData = () => {
 
   function doRequest() {
     const urlMexcFuturesPairs = `http://localhost:3002/mexcapifutures`; //Should be limited by 10-20 requests per sec
+    // console.log('~~~ request');
     loadJson(urlMexcFuturesPairs).then((data) => {
+      // console.log('~~~ result', { data });
       //debugger;
       //const category = data.result.category;
       //const list=data.result.list;
+      const dataToProcess = data?.data ?? [];
       
-      const filteredList = data.map(( value:MexcFuturesData ) => {
+      const filteredList: ProcessedMerxFuture[] = dataToProcess.map(( value:MexcFuturesData ) => {
         return {
           exchange: 'mexc', 
           symbol: value.symbol,
@@ -44,25 +58,29 @@ export const getMexcFuturesPairsData = () => {
         };
       });
      
-      mexcFuturesPairsDataArr = data;
+      mexcFuturesPairsDataArr = dataToProcess;
       const processedSymbolsData: ProcessedSymbolMexcFutures[] = processSymbols(filteredList);
+      // console.log('~~~', { processedSymbolsData, data, dataToProcess, filteredList });
       setMexcSymbolsFuturesData(processedSymbolsData);
       comparePrices();
       //console.log('@@@mexcFuturesPairsData', mexcFuturesPairsDataArr);
 
-      function processSymbols(symbols: MexcFuturesData[]): ProcessedSymbolMexcFutures[] {
+      function processSymbols(symbols: ProcessedMerxFuture[]): ProcessedSymbolMexcFutures[] {
         return symbols
-            .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
-            .map(data => {
+            .filter(entry => entry.symbol.includes("USDT")) // Filter symbols containing "USDT"
+            .map(dataEntry => {
                 // Remove "_" from the symbol if present
-                const sanitizedSymbol = data.symbol.replace(/_/g, "");
+                const sanitizedSymbol = dataEntry.symbol.replace(/_/g, "");
                 const match = sanitizedSymbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
+                // console.log('~~~ match', { match, sanitizedSymbol, dataEntry, })
                 if (match) {
                     return {
                         base: match[1],
                         quote: match[2],
-                        bidPrice: data.bid1,
-                        askPrice: data.ask1,                        
+                        bidPrice: dataEntry.bidPrice,
+                        askPrice: dataEntry.askPrice, 
+                        category: dataEntry.category,
+                        exchange: dataEntry.exchange,                  
                     };
                 }
                 return null;

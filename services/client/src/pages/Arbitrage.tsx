@@ -24,6 +24,8 @@ function createData(
 ) {
   return { pair, exchange1, side1, price1, exchange2, side2, price2, startspread, maxspread, status };
 }
+import type { ArbitrageStore } from 'src/logic/arbitrageStore';
+import { observer } from 'mobx-react';
 
 const rows = [
   createData('VANA/USDT', 'Bybit Spot', 'Buy', 24, 'MEXC Futures', 'Sell', 25, '25%', '40%', 'Active'),
@@ -78,8 +80,14 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export const Arbitrage = () => {
+type ArbitrageProps = {
+  store: ArbitrageStore;
+}
+
+export const Arbitrage = observer(({ store }: ArbitrageProps) => {
   const classes = useStyles();
+
+  console.log('~~~ Arbitrage', { store });
 
   useEffect( () => {
     // GoogleAnalytics
@@ -104,29 +112,30 @@ export const Arbitrage = () => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
-            <TableRow
+          {store.rowData.map((row) => {
+            console.log('~~~ Arbitrage', { row });
+            return (<TableRow
               key={row.pair}
               sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
             >
               <TableCell component="th" scope="row">
-                {row.pair}
+                {row.spot.base}
               </TableCell>
-              <TableCell>{row.exchange1}</TableCell>
-              <TableCell>{row.side1}</TableCell>
-              <TableCell>{row.price1}</TableCell>
-              <TableCell>{row.exchange2}</TableCell>
-              <TableCell>{row.side2}</TableCell>
-              <TableCell>{row.price2}</TableCell>
+              <TableCell>{row.spot.exchange +' Spot'}</TableCell>
+              <TableCell>{' Buy'}</TableCell>
+              <TableCell>{row.spot.bidPrice}</TableCell>
+              <TableCell>{row.futures.exchange +' Futures'}</TableCell>
+              <TableCell>{' Sell'}</TableCell>
+              <TableCell>{row.futures.askPrice}</TableCell>
               <TableCell>{row.startspread}</TableCell>
               <TableCell>{row.maxspread}</TableCell>
               <TableCell>{row.status}</TableCell>
 
               
-            </TableRow>
-          ))}
+            </TableRow>)
+          })}
         </TableBody>
       </Table>
     </TableContainer>
   );
-};
+});

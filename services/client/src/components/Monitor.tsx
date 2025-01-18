@@ -28,6 +28,7 @@ import { AuthBlock } from './AuthBlock';
 import { userStore } from 'src/logic/userStore';
 import { SignIn } from 'src/pages/Sign-in';
 import { TradesHistory } from 'src/pages/TradesHistory';
+import { appStoreArbitrage } from 'src/logic/arbitrageStore';
 
 // import styled from 'styled-components';
 // import 'src/intro/intro.min.js';
@@ -126,7 +127,7 @@ export const Monitor = () => {
             <Route path='/terms' component={Terms} />
             <Route path='/privacy' component={Privacy} />
             <Route path='/about' component={About} />
-            <Route path='/arbitrage' component={Arbitrage} />
+            <Route path='/arbitrage' component={() => <Arbitrage store={appStoreArbitrage} />} />
             {/* <Route path='/sign-up' component={SignUp} />
             <Route path='/sign-in' component={SignIn} />
             <Route path='/tradeshistory' component={TradesHistory} />

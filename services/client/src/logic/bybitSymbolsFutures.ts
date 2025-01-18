@@ -43,6 +43,7 @@ export type ProcessedSymbolBybitFutures = {
   //bidQty: string;
   multiplier?: string;
   category?: string;
+  symbol: string;
 };
 
 export let bybitFuturesPairsDataArr: any;
@@ -79,7 +80,7 @@ export const getBybitFuturesPairsData = () => {
     });
 
     function processSymbols(
-      symbols: FuturesSecondResponseListEntry[],
+      symbols: ProcessedSymbolBybitFutures[],
     ): ProcessedSymbolBybitFutures[] {
       return symbols
         .filter((data) => data.symbol.includes('USD')) // Filter symbols containing "USD"
@@ -88,31 +89,35 @@ export const getBybitFuturesPairsData = () => {
           // const match = data.symbol.match(/^(?\d+)?(.*?)(USD.*)$/); // Extract optional digits, parts before and after "USD"
           if (match) {
             const [, multiplier, base, quote] = match;
-            let bidPrice = parseFloat(data.bid1Price);
-            let askPrice = parseFloat(data.ask1Price);
+            let bidPrice = parseFloat(data.bidPrice);
+            let askPrice = parseFloat(data.askPrice);
 
             // If multiplier exists, multiply prices by it
             if (multiplier) {
+             
               const multiplierValue = parseFloat(multiplier);
-              bidPrice *= multiplierValue;
-              askPrice *= multiplierValue;
+              console.log ('§§',{match, data, bidPrice, askPrice, multiplierValue});
+              bidPrice /= multiplierValue;
+              askPrice /= multiplierValue;
 
               return {
+                ...data,
                 base,
                 quote,
                 bidPrice: bidPrice.toString(),
                 askPrice: askPrice.toString(),
                 //bidQty: data.bidQty,
                 multiplier,
-                ...data,
+                
               };
             } else {
               return {
+                ...data,
                 base,
                 quote,
                 bidPrice: bidPrice.toString(),
                 askPrice: askPrice.toString(),
-                ...data,
+                
                 //bidQty: data.bidQty
               };
             }
