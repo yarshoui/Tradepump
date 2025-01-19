@@ -7,6 +7,7 @@ import {
   bybitFuturesData,
   comparePrices,
   setBybitFuturesData,
+  //UnifiedEntity,
 } from './arbitrageStoreLogicForAllExchanges';
 
 // const bybitPairsData: BybitPairsData = {
@@ -39,12 +40,28 @@ export type ProcessedSymbolBybitFutures = {
   base: string;
   quote: string;
   bidPrice: string;
-  askPrice: string;
-  //bidQty: string;
+  askPrice: string;  
   multiplier?: string;
   category?: string;
   symbol: string;
+  spread: string;
 };
+
+// export function bybitToUnified(source: ProcessedSymbolBybitFutures): UnifiedEntity {
+
+//   return {
+//     base: source.base,
+//     type: 'futures',
+//     quote: source.quote,
+//     bidPrice: parseFloat(source.bidPrice),
+//     askPrice: parseFloat(source.bidPrice),
+//     exchange: 'bybit',
+//     symbol: source.symbol,
+//     spread: parseFloat(source.spread)
+//   };
+// }
+
+
 
 export let bybitFuturesPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
@@ -96,7 +113,7 @@ export const getBybitFuturesPairsData = () => {
             if (multiplier) {
              
               const multiplierValue = parseFloat(multiplier);
-              console.log ('§§',{match, data, bidPrice, askPrice, multiplierValue});
+              //console.log ('§§',{match, data, bidPrice, askPrice, multiplierValue});
               bidPrice /= multiplierValue;
               askPrice /= multiplierValue;
 
@@ -105,8 +122,7 @@ export const getBybitFuturesPairsData = () => {
                 base,
                 quote,
                 bidPrice: bidPrice.toString(),
-                askPrice: askPrice.toString(),
-                //bidQty: data.bidQty,
+                askPrice: askPrice.toString(),                
                 multiplier,
                 
               };

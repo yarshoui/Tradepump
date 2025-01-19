@@ -47,16 +47,22 @@ export function setBitgetSymbolsFuturesData(data: ProcessedSymbolBitgetFutures[]
 
 let compareOutput: [] = []; //compare results go here
 export function comparePrices() {
+  BybitFuturesVsMexcSpot();
   // call function coparing bybit to mex
   // call function coparing bybit to bitget
+  
+  // compareMexcToBybit();
+  // const data2 = compareMexcToBybit();
+  // appStoreArbitrage.data=data2;
+}
+function BybitFuturesVsMexcSpot () {
   compareBybitToMex();
   const data = compareBybitToMex();
   appStoreArbitrage.data=data;
-}
+};
 
 
-
-function findMatchingBase(
+function findMatchingBaseBybitToMexc(
   smallerArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[],
   largerArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[]
 ): ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[] {
@@ -64,120 +70,117 @@ function findMatchingBase(
   smallerArray.forEach((item1) => {
     const match = largerArray.find((item2) => item1.base === item2.base);
     if (match) {
-      // console.log(`@@@ Match found for base: ${item1.base}`, { match });
-      //Тут дальше будет логика сравнения цен 
       result.push(match as unknown as any);
     }
   });
   return result;
 }
 
-// function compareSpotAndFutures(
-//   spotArray: Spot[],
-//   futuresArray: Futures[]
-// ): void {
-//   // Determine shorter and larger arrays
-//   const [smallerArray, largerArray] =
-//     spotArray.length < futuresArray.length
-//       ? [spotArray, futuresArray]
-//       : [futuresArray, spotArray];
+function findMatchingBaseMexcToBybit(
+  smallerArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[],
+  largerArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[]
+): ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[] {
+  const result: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[] = [];
+  smallerArray.forEach((item1) => {
+    const match = largerArray.find((item2) => item1.base === item2.base);
+    if (match) {
+      result.push(match as unknown as any);
+    }
+  });
+  return result;
+}
 
-//   // Find matching symbols and compare prices
-//   smallerArray.forEach((spotItem) => {
-//     if (spotItem.category === "spot") {
-//       const futuresItem = largerArray.find(
-//         (item) =>
-//           item.category === "futures" && item.base === spotItem.base
-//       );
+// export type UnifiedEntity = {
+//   base: string;
+//   type: 'spot' | 'futures';
+//   quote: string;
+//   bidPrice: number;
+//   askPrice: number;
+//   symbol: string;
+//   spread: number;
+//   exchange: string;
+// };
 
-//       if (futuresItem) {
-//         // Calculate the price difference percentage
-//         const priceDifference =
-//           ((spotItem.askPrice - futuresItem.bidPrice) /
-//             futuresItem.bidPrice) *
-//           100;
-
-//         if (priceDifference > 5) {
-//           console.log(
-//             `GOTCHA! ${spotItem.base} | Spot askPrice: ${spotItem.askPrice}, Futures bidPrice: ${futuresItem.bidPrice}, Difference: ${priceDifference.toFixed(
-//               2
-//             )}%`
-//           );
-//         }
-//       }
-//     }
-//   });
-// }
-
-
-// function findSpreadBetweenSpotArrays(
-//   shorterArray: SpotData[],
-//   largerArray: SpotData[]
-// ): void {
-//   shorterArray.forEach((shorterItem) => {
-//     const match = largerArray.find(
-//       (largerItem) => largerItem.base === shorterItem.base
-//     );
-
+// function findMatchingBase2(
+//   futures: UnifiedEntity[],
+//   spots: UnifiedEntity[]
+// ): UnifiedEntity[] {
+//   const larger = futures.length > spots.length ? futures : spots;
+//   const smaller = futures.length <= spots.length ? futures : spots;
+//   const result: UnifiedEntity[] = [];
+//   smaller.forEach((item1) => {
+//     const match = larger.find((item2) => item1.base === item2.base);
 //     if (match) {
-//       const buyPrice = shorterItem.askPrice; // Buy price from shorter array
-//       const sellPrice = match.bidPrice; // Sell price from larger array
-
-//       // Calculate percentage difference
-//       const difference = ((sellPrice - buyPrice) / buyPrice) * 100;
-
-//       if (difference > 5) {
-//         console.log(
-//           `GOTCHA Spot Spread: Base ${shorterItem.base}, Buy: ${buyPrice}, Sell: ${sellPrice}, Spread: ${difference.toFixed(2)}%`
-//         );
-//       }
+//       result.push(match as unknown as any);
 //     }
 //   });
+//   return result;
 // }
-// const [shorterArray, largerArray] =  spotArray1.length < spotArray2.length ? [spotArray1, spotArray2] : [spotArray2, spotArray1];
 
-// Call the function
 
-type FindGoodMatch = {
+
+type FindGoodMatchBybitMexc = {
   spot: ProcessedSymbolMexcSpot;
   futures: ProcessedSymbolBybitFutures;
+  spread: string;
 };
 
-const findGoodMatch = (spots: ProcessedSymbolMexcSpot[], futures: ProcessedSymbolBybitFutures[]): FindGoodMatch[] => {
-  const result: FindGoodMatch[] = [];
+type FindGoodMatchMexcBybit = {
+  spot: ProcessedSymbolBybitSpot;
+  futures: ProcessedSymbolMexcFutures;
+  spread: string;
+};
+
+const findGoodMatchBybitMexc = (spots: ProcessedSymbolMexcSpot[], futures: ProcessedSymbolBybitFutures[]) => {
+  const result: FindGoodMatchBybitMexc[] = [];
   spots.forEach((spot) => {
     const futureRecord = futures.find((futureRecord) => spot.base === futureRecord.base);
     if (futureRecord) {
-      
-      if (parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice) > 1.1) {
-        result.push({ spot, futures: futureRecord });
+      if ((parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice)) > 1.1) {
+        const spread: number = ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice))/parseFloat(spot.bidPrice)) * 100;
+        const fixed = spread.toFixed(0);
+        result.push({ spot, futures: futureRecord, spread: fixed });
       }
     }
   });
   return result;
 };
 
-const isSpotArray = (inputArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[]): inputArray is ProcessedSymbolMexcSpot[] => {
+const findGoodMatchMexcBybit = (spots: ProcessedSymbolBybitSpot[], futures: ProcessedSymbolMexcFutures[]) => {
+  const result: FindGoodMatchMexcBybit[] = [];
+  spots.forEach((spot) => {
+    const futureRecord = futures.find((futureRecord) => spot.base === futureRecord.base);
+    if (futureRecord) {
+      if ((parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice)) > 0.9) {
+        const spread: number = ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice))/parseFloat(spot.bidPrice)) * 100;
+        const fixed = spread.toFixed(0);
+        result.push({ spot, futures: futureRecord, spread: fixed });
+      }
+    }
+  });
+  return result;
+};
+
+const isSpotArrayBybitMexc = (inputArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[]): inputArray is ProcessedSymbolMexcSpot[] => {
+  return inputArray?.[0]?.category === 'spot';
+};
+
+const isSpotArrayMexcBybit = (inputArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[]): inputArray is ProcessedSymbolBybitSpot[] => {
   return inputArray?.[0]?.category === 'spot';
 };
 
 function compareBybitToMex() {
-  if (bybitFuturesData.length && mexcSymbolsSpotData.length) {
-
-    
+  if (bybitFuturesData.length && mexcSymbolsSpotData.length) {    
     
     const shorterArray = bybitFuturesData.length < mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;
     const largerArray = bybitFuturesData.length >= mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;
 
-
-    console.log('~~~', { shorterArray, largerArray });
-    //findSpreadBetweenSpotArrays(shorterArray, largerArray);
-    //compareSpotAndFutures(spotArray, futuresArray);
+    console.log('~~~', { shorterArray, largerArray });    
   
-    const filteredBaseArray = findMatchingBase(shorterArray, largerArray);
+    const filteredBaseArray = findMatchingBaseBybitToMexc(shorterArray, largerArray);
 
-    if (isSpotArray(filteredBaseArray)) {
-      const winArray = findGoodMatch(filteredBaseArray, shorterArray);
+    if (isSpotArrayBybitMexc(filteredBaseArray)) {
+      const winArray = findGoodMatchBybitMexc(filteredBaseArray, shorterArray);
       console.log('~~~ ', { winArray });
       return winArray;
     }
@@ -186,25 +189,40 @@ function compareBybitToMex() {
     // TODO: add the case then filteredBaseArray is futures array
     
     
-    console.log(
-      '@@@ file arbitrageStoreLogicForAllExchanges.ts line 85',
-      '@@@ Bibit Futures',
-      bybitFuturesData,
-      '@@@ Bibit Spot',
-      bybitSpotData,
-      '@@@ MEXC Spot',
-      mexcSymbolsSpotData, 
-      '@@@ MEXC Futures',           
-      mexcSymbolsFuturesData,
-      '@@@ Bitget Spot',
-      bitgetSymbolsSpotData,
-      '@@@ Bitget Futures',
-      bitgetSymbolsFuturesData,
-      { filteredBaseArray, shorterArray },
-    );
+    // console.log(
+    //   '@@@ file arbitrageStoreLogicForAllExchanges.ts line 85',
+    //   '@@@ Bibit Futures',
+    //   bybitFuturesData,
+    //   '@@@ Bibit Spot',
+    //   bybitSpotData,
+    //   '@@@ MEXC Spot',
+    //   mexcSymbolsSpotData, 
+    //   '@@@ MEXC Futures',           
+    //   mexcSymbolsFuturesData,
+    //   '@@@ Bitget Spot',
+    //   bitgetSymbolsSpotData,
+    //   '@@@ Bitget Futures',
+    //   bitgetSymbolsFuturesData,
+    //   { filteredBaseArray, shorterArray },
+    // );
   }
   return [];
 }
 
+function compareMexcToBybit() {
+  if (bybitSpotData.length && mexcSymbolsFuturesData.length) {    
+    
+    const shorterArray = bybitSpotData.length < mexcSymbolsFuturesData.length ? bybitSpotData : mexcSymbolsFuturesData;
+    const largerArray = bybitSpotData.length >= mexcSymbolsFuturesData.length ? bybitSpotData : mexcSymbolsFuturesData;
+    const filteredBaseArray = findMatchingBaseMexcToBybit(shorterArray, largerArray);
+
+    if (isSpotArrayMexcBybit(filteredBaseArray)) {
+      const winArray = findGoodMatchMexcBybit(filteredBaseArray, shorterArray);
+      console.log('~~~ ', { winArray });
+      return winArray;
+    }  
+  }
+  return [];
+}
 //export default { bybitFuturesData };
 

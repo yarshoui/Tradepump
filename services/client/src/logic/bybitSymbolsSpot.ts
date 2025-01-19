@@ -22,6 +22,10 @@ export type ProcessedSymbolBybitSpot = {
   quote: string;
   bidPrice: string;
   askPrice: string;
+  exchange: string;
+  category: string;
+  symbol: string;
+  spread: string;
   
 };
 
@@ -66,18 +70,24 @@ export const getBybitPairsData = () => {
 
       console.debug('bybitPairsData', bybitPairsDataArr);
 
-      function processSymbols(symbols: SecondResponseListEntrySpot[]): ProcessedSymbolBybitSpot[] {
+      function processSymbols(symbols: ProcessedSymbolBybitSpot[]): ProcessedSymbolBybitSpot[] {
               return symbols
                   .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
                   .map(data => {
                       const match = data.symbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
                       if (match) {
+                        let bidPrice = parseFloat(data.bidPrice);
+                        let askPrice = parseFloat(data.askPrice);
                           return {
+                              ...data,
                               base: match[1],
                               quote: match[2],
-                              bidPrice: data.bid1Price,
-                              askPrice: data.ask1Price,    
-                              ...data,                    
+                              bidPrice: bidPrice.toString(),
+                              askPrice: askPrice.toString(),    
+                              exchange: 'bybit',
+                              category: 'spot',
+                              
+                                                  
                           };
                       }
                       return null;

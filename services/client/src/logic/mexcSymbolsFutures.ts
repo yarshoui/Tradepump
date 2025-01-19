@@ -12,8 +12,10 @@ export type ProcessedSymbolMexcFutures = {
   quote: string;
   bidPrice: string;
   askPrice: string;
-  exchange: 'mexc';
-  category: 'futures';
+  category: string;
+  exchange: string;
+  symbol: string;
+  spread: string;
 };
 
 type ProcessedMerxFuture = {

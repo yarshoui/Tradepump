@@ -25,6 +25,8 @@ export type ProcessedSymbolMexcSpot = {
   askPrice: string;
   category: string;
   exchange: string;
+  symbol: string;
+  spread: string;
 };
 
 export let mexcPairsDataArr: any;

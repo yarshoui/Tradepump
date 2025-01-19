@@ -106,28 +106,24 @@ export const Arbitrage = observer(({ store }: ArbitrageProps) => {
             <TableCell>Exchange</TableCell>
             <TableCell>Side</TableCell>
             <TableCell>Price</TableCell>
-            <TableCell>Start Spread</TableCell>
-            <TableCell>Max Spread</TableCell>
-            <TableCell>Status</TableCell>
+            <TableCell>Spread</TableCell>
+            {/* <TableCell>Max Spread</TableCell>
+            <TableCell>Status</TableCell> */}
           </TableRow>
         </TableHead>
         <TableBody>
           {store.rowData.map((row) => {
             console.log('~~~ Arbitrage', { row });
-            return (<TableRow
-              key={row.pair}
-              sx={{ '&:last-child td, &:last-child th': { border: 0 } }}
-            >
-              <TableCell component="th" scope="row">
-                {row.spot.base}
-              </TableCell>
+            return (
+            <TableRow key={row.pair} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
+              <TableCell component="th" scope="row"> {row.spot.base} </TableCell>
               <TableCell>{row.spot.exchange +' Spot'}</TableCell>
               <TableCell>{' Buy'}</TableCell>
               <TableCell>{row.spot.bidPrice}</TableCell>
               <TableCell>{row.futures.exchange +' Futures'}</TableCell>
               <TableCell>{' Sell'}</TableCell>
               <TableCell>{row.futures.askPrice}</TableCell>
-              <TableCell>{row.startspread}</TableCell>
+              <TableCell>{row.spread} %</TableCell>
               <TableCell>{row.maxspread}</TableCell>
               <TableCell>{row.status}</TableCell>
 
