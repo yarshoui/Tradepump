@@ -172,15 +172,20 @@ const isSpotArrayMexcBybit = (inputArray: ProcessedSymbolBybitSpot[] | Processed
 function compareBybitToMex() {
   if (bybitFuturesData.length && mexcSymbolsSpotData.length) {    
     
-    const shorterArray = bybitFuturesData.length < mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;
+    const shorterArray = bybitFuturesData.length < mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;  
     const largerArray = bybitFuturesData.length >= mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;
+//Blacklist of Symbols for those two Exchanges
+    const filteredShorterArray = shorterArray.filter(
+      (item) => !["ALT", "GAS", "QI", "ARC"].includes(item.base)
+    );
 
-    console.log('~~~', { shorterArray, largerArray });    
+
+    console.log('~~~', { filteredShorterArray, largerArray });    
   
-    const filteredBaseArray = findMatchingBaseBybitToMexc(shorterArray, largerArray);
+    const filteredBaseArray = findMatchingBaseBybitToMexc(filteredShorterArray, largerArray);
 
     if (isSpotArrayBybitMexc(filteredBaseArray)) {
-      const winArray = findGoodMatchBybitMexc(filteredBaseArray, shorterArray);
+      const winArray = findGoodMatchBybitMexc(filteredBaseArray, filteredShorterArray);
       console.log('~~~ ', { winArray });
       return winArray;
     }
