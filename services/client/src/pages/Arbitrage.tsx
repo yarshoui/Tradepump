@@ -124,8 +124,8 @@ export const Arbitrage = observer(({ store }: ArbitrageProps) => {
               <TableCell>{' Sell'}</TableCell>
               <TableCell>{row.futures.askPrice}</TableCell>
               <TableCell>{row.spread} %</TableCell>
-              <TableCell>{row.maxspread}</TableCell>
-              <TableCell>{row.status}</TableCell>
+              {/* <TableCell>{row.maxspread}</TableCell>
+              <TableCell>{row.status}</TableCell> */}
 
               
             </TableRow>)
