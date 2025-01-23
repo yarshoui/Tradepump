@@ -6,18 +6,14 @@ import type { MexcSpotData, ProcessedSymbolMexcSpot } from './mexcSymbolsSpot';
 import type { MexcFuturesData, ProcessedSymbolMexcFutures } from './mexcSymbolsFutures';
 import type { BitgetSpotData, ProcessedSymbolBitgetSpot } from './bitgetSymbolsSpot';
 import type { BitgetFuturesData, ProcessedSymbolBitgetFutures } from './bitgetSymbolsFutures';
-import {appStoreArbitrage} from './arbitrageStore';
+import { appStoreArbitrage } from './arbitrageStore';
 import type {
   FuturesSecondResponseListEntry,
   ProcessedSymbolBybitFutures,
 } from './bybitSymbolsFutures';
 import type { FuturesSecondResponse } from './bybitSymbolsFutures';
-import type { 
-  SecondResponseListEntrySpot,
-  ProcessedSymbolBybitSpot,
- } from './bybitSymbolsSpot';
+import type { SecondResponseListEntrySpot, ProcessedSymbolBybitSpot } from './bybitSymbolsSpot';
 import type { SecondResponseSpot } from './bybitSymbolsSpot';
-
 
 export let bybitSpotData: ProcessedSymbolBybitSpot[] = [];
 export let bybitFuturesData: ProcessedSymbolBybitFutures[] = [];
@@ -47,44 +43,49 @@ export function setBitgetSymbolsFuturesData(data: ProcessedSymbolBitgetFutures[]
 
 let compareOutput: [] = []; //compare results go here
 export function comparePrices() {
-  BybitFuturesVsMexcSpot();
+  const bybitFutureData = BybitFuturesVsMexcSpot();
   // call function coparing bybit to mex
   // call function coparing bybit to bitget
-  
-  // compareMexcToBybit();
-  // const data2 = compareMexcToBybit();
-  // appStoreArbitrage.data=data2;
-}
-function BybitFuturesVsMexcSpot () {
-  compareBybitToMex();
-  const data = compareBybitToMex();
-  appStoreArbitrage.data=data;
-};
 
+  const mexSpotData = compareMexcToBybit();
+  appStoreArbitrage.data = [...mexSpotData, ...bybitFutureData];
+}
+function BybitFuturesVsMexcSpot() {
+  const data = compareBybitToMex();
+  return data;
+}
+
+type ProcessedBaseBybitToMexcItem = ProcessedSymbolMexcSpot | ProcessedSymbolBybitFutures;
+type ProcessedBaseBybitToMexcData = (ProcessedSymbolMexcSpot | ProcessedSymbolBybitFutures)[];
 
 function findMatchingBaseBybitToMexc(
-  smallerArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[],
-  largerArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[]
-): ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[] {
+  smallerArray: ProcessedBaseBybitToMexcData,
+  largerArray: ProcessedBaseBybitToMexcData,
+): ProcessedBaseBybitToMexcData {
   const result: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[] = [];
-  smallerArray.forEach((item1) => {
-    const match = largerArray.find((item2) => item1.base === item2.base);
+
+  smallerArray.forEach((item1: ProcessedBaseBybitToMexcItem) => {
+    const match = largerArray.find(
+      (item2: ProcessedBaseBybitToMexcItem) => item1.base === item2.base,
+    );
     if (match) {
-      result.push(match as unknown as any);
+      result.push((match as unknown) as any);
     }
   });
   return result;
 }
 
+type ProcessedBaseMexcToBybitData = (ProcessedSymbolBybitSpot | ProcessedSymbolMexcFutures)[];
+
 function findMatchingBaseMexcToBybit(
-  smallerArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[],
-  largerArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[]
+  smallerArray: ProcessedBaseMexcToBybitData,
+  largerArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[],
 ): ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[] {
   const result: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[] = [];
   smallerArray.forEach((item1) => {
     const match = largerArray.find((item2) => item1.base === item2.base);
     if (match) {
-      result.push(match as unknown as any);
+      result.push((match as unknown) as any);
     }
   });
   return result;
@@ -117,8 +118,6 @@ function findMatchingBaseMexcToBybit(
 //   return result;
 // }
 
-
-
 type FindGoodMatchBybitMexc = {
   spot: ProcessedSymbolMexcSpot;
   futures: ProcessedSymbolBybitFutures;
@@ -131,13 +130,19 @@ type FindGoodMatchMexcBybit = {
   spread: string;
 };
 
-const findGoodMatchBybitMexc = (spots: ProcessedSymbolMexcSpot[], futures: ProcessedSymbolBybitFutures[]) => {
+const findGoodMatchBybitMexc = (
+  spots: ProcessedSymbolMexcSpot[],
+  futures: ProcessedSymbolBybitFutures[],
+) => {
   const result: FindGoodMatchBybitMexc[] = [];
   spots.forEach((spot) => {
     const futureRecord = futures.find((futureRecord) => spot.base === futureRecord.base);
     if (futureRecord) {
-      if ((parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice)) > 1.1) {
-        const spread: number = ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice))/parseFloat(spot.bidPrice)) * 100;
+      if (parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice) > 1.1) {
+        const spread: number =
+          ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice)) /
+            parseFloat(spot.bidPrice)) *
+          100;
         const fixed = spread.toFixed(0);
         result.push({ spot, futures: futureRecord, spread: fixed });
       }
@@ -146,13 +151,19 @@ const findGoodMatchBybitMexc = (spots: ProcessedSymbolMexcSpot[], futures: Proce
   return result;
 };
 
-const findGoodMatchMexcBybit = (spots: ProcessedSymbolBybitSpot[], futures: ProcessedSymbolMexcFutures[]) => {
+const findGoodMatchMexcBybit = (
+  spots: ProcessedSymbolBybitSpot[],
+  futures: ProcessedSymbolMexcFutures[],
+) => {
   const result: FindGoodMatchMexcBybit[] = [];
   spots.forEach((spot) => {
     const futureRecord = futures.find((futureRecord) => spot.base === futureRecord.base);
     if (futureRecord) {
-      if ((parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice)) > 0.9) {
-        const spread: number = ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice))/parseFloat(spot.bidPrice)) * 100;
+      if (parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice) > 1.1) {
+        const spread: number =
+          ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice)) /
+            parseFloat(spot.bidPrice)) *
+          100;
         const fixed = spread.toFixed(0);
         result.push({ spot, futures: futureRecord, spread: fixed });
       }
@@ -161,27 +172,33 @@ const findGoodMatchMexcBybit = (spots: ProcessedSymbolBybitSpot[], futures: Proc
   return result;
 };
 
-const isSpotArrayBybitMexc = (inputArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[]): inputArray is ProcessedSymbolMexcSpot[] => {
+const isSpotArrayBybitMexc = (
+  inputArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[],
+): inputArray is ProcessedSymbolMexcSpot[] => {
   return inputArray?.[0]?.category === 'spot';
 };
 
-const isSpotArrayMexcBybit = (inputArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[]): inputArray is ProcessedSymbolBybitSpot[] => {
+const isSpotArrayMexcBybit = (
+  inputArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[],
+): inputArray is ProcessedSymbolBybitSpot[] => {
   return inputArray?.[0]?.category === 'spot';
 };
 
 function compareBybitToMex() {
-  if (bybitFuturesData.length && mexcSymbolsSpotData.length) {    
-    
-    const shorterArray = bybitFuturesData.length < mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;  
-    const largerArray = bybitFuturesData.length >= mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;
-//Blacklist of Symbols for those two Exchanges
+  if (bybitFuturesData.length && mexcSymbolsSpotData.length) {
+    const shorterArray: ProcessedBaseBybitToMexcData =
+      bybitFuturesData.length < mexcSymbolsSpotData.length ? bybitFuturesData : mexcSymbolsSpotData;
+    const largerArray =
+      bybitFuturesData.length >= mexcSymbolsSpotData.length
+        ? bybitFuturesData
+        : mexcSymbolsSpotData;
+    //Blacklist of Symbols for those two Exchanges
     const filteredShorterArray = shorterArray.filter(
-      (item) => !["ALT", "GAS", "QI", "ARC"].includes(item.base)
+      (item: ProcessedBaseBybitToMexcItem) => !['ALT', 'GAS', 'QI', 'ARC'].includes(item.base),
     );
 
+    console.log('~~~', { filteredShorterArray, largerArray });
 
-    console.log('~~~', { filteredShorterArray, largerArray });    
-  
     const filteredBaseArray = findMatchingBaseBybitToMexc(filteredShorterArray, largerArray);
 
     if (isSpotArrayBybitMexc(filteredBaseArray)) {
@@ -190,10 +207,8 @@ function compareBybitToMex() {
       return winArray;
     }
 
-
     // TODO: add the case then filteredBaseArray is futures array
-    
-    
+
     // console.log(
     //   '@@@ file arbitrageStoreLogicForAllExchanges.ts line 85',
     //   '@@@ Bibit Futures',
@@ -201,8 +216,8 @@ function compareBybitToMex() {
     //   '@@@ Bibit Spot',
     //   bybitSpotData,
     //   '@@@ MEXC Spot',
-    //   mexcSymbolsSpotData, 
-    //   '@@@ MEXC Futures',           
+    //   mexcSymbolsSpotData,
+    //   '@@@ MEXC Futures',
     //   mexcSymbolsFuturesData,
     //   '@@@ Bitget Spot',
     //   bitgetSymbolsSpotData,
@@ -215,19 +230,30 @@ function compareBybitToMex() {
 }
 
 function compareMexcToBybit() {
-  if (bybitSpotData.length && mexcSymbolsFuturesData.length) {    
-    
-    const shorterArray = bybitSpotData.length < mexcSymbolsFuturesData.length ? bybitSpotData : mexcSymbolsFuturesData;
-    const largerArray = bybitSpotData.length >= mexcSymbolsFuturesData.length ? bybitSpotData : mexcSymbolsFuturesData;
+  if (bybitSpotData.length && mexcSymbolsFuturesData.length) {
+    const shorterArray =
+      bybitSpotData.length < mexcSymbolsFuturesData.length ? bybitSpotData : mexcSymbolsFuturesData;
+    const largerArray =
+      bybitSpotData.length >= mexcSymbolsFuturesData.length
+        ? bybitSpotData
+        : mexcSymbolsFuturesData;
     const filteredBaseArray = findMatchingBaseMexcToBybit(shorterArray, largerArray);
+    console.log('@@@ file arbitrageStoreLogicForAllExchanges.ts line 219', shorterArray);
 
+    // spot category
     if (isSpotArrayMexcBybit(filteredBaseArray)) {
       const winArray = findGoodMatchMexcBybit(filteredBaseArray, shorterArray);
       console.log('~~~ ', { winArray });
       return winArray;
-    }  
+    }
+    // futures category
+    else {
+      findGoodMatchBybitMexc(shorterArray, filteredBaseArray);
+      const winArray = findGoodMatchMexcBybit(shorterArray, filteredBaseArray);
+      console.log('~~~ ', { winArray });
+      return winArray;
+    }
   }
   return [];
 }
 //export default { bybitFuturesData };
-
