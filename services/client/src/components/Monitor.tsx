@@ -9,6 +9,7 @@ import { TopLogoPanel } from 'src/components/TopLogoPanel';
 // import Grid from '@material-ui/core/Grid';
 import { makeStyles } from '@material-ui/core/styles';
 // import Paper from '@material-ui/core/Paper';
+import { TopPriceBar } from 'src/components/TopPriceBar';
 import { Footer } from 'src/components/Footer';
 import { TopAd } from 'src/components/TopAd';
 import { BrowserRouter, Redirect, Route, Switch } from 'react-router-dom';
@@ -87,17 +88,16 @@ const useStyles = makeStyles((theme) => ({
   },
   introIcon: {
     color: '#AECCD7',
-    // color: '#F4B200', //yellow
-    // color: 'rgb(50, 60, 70)',    
-        
-   
-    
     position: 'fixed',
     right:'20px',
     bottom: '20px',
-    
 
-  }
+  },
+
+  topPriceBar:{
+float: 'left',
+width: '100%',
+}
 }));
 
 export const Monitor = () => {
@@ -112,6 +112,10 @@ export const Monitor = () => {
       <BrowserRouter>
         <div className={classes.root}>
           <div className={classes.topHolder}>
+          <div className={classes.topPriceBar}>
+              <TopPriceBar  />
+             
+            </div>
             <div className={classes.logoHolder}>
               <TopLogoPanel />
               {/* <AuthBlock store={userStore} /> */}

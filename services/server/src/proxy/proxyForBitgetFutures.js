@@ -4,14 +4,14 @@ const { createProxyMiddleware } = require('http-proxy-middleware');
 
 const app = express();
 
-// create the proxy
-/** @type {import('http-proxy-middleware/dist/types').RequestHandler<express.Request, express.Response>} */
 const futuresProxy = createProxyMiddleware({
-  target: 'https://api.bitget.com/api/v2/mix/market/tickers?productType=USDT-FUTURES', 
-  changeOrigin: true, 
+  target: 'https://api.bitget.com', 
+  changeOrigin: true,
+  pathRewrite: (path, req) => {
+    
+    return '/api/v2/mix/market/tickers?productType=USDT-FUTURES';
+  },
 });
-
-// mount `exampleProxy` in web server
 
 
 app.use(function (req, res, next) {

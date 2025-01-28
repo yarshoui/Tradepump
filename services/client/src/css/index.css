@@ -35,6 +35,14 @@ body > iframe {
   color: rgb(50, 60, 70);
   font-weight: bold;
 }
+.top-price-bar {
+  float:left;
+  background: rgb(50, 60, 70);
+  margin: 0px;
+  padding: 0px;
+  color: #fff;
+}
+
 .top-menu {
   border: 2px dotted #000;
 }

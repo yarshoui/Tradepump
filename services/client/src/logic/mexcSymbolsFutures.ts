@@ -44,7 +44,7 @@ export const getMexcFuturesPairsData = () => {
     const urlMexcFuturesPairs = `http://localhost:3002/mexcapifutures`; //Should be limited by 10-20 requests per sec
     // console.log('~~~ request');
     loadJson(urlMexcFuturesPairs).then((data) => {
-      // console.log('~~~ result', { data });
+      console.log('~~~ result mexc', { data });
       //debugger;
       //const category = data.result.category;
       //const list=data.result.list;

@@ -41,20 +41,20 @@ export function setBitgetSymbolsFuturesData(data: ProcessedSymbolBitgetFutures[]
   bitgetSymbolsFuturesData = data;
 }
 
-let compareOutput: [] = []; //compare results go here
+// let compareOutput: [] = []; //compare results go here
 export function comparePrices() {
-  const bybitFutureData = BybitFuturesVsMexcSpot();
-  // call function coparing bybit to mex
-  // call function coparing bybit to bitget
+  const bybitFuturesVsMexcSpotData = BybitFuturesVsMexcSpot();
+  const mexcFuturesVsBybitSpotData = compareMexcToBybit();
+  const bitgetFuturesVsbybitSpotData = bitgetFutureVsbybitSpotData();
+  appStoreArbitrage.data = [...mexcFuturesVsBybitSpotData, ...bybitFuturesVsMexcSpotData, ...bitgetFuturesVsbybitSpotData];
 
-  const mexSpotData = compareMexcToBybit();
-  appStoreArbitrage.data = [...mexSpotData, ...bybitFutureData];
 }
 function BybitFuturesVsMexcSpot() {
   const data = compareBybitToMex();
   return data;
 }
 
+type ProcessedBaseBybitToBitgetItem = ProcessedSymbolBybitSpot | ProcessedSymbolBitgetFutures;
 type ProcessedBaseBybitToMexcItem = ProcessedSymbolMexcSpot | ProcessedSymbolBybitFutures;
 type ProcessedBaseBybitToMexcData = (ProcessedSymbolMexcSpot | ProcessedSymbolBybitFutures)[];
 
@@ -74,7 +74,7 @@ function findMatchingBaseBybitToMexc(
   });
   return result;
 }
-
+//Bybit Spot, Mexc Futures
 type ProcessedBaseMexcToBybitData = (ProcessedSymbolBybitSpot | ProcessedSymbolMexcFutures)[];
 
 function findMatchingBaseMexcToBybit(
@@ -91,32 +91,24 @@ function findMatchingBaseMexcToBybit(
   return result;
 }
 
-// export type UnifiedEntity = {
-//   base: string;
-//   type: 'spot' | 'futures';
-//   quote: string;
-//   bidPrice: number;
-//   askPrice: number;
-//   symbol: string;
-//   spread: number;
-//   exchange: string;
-// };
+//Bybit Spot, Bitget Futures
+type ProcessedBaseBitgetToBybitData = (ProcessedSymbolBybitSpot | ProcessedSymbolBitgetFutures)[];
 
-// function findMatchingBase2(
-//   futures: UnifiedEntity[],
-//   spots: UnifiedEntity[]
-// ): UnifiedEntity[] {
-//   const larger = futures.length > spots.length ? futures : spots;
-//   const smaller = futures.length <= spots.length ? futures : spots;
-//   const result: UnifiedEntity[] = [];
-//   smaller.forEach((item1) => {
-//     const match = larger.find((item2) => item1.base === item2.base);
-//     if (match) {
-//       result.push(match as unknown as any);
-//     }
-//   });
-//   return result;
-// }
+function findMatchingBaseBitgetToBybit(
+  smallerArray: ProcessedBaseBitgetToBybitData,
+  largerArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolBitgetFutures[],
+): ProcessedSymbolBybitSpot[] | ProcessedSymbolBitgetFutures[] {
+  const result: ProcessedSymbolBybitSpot[] | ProcessedSymbolBitgetFutures[] = [];
+  smallerArray.forEach((item1) => {
+    const match = largerArray.find((item2) => item1.base === item2.base);
+    if (match) {
+      result.push((match as unknown) as any);
+    }
+  });
+  return result;
+}
+
+
 
 type FindGoodMatchBybitMexc = {
   spot: ProcessedSymbolMexcSpot;
@@ -129,6 +121,13 @@ type FindGoodMatchMexcBybit = {
   futures: ProcessedSymbolMexcFutures;
   spread: string;
 };
+type FindGoodMatchBitgetBybit = {
+  spot: ProcessedSymbolBybitSpot;
+  futures: ProcessedSymbolBitgetFutures;
+  spread: string;
+};
+
+
 
 const findGoodMatchBybitMexc = (
   spots: ProcessedSymbolMexcSpot[],
@@ -172,6 +171,26 @@ const findGoodMatchMexcBybit = (
   return result;
 };
 
+//Bitget Futures, Bybit Spot
+const findGoodMatchBitgetBybit = (
+  spots: ProcessedSymbolBybitSpot[],
+  futures: ProcessedSymbolBitgetFutures[],
+) => {
+  const result: FindGoodMatchBitgetBybit[] = [];
+  spots.forEach((spot) => {
+    const futureRecord = futures.find((futureRecord) => spot.base === futureRecord.base);
+    if (futureRecord) {
+      if (parseFloat(futureRecord.askPrice) / parseFloat(spot.bidPrice) > 0.9) {
+        const spread: number = ((parseFloat(futureRecord.askPrice) - parseFloat(spot.bidPrice)) / parseFloat(spot.bidPrice)) * 100;
+        const fixed = spread.toFixed(0);
+        result.push({ spot, futures: futureRecord, spread: fixed });
+      }
+    }
+  });
+  return result;
+};
+
+
 const isSpotArrayBybitMexc = (
   inputArray: ProcessedSymbolMexcSpot[] | ProcessedSymbolBybitFutures[],
 ): inputArray is ProcessedSymbolMexcSpot[] => {
@@ -180,6 +199,12 @@ const isSpotArrayBybitMexc = (
 
 const isSpotArrayMexcBybit = (
   inputArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolMexcFutures[],
+): inputArray is ProcessedSymbolBybitSpot[] => {
+  return inputArray?.[0]?.category === 'spot';
+};
+//Bitget Futures, Bybit Spot
+const isSpotArrayBitgetBybit = (
+  inputArray: ProcessedSymbolBybitSpot[] | ProcessedSymbolBitgetFutures[],
 ): inputArray is ProcessedSymbolBybitSpot[] => {
   return inputArray?.[0]?.category === 'spot';
 };
@@ -192,39 +217,20 @@ function compareBybitToMex() {
       bybitFuturesData.length >= mexcSymbolsSpotData.length
         ? bybitFuturesData
         : mexcSymbolsSpotData;
-    //Blacklist of Symbols for those two Exchanges
+    //Blacklist of Symbols for those two Exchanges Bybit Futures vs Mexc Spot
     const filteredShorterArray = shorterArray.filter(
-      (item: ProcessedBaseBybitToMexcItem) => !['ALT', 'GAS', 'QI', 'ARC'].includes(item.base),
+      (item: ProcessedBaseBybitToMexcItem) => !['ALT', 'GAS', 'QI', 'ARC', 'MDT'].includes(item.base),
     );
 
-    console.log('~~~', { filteredShorterArray, largerArray });
+    //console.log('~~~', { filteredShorterArray, largerArray });
 
     const filteredBaseArray = findMatchingBaseBybitToMexc(filteredShorterArray, largerArray);
 
     if (isSpotArrayBybitMexc(filteredBaseArray)) {
       const winArray = findGoodMatchBybitMexc(filteredBaseArray, filteredShorterArray);
-      console.log('~~~ ', { winArray });
+      //console.log('~~~ ', { winArray });
       return winArray;
     }
-
-    // TODO: add the case then filteredBaseArray is futures array
-
-    // console.log(
-    //   '@@@ file arbitrageStoreLogicForAllExchanges.ts line 85',
-    //   '@@@ Bibit Futures',
-    //   bybitFuturesData,
-    //   '@@@ Bibit Spot',
-    //   bybitSpotData,
-    //   '@@@ MEXC Spot',
-    //   mexcSymbolsSpotData,
-    //   '@@@ MEXC Futures',
-    //   mexcSymbolsFuturesData,
-    //   '@@@ Bitget Spot',
-    //   bitgetSymbolsSpotData,
-    //   '@@@ Bitget Futures',
-    //   bitgetSymbolsFuturesData,
-    //   { filteredBaseArray, shorterArray },
-    // );
   }
   return [];
 }
@@ -238,22 +244,52 @@ function compareMexcToBybit() {
         ? bybitSpotData
         : mexcSymbolsFuturesData;
     const filteredBaseArray = findMatchingBaseMexcToBybit(shorterArray, largerArray);
-    console.log('@@@ file arbitrageStoreLogicForAllExchanges.ts line 219', shorterArray);
+    //console.log('@@@ file arbitrageStoreLogicForAllExchanges.ts line 219', shorterArray);
+    const filteredShorterArray = shorterArray.filter(
+      (item: ProcessedBaseBybitToMexcItem) => !['FB', 'DASH', 'ZEC'].includes(item.base),
+    );
 
     // spot category
     if (isSpotArrayMexcBybit(filteredBaseArray)) {
-      const winArray = findGoodMatchMexcBybit(filteredBaseArray, shorterArray);
-      console.log('~~~ ', { winArray });
+      const winArray = findGoodMatchMexcBybit(filteredBaseArray, filteredShorterArray);
+      //console.log('~~~ ', { winArray });
       return winArray;
     }
     // futures category
     else {
-      findGoodMatchBybitMexc(shorterArray, filteredBaseArray);
-      const winArray = findGoodMatchMexcBybit(shorterArray, filteredBaseArray);
-      console.log('~~~ ', { winArray });
+      findGoodMatchBybitMexc(filteredShorterArray, filteredBaseArray);
+      const winArray = findGoodMatchMexcBybit(filteredShorterArray, filteredBaseArray);
+      //console.log('~~~ ', { winArray });
       return winArray;
     }
   }
   return [];
 }
-//export default { bybitFuturesData };
+
+
+function bitgetFutureVsbybitSpotData() {
+  if (bybitSpotData.length && bitgetSymbolsFuturesData.length) {
+    const shorterArray = bybitSpotData.length < bitgetSymbolsFuturesData.length ? bybitSpotData : bitgetSymbolsFuturesData;
+    const largerArray = bybitSpotData.length >= bitgetSymbolsFuturesData.length ? bybitSpotData : bitgetSymbolsFuturesData;
+    const filteredBaseArray = findMatchingBaseBitgetToBybit(shorterArray, largerArray);
+    //console.log('@@@ file arbitrageStoreLogicForAllExchanges.ts line 219', shorterArray);
+    const filteredShorterArray = shorterArray.filter(
+      (item: ProcessedBaseBybitToBitgetItem) => ![''].includes(item.base),
+    );
+
+    // spot category
+    if (isSpotArrayBitgetBybit(filteredBaseArray)) {
+      const winArray = findGoodMatchBitgetBybit(filteredBaseArray, filteredShorterArray);
+      //console.log('~~~ ', { winArray });
+      return winArray;
+    }
+    // futures category
+    else {
+      findGoodMatchBitgetBybit(filteredShorterArray, filteredBaseArray);
+      const winArray = findGoodMatchBitgetBybit(filteredShorterArray, filteredBaseArray);
+      //console.log('~~~ ', { winArray });
+      return winArray;
+    }
+  }
+  return [];
+}
