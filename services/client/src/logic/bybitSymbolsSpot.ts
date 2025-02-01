@@ -14,7 +14,7 @@ export type SecondResponseListEntrySpot = {
   symbol: string;
   turnover24h: string;
   volume24h: string;
-  category:'spot';
+  category:'Spot';
 
 };
 export type ProcessedSymbolBybitSpot = {
@@ -53,11 +53,11 @@ export const getBybitPairsData = () => {
       const list=data.result.list;
       const filteredList = list.map(( value:SecondResponseListEntrySpot ) => {
         return {
-          exchange: 'bybit', 
+          exchange: 'Bybit', 
           symbol: value.symbol,
           askPrice: value.ask1Price,
           bidPrice: value.bid1Price,
-          category: 'spot',
+          category: 'Spot',
         };
       });
       //debugger;
@@ -68,7 +68,7 @@ export const getBybitPairsData = () => {
       setBybitSpotData(processedSymbolsData);
       comparePrices();
 
-      console.debug('bybitPairsData', bybitPairsDataArr);
+      // console.debug('bybitPairsData', bybitPairsDataArr);
 
       function processSymbols(symbols: ProcessedSymbolBybitSpot[]): ProcessedSymbolBybitSpot[] {
               return symbols
@@ -84,8 +84,8 @@ export const getBybitPairsData = () => {
                               quote: match[2],
                               bidPrice: bidPrice.toString(),
                               askPrice: askPrice.toString(),    
-                              exchange: 'bybit',
-                              category: 'spot',
+                              exchange: 'Bybit',
+                              category: 'Spot',
                               
                                                   
                           };
@@ -95,7 +95,7 @@ export const getBybitPairsData = () => {
                   .filter(item => item !== null) as ProcessedSymbolBybitSpot[]; // Remove null entries
             }
             const processedSymbols = processSymbols(bybitPairsDataArr);
-            console.log("Final data for Bybit Spot:", processedSymbols);      
+            //console.log("Final data for Bybit Spot:", processedSymbols);      
 
 
     });

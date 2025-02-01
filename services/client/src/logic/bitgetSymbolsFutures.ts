@@ -19,11 +19,11 @@ export type ProcessedSymbolBitgetFutures = {
 };
 
 type ProcessedMerxFuture = {
-    exchange: 'bitget';
+    exchange: 'Bitget';
     symbol: BitgetFuturesData['symbol'];
     askPrice:BitgetFuturesData['bidPr'];
     bidPrice: BitgetFuturesData['askPr'];
-    category: 'futures';
+    category: 'Futures';
     base: ProcessedSymbolBitgetFutures['base'];
     quote: ProcessedSymbolBitgetFutures['quote'];
 };
@@ -48,11 +48,11 @@ export const getBitgetFuturesPairsData = () => {
       const dataToProcess = data?.data ?? [];
       const filteredList = dataToProcess.map(( value:BitgetFuturesData ) => {
         return {
-          exchange: 'bitget', 
+          exchange: 'Bitget', 
           symbol: value.symbol,
           askPrice: value.askPr,
           bidPrice: value.bidPr,
-          category: 'futures',
+          category: 'Futures',
         };
       });
       // debugger;

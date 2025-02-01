@@ -1,13 +1,13 @@
-import { comparePrices, setMexcSymbolsFuturesData } from './arbitrageStoreLogicForAllExchanges';
+import { comparePrices, setKucoinSymbolsFuturesData } from './arbitrageStoreLogicForAllExchanges';
 
-export type MexcFuturesData = {
+export type KucoinFuturesData = {
   symbol: string;
   bid1: string;
   ask1: string;
   category: string;
 };
 
-export type ProcessedSymbolMexcFutures = {
+export type ProcessedSymbolKucoinFutures = {
   base: string;
   quote: string;
   bidPrice: string;
@@ -19,40 +19,40 @@ export type ProcessedSymbolMexcFutures = {
 };
 
 type ProcessedMerxFuture = {
-    exchange: 'Mexc';
-    symbol: MexcFuturesData['symbol'];
-    askPrice:MexcFuturesData['ask1'];
-    bidPrice: MexcFuturesData['bid1'];
+    exchange: 'Kucoin';
+    symbol: KucoinFuturesData['symbol'];
+    askPrice:KucoinFuturesData['ask1'];
+    bidPrice: KucoinFuturesData['bid1'];
     category: 'Futures';
-    base: ProcessedSymbolMexcFutures['base'];
-    quote: ProcessedSymbolMexcFutures['quote'];
+    base: ProcessedSymbolKucoinFutures['base'];
+    quote: ProcessedSymbolKucoinFutures['quote'];
 };
 
 
-export let mexcFuturesPairsDataArr: any;
+export let kucoinFuturesPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
 
-export const getMexcFuturesPairsData = () => {
+export const getKucoinFuturesPairsData = () => {
  
-  async function loadJson(urlMexcFuturesPairs: RequestInfo) {
-    let responseMexc = await fetch(urlMexcFuturesPairs, {mode:'cors'});
-    let binData = await responseMexc.json();
+  async function loadJson(urlKucoinFuturesPairs: RequestInfo) {
+    let responseKucoin = await fetch(urlKucoinFuturesPairs, {mode:'cors'});
+    let binData = await responseKucoin.json();
     return binData;
   }
 
   function doRequest() {
-    const urlMexcFuturesPairs = `http://localhost:3002/mexcapifutures`; //Should be limited by 10-20 requests per sec
+    const urlKucoinFuturesPairs = `http://localhost:3006/kucoinapifutures`; //Should be limited by 10-20 requests per sec
     // console.log('~~~ request');
-    loadJson(urlMexcFuturesPairs).then((data) => {
-      //console.log('~~~ result mexc', { data });
+    loadJson(urlKucoinFuturesPairs).then((data) => {
+      //console.log('~~~ result kucoin', { data });
       //debugger;
       //const category = data.result.category;
       //const list=data.result.list;
       const dataToProcess = data?.data ?? [];
       
-      const filteredList: ProcessedMerxFuture[] = dataToProcess.map(( value:MexcFuturesData ) => {
+      const filteredList: ProcessedMerxFuture[] = dataToProcess.map(( value:KucoinFuturesData ) => {
         return {
-          exchange: 'Mexc', 
+          exchange: 'Kucoin', 
           symbol: value.symbol,
           askPrice: value.ask1,
           bidPrice: value.bid1,
@@ -60,14 +60,14 @@ export const getMexcFuturesPairsData = () => {
         };
       });
      
-      mexcFuturesPairsDataArr = dataToProcess;
-      const processedSymbolsData: ProcessedSymbolMexcFutures[] = processSymbols(filteredList);
+      kucoinFuturesPairsDataArr = dataToProcess;
+      const processedSymbolsData: ProcessedSymbolKucoinFutures[] = processSymbols(filteredList);
       // console.log('~~~', { processedSymbolsData, data, dataToProcess, filteredList });
-      setMexcSymbolsFuturesData(processedSymbolsData);
+      setKucoinSymbolsFuturesData(processedSymbolsData);
       comparePrices();
-      //console.log('@@@mexcFuturesPairsData', mexcFuturesPairsDataArr);
+      //console.log('@@@kucoinFuturesPairsData', kucoinFuturesPairsDataArr);
 
-      function processSymbols(symbols: ProcessedMerxFuture[]): ProcessedSymbolMexcFutures[] {
+      function processSymbols(symbols: ProcessedMerxFuture[]): ProcessedSymbolKucoinFutures[] {
         return symbols
             .filter(entry => entry.symbol.includes("USDT")) // Filter symbols containing "USDT"
             .map(dataEntry => {
@@ -87,10 +87,10 @@ export const getMexcFuturesPairsData = () => {
                 }
                 return null;
             })
-            .filter((item) => item !== null) as ProcessedSymbolMexcFutures[]; // Remove null entries
+            .filter((item) => item !== null) as ProcessedSymbolKucoinFutures[]; // Remove null entries
       }
-      // const processedSymbols = processSymbols(mexcFuturesPairsDataArr);
-      // console.log("Final data for Mexc Futures:", processedSymbols);
+      // const processedSymbols = processSymbols(kucoinFuturesPairsDataArr);
+      // console.log("Final data for Kucoin Futures:", processedSymbols);
     });
   }
   function startPolling() {
@@ -107,9 +107,9 @@ export const getMexcFuturesPairsData = () => {
 //   bybitPairsData.dataHandler = dataHandler;
 // };
 
-export const subscribeToMexcFuturesPairsList = () => {
+export const subscribeToKucoinFuturesPairsList = () => {
   
-  getMexcFuturesPairsData();
+  getKucoinFuturesPairsData();
   };
 
 

@@ -67,8 +67,8 @@ export const getMexcPairsData = () => {
                 quote: match[2],
                 bidPrice: data.bidPrice,
                 askPrice: data.askPrice,
-                exchange: 'mexc',
-                category: 'spot',
+                exchange: 'Mexc',
+                category: 'Spot',
               };
             }
             return null;

@@ -28,7 +28,7 @@ export type FuturesSecondResponseListEntry = {
   symbol: string;
   turnover24h: string;
   volume24h: string;
-  category:'futures';
+  category:'Futures';
 };
 
 export type FuturesSecondResponse = {
@@ -46,21 +46,6 @@ export type ProcessedSymbolBybitFutures = {
   symbol: string;
   spread: string;
 };
-
-// export function bybitToUnified(source: ProcessedSymbolBybitFutures): UnifiedEntity {
-
-//   return {
-//     base: source.base,
-//     type: 'futures',
-//     quote: source.quote,
-//     bidPrice: parseFloat(source.bidPrice),
-//     askPrice: parseFloat(source.bidPrice),
-//     exchange: 'bybit',
-//     symbol: source.symbol,
-//     spread: parseFloat(source.spread)
-//   };
-// }
-
 
 
 export let bybitFuturesPairsDataArr: any;
@@ -80,11 +65,11 @@ export const getBybitFuturesPairsData = () => {
       const list = data.result.list;
       const filteredList = list.map((value: FuturesSecondResponseListEntry) => {
         return {
-          exchange: 'bybit',
+          exchange: 'Bybit',
           symbol: value.symbol,
           askPrice: value.ask1Price,
           bidPrice: value.bid1Price,
-          category: 'futures',
+          category: 'Futures',
         };
       });
       // debugger;

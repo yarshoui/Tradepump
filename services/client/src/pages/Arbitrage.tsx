@@ -117,10 +117,10 @@ export const Arbitrage = observer(({ store }: ArbitrageProps) => {
             return (
             <TableRow key={row.pair} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
               <TableCell component="th" scope="row"> {row.spot.base} </TableCell>
-              <TableCell>{row.spot.exchange +' Spot'}</TableCell>
+              <TableCell>{row.spot.exchange +' '+ row.spot.category}</TableCell>
               <TableCell>{' Buy'}</TableCell>
               <TableCell>{row.spot.bidPrice}</TableCell>
-              <TableCell>{row.futures.exchange +' Futures'}</TableCell>
+              <TableCell>{row.futures.exchange +' '+ row.futures.category}</TableCell>
               <TableCell>{' Sell'}</TableCell>
               <TableCell>{row.futures.askPrice}</TableCell>
               <TableCell>{row.spread} %</TableCell>
