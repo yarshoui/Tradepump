@@ -17,6 +17,15 @@ export type ProcessedSymbolBitgetSpot = {
   askPrice: string;
   
 };
+type ProcessedBitgetSpot = {
+    exchange: 'Bitget';
+    symbol: BitgetSpotData['symbol'];
+    askPrice:BitgetSpotData['bidPr'];
+    bidPrice: BitgetSpotData['askPr'];
+    category: 'Spot';
+    base: ProcessedSymbolBitgetSpot['base'];
+    quote: ProcessedSymbolBitgetSpot['quote'];
+};
 
 export let bitgetPairsDataArr: any;
 let pollingInterval: NodeJS.Timeout;
@@ -33,8 +42,9 @@ export const getBitgetPairsData = () => {
     const urlBitgetPairs = `http://localhost:3003/bitgetapi`; //Should be limited by 10-20 requests per sec
     loadJson(urlBitgetPairs).then((data) => {
       //const category = data.result.category;
-      const list=data.result.list;
-      const filteredList = data.map(( value:BitgetSpotData ) => {
+      //const list=data.result.list;
+      const dataToProcess = data?.data ?? [];
+      const filteredList = dataToProcess.map(( value:BitgetSpotData ) => {
         return {
           exchange: 'bitget', 
           symbol: value.symbol,
@@ -44,7 +54,7 @@ export const getBitgetPairsData = () => {
         };
       });
       //debugger;
-      bitgetPairsDataArr = data;
+      bitgetPairsDataArr = dataToProcess;
       const processedSymbolsData: ProcessedSymbolBitgetSpot[] = processSymbols(filteredList);
 
       setBitgetSymbolsSpotData(processedSymbolsData);
@@ -52,19 +62,19 @@ export const getBitgetPairsData = () => {
       //console.debug('bitgetPairsData', bitgetPairsDataArr);            
     
 
-    function processSymbols(symbols: BitgetSpotData[]): ProcessedSymbolBitgetSpot[] {
+    function processSymbols(symbols: ProcessedBitgetSpot[]): ProcessedSymbolBitgetSpot[] {
       return symbols
-          .filter(data => data.symbol.includes("USDT")) // Filter symbols containing "USDT"
-          .map(data => {
-              const match = data.symbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
+          .filter(entry => entry.symbol.includes("USDT")) // Filter symbols containing "USDT"
+          .map(dataEntry => {
+              const match = dataEntry.symbol.match(/^(.*?)(USDT.*)$/); // Extract parts before and after "USDT"
               if (match) {
                   return {
                       base: match[1],
                       quote: match[2],
-                      bidPrice: data.bidPr,
-                      askPrice: data.askPr,  
-                      exchange: 'bitget',
-                      category: 'spot',                      
+                      bidPrice: dataEntry.bidPrice,
+                      askPrice: dataEntry.askPrice,  
+                      category: dataEntry.category,
+                      exchange: dataEntry.exchange,                     
                   };
               }
               return null;

@@ -87,7 +87,7 @@ type ArbitrageProps = {
 export const Arbitrage = observer(({ store }: ArbitrageProps) => {
   const classes = useStyles();
 
-  console.log('~~~ Arbitrage', { store });
+  //console.log('~~~ Arbitrage', { store });
 
   useEffect( () => {
     // GoogleAnalytics
@@ -113,7 +113,7 @@ export const Arbitrage = observer(({ store }: ArbitrageProps) => {
         </TableHead>
         <TableBody>
           {store.rowData.map((row) => {
-            console.log('~~~ Arbitrage', { row });
+            //console.log('~~~ Arbitrage', { row });
             return (
             <TableRow key={row.pair} sx={{ '&:last-child td, &:last-child th': { border: 0 } }} >
               <TableCell component="th" scope="row"> {row.spot.base} </TableCell>

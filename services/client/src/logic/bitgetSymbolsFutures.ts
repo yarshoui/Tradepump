@@ -18,7 +18,7 @@ export type ProcessedSymbolBitgetFutures = {
   exchange: string;
 };
 
-type ProcessedMerxFuture = {
+type ProcessedBitgetFuture = {
     exchange: 'Bitget';
     symbol: BitgetFuturesData['symbol'];
     askPrice:BitgetFuturesData['bidPr'];
@@ -65,7 +65,7 @@ export const getBitgetFuturesPairsData = () => {
       comparePrices();
       
       
-       function processSymbols(symbols: ProcessedMerxFuture[]): ProcessedSymbolBitgetFutures[] {
+       function processSymbols(symbols: ProcessedBitgetFuture[]): ProcessedSymbolBitgetFutures[] {
             return symbols
                 .filter(entry => entry.symbol.includes("USDT")) // Filter symbols containing "USDT"
                 .map(dataEntry => {

@@ -41,7 +41,10 @@ export const getKucoinFuturesPairsData = () => {
   }
 
   function doRequest() {
-    const urlKucoinFuturesPairs = `http://localhost:3006/kucoinapifutures`; //Should be limited by 10-20 requests per sec
+    const urlKucoinFuturesPairs = `http://localhost:3006/kucoinapifutures`; 
+    
+    //const urlKucoinFuturesPairs = `https://api-futures.kucoin.com/api/v1/allTickers`;
+    
     // console.log('~~~ request');
     loadJson(urlKucoinFuturesPairs).then((data) => {
       //console.log('~~~ result kucoin', { data });

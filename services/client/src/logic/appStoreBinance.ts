@@ -13,6 +13,7 @@ import { subscribeToMexcSpotPairsList } from 'src/logic/mexcSymbolsSpot';
 import { subscribeToMexcFuturesPairsList } from 'src/logic/mexcSymbolsFutures';
 import { subscribeToKucoinFuturesPairsList } from 'src/logic/kucoinSymbolsFutures';
 import { subscribeToBitgetFuturesPairsList } from 'src/logic/bitgetSymbolsFutures';
+import { subscribeToBitgetSpotPairsList } from 'src/logic/bitgetSymbolsSpot';
 import { DEFAULT_PAIR } from 'src/logic/pairsConfig';
 //import { getBinanceOrdersData } from 'src/logic/binanceRest';
 import { binanceOrdersDataArr } from 'src/logic/binanceRest';
@@ -77,6 +78,7 @@ export class AppStoreBinance {
         subscribeToMexcFuturesPairsList();
         subscribeToKucoinFuturesPairsList();
         subscribeToBitgetFuturesPairsList();
+        subscribeToBitgetSpotPairsList();
         
 
       },
